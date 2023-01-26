@@ -1,0 +1,115 @@
+apply plugin: 'com.android.application'
+apply from : '../common.gradle'
+
+android {
+    defaultConfig {
+        // 应用商店唯一标识ID
+        // https://developer.android.com/studio/build/application-id?hl=zh-cn
+        applicationId 'com.kicc.collect'
+
+        // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
+        resConfigs 'xxhdpi'
+
+        // 混淆配置
+        proguardFiles 'proguard-app.pro'
+
+        // 清单占位符
+        addManifestPlaceholders([
+            'AMAP_KEY' : AMAP_KEY,
+        ])
+    }
+
+    // 签名参考: https://www.jianshu.com/p/a1f8e5896aa2
+    signingConfigs {
+        config {
+            storeFile file('app.jks')
+            storePassword '123456'
+            keyAlias 'kicc'
+            keyPassword '123456'
+            // https://source.android.com/docs/security/features/apksigning?hl=zh-cn
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    // 构建配置：https://developer.android.google.cn/studio/build/build-variants
+    buildTypes {
+        debug {
+            // 调试模式开关
+            debuggable true
+            jniDebuggable true
+            // 压缩对齐开关
+            zipAlignEnabled false
+            // 移除无用的资源
+            shrinkResources false
+            // 代码混淆开关
+            minifyEnabled false
+            // 签名信息配置
+            signingConfig signingConfigs.config
+            // 添加清单占位符
+            addManifestPlaceholders([
+                'app_name': 'KICC收样APP Debug 版'
+            ])
+            // 调试模式下只保留一种主流cpu架构so库,提升打包速度
+            ndk {
+                abiFilters 'arm64-v8a'
+            }
+        }
+
+        release {
+            // 调试模式开关
+            debuggable true
+            // 可连接进行设备调试
+            jniDebuggable true
+            // 压缩对齐优化开关
+            zipAlignEnabled true
+            // 移除无用的资源
+            shrinkResources true
+            // 代码混淆开关
+            minifyEnabled true
+            // 签名信息配置
+            signingConfig signingConfigs.config
+            // 添加清单占位符
+            addManifestPlaceholders([
+                'app_name': '@string/app_name'
+            ])
+            // cpu架构so库
+            ndk {
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+            }
+        }
+    }
+
+    packagingOptions {
+        // 剔除这个包下的所有文件（不会移除签名信息）
+        exclude 'META-INF/*******'
+    }
+
+    // 应用程序变量配置
+    applicationVariants.all { variant ->
+        // apk 输出文件名配置
+        variant.outputs.all { output ->
+            outputFileName = rootProject.getName() + '_v' + variant.versionName + '_' + variant.buildType.name
+            if (variant.buildType.name == buildTypes.release.getName()) {
+                outputFileName += '_' + new Date().format('MMdd')
+            }
+            outputFileName += '.apk'
+        }
+    }
+}
+
+// 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
+// api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
+dependencies {
+    // 基础核心库
+    implementation project(':library:core')
+    // 友盟封装库
+    implementation project(':library:umeng')
+    implementation DEPENDENCIES['pager-bottom-tab-strip']
+    implementation DEPENDENCIES['pictureselector']
+    implementation DEPENDENCIES['pictureselector-compress']
+    implementation DEPENDENCIES['pictureselector-ucrop']
+    implementation DEPENDENCIES['pictureselector-camerax']
+    implementation DEPENDENCIES['advanced-recyclerview']
+    implementation DEPENDENCIES['exoplayer']
+}

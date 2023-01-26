@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.kicc.collect.ui.activity.RoutePlanActivity">
+    <data>
+        <import type="com.kicc.collect.ui.vm.RoutePlanViewModel" />
+        <variable name="viewModel" type="RoutePlanViewModel" />
+    </data>
+
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <include android:id="@+id/layout_toolbar"
+            layout="@layout/kc_layout_toolbar"
+            binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
+
+        <RelativeLayout android:id="@+id/route_plan_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_toolbar"
+            android:background="@drawable/kc_ic_bg_bottom_bar">
+            <LinearLayout android:id="@+id/route_plan_choose"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/kc_ic_bg_bottom_bar"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <RelativeLayout android:id="@+id/route_drive_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="onDriveClick">
+                    <ImageView android:id="@+id/route_drive"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/kc_ic_route_drive_normal" />
+                </RelativeLayout>
+
+                <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="onRideClick">
+                    <ImageView android:id="@+id/route_ride"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/kc_ic_route_ride_normal" />
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout android:id="@+id/route_plan_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/kc_ic_bg_bottom_bar"
+            android:gravity="center_vertical"
+            android:padding="5dp">
+
+            <TextView android:id="@+id/route_time"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/route_time"
+                android:background="@drawable/kc_btn_navi_bg"
+                android:gravity="center"
+                android:text="开始导航"
+                android:textColor="@color/black" />
+
+            <LinearLayout android:id="@+id/route_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="详情"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+
+                <Button android:layout_width="7dp"
+                    android:layout_height="13dp"
+                    android:layout_marginLeft="4dp"
+                    android:background="@drawable/kc_ic_arrow_right_blue"
+                    android:gravity="center_vertical" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.amap.api.maps.MapView android:id="@+id/route_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/route_plan_bottom"
+            android:layout_below="@id/route_plan_header" />
+
+    </RelativeLayout>
+</layout>

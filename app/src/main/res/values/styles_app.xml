@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- 应用主题样式 -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- 窗口背景颜色 -->
+        <item name="android:windowBackground">@color/white</item>
+        <!-- 应用的主要色调，ActionBar Toolbar 默认使用该颜色 -->
+        <item name="colorPrimary">@color/common_app_them</item>
+        <!-- 应用的主要暗色调，状态栏默认使用该颜色 -->
+        <item name="colorPrimaryDark">@color/common_app_them</item>
+        <!-- 应用的强调色，CheckBox RadioButton Switch 等一般控件的选中效果默认采用该颜色 -->
+        <item name="colorAccent">@color/common_primary_color</item>
+        <!-- 默认文本颜色，Button、TextView 的文字颜色 -->
+        <item name="android:textColor">@color/black</item>
+        <!-- 默认字体大小，Button、TextView 的字体大小 -->
+        <item name="android:textSize">@dimen/sp_14</item>
+        <!-- 默认提示颜色，Button、TextView 的提示文字颜色 -->
+        <item name="android:textColorHint">@color/white50</item>
+        <!-- ActionMode 弹出框覆盖 Actionbar 不被顶下来 -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- ActionMode 的颜色 -->
+        <item name="actionModeBackground">@color/common_primary_color</item>
+        <!-- 解决 ImageView 不能自动等比拉伸图片的问题 -->
+        <item name="android:adjustViewBounds">true</item>
+        <!-- 关闭 TextView 自带的文字间距 -->
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 友盟飞溅引导页 -->
+    <style name="theme_umeng_push_splash" parent="android:Theme.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/kicc_ic_umeng_push_default_splash_bg</item>
+    </style>
+
+    <!-- AlertDialog弹窗白色背景 -->
+    <style name="alert_dialog_white_background" parent="@style/Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+</resources>

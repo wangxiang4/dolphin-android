@@ -1,0 +1,36 @@
+apply plugin : 'com.android.library'
+apply from : '../../common.gradle'
+
+android {
+
+    defaultConfig {
+        // 模块混淆配置
+        consumerProguardFiles 'proguard-umeng.pro'
+
+        // 构建配置字段
+        buildConfigField('String', 'UMENG_APP_KEY', '"' + UMENG_APP_KEY + '"')
+        buildConfigField('String', 'UMENG_APP_MASTER_SECRET', '"' + UMENG_APP_MASTER_SECRET + '"')
+        buildConfigField('String', 'UMENG_MESSAGE_SECRET', '"' + UMENG_MESSAGE_SECRET + '"')
+        buildConfigField('String', 'QQ_ID', '"' + QQ_APP_ID + '"')
+        buildConfigField('String', 'QQ_SECRET', '"' + QQ_APP_SECRET + '"')
+        buildConfigField('String', 'WX_ID', '"' + WX_APP_ID + '"')
+        buildConfigField('String', 'WX_SECRET', '"' + WX_APP_SECRET + '"')
+
+        // 清单占位符
+        addManifestPlaceholders([
+                'QQ_ID' : QQ_APP_ID,
+        ])
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    api project(':library:core')
+    api DEPENDENCIES['umeng-common']
+    api DEPENDENCIES['umeng-asms']
+    api DEPENDENCIES['umeng-push']
+    api DEPENDENCIES['umeng-share']
+    api DEPENDENCIES['umeng-share-wx']
+    api DEPENDENCIES['umeng-share-qq']
+    api DEPENDENCIES['wechatcomponent']
+}

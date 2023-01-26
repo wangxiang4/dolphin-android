@@ -1,0 +1,60 @@
+<resources>
+
+    <!-- 配置视图适配器用于扩展组件的属性,更多资料详细请参考:
+    https://developer.android.com/topic/libraries/data-binding/binding-adapters
+    https://blog.csdn.net/lixpjita39/article/details/79054052 -->
+    <attr name="onScrollChangeCommand" format="reference" />
+    <attr name="url" format="string" />
+    <attr name="onTouchCommand" format="reference" />
+    <attr name="onClickCommand" format="reference" />
+    <attr name="onLongClickCommand" format="reference" />
+    <attr name="onFocusChangeCommand" format="reference" />
+    <attr name="isThrottleFirst" format="boolean" />
+    <attr name="currentView" format="reference" />
+    <attr name="isVisible" format="boolean" />
+
+    <!-- 自定义扩展安卓组件,更多资料详细请参考:
+    https://developer.android.com/guide/topics/ui/custom-components?hl=zh-cn
+    https://blog.csdn.net/da_caoyuan/article/details/52915752 -->
+    <declare-styleable name="View">
+        <attr name="onClickCommand" />
+        <attr name="onLongClickCommand" />
+        <attr name="onFocusChangeCommand" />
+        <attr name="onTouchCommand" />
+        <attr name="isThrottleFirst" />
+        <attr name="currentView" />
+        <attr name="isVisible" />
+    </declare-styleable>
+
+    <declare-styleable name="EditText">
+        <attr name="textChanged" format="reference" />
+        <attr name="requestFocus" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ImageView">
+        <attr name="url" />
+        <attr name="placeholderRes" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="RadioGroup">
+        <attr name="onCheckedChangedCommand" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="Switch">
+        <attr name="onCheckedChangeCommand" format="reference" />
+        <attr name="switchState" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="NestedScrollView">
+        <attr name="onScrollChangeCommand" />
+    </declare-styleable>
+
+    <declare-styleable name="ScrollView">
+        <attr name="onScrollChangeCommand" />
+    </declare-styleable>
+
+    <declare-styleable name="WebView">
+        <attr name="render" format="string" />
+    </declare-styleable>
+
+</resources>

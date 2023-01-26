@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.kicc.collect">
+
+    <!--读取手机状态和身份权限-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- 外部存储 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+
+    <!-- 拍照权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- 蓝牙权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <!-- 安装权限 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!-- 定位权限（用于高德地图定位）-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于获取wifi的获取权限,wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- 用于提高GPS定位速度 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!--后台GPS定位-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+    <!-- Application 节点详解：https://developer.android.google.cn/guide/topics/manifest/application-element -->
+    <!-- Activity 节点详解：https://developer.android.google.cn/guide/topics/manifest/activity-element -->
+    <application
+        android:name=".app.AppApplication"
+        android:allowBackup="false"
+        android:icon="@drawable/kc_ic_app"
+        android:label="${app_name}"
+        android:allowNativeHeapPointerTagging="false"
+        android:networkSecurityConfig="@xml/kc_network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:resizeableActivity="true"
+        android:roundIcon="@drawable/kc_ic_app"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:label"
+        tools:targetApi="q">
+
+        <!-- 高德地图 AppId（请在 Gradle 中配置，请不要在此处修改） -->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="${AMAP_KEY}" />
+        <!--开启高德地图定位服务-->
+        <service android:name="com.amap.api.location.APSService"/>
+        <!--开启后台定位保活前台服务-->
+        <service android:name="com.kicc.core.amap.service.BackgroundLocationKeepFrontService"
+                 android:exported="false"
+                 android:foregroundServiceType="location" />
+
+        <!-- 标签栏 -->
+        <activity android:name=".ui.activity.TabBarActivity"
+                  android:screenOrientation="portrait"
+                  android:launchMode="singleTop"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.kicc.collect.TabBarActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--高德地图单条路线计算-->
+        <activity android:name=".ui.activity.SingleRouteCalculateActivity"
+                  android:launchMode="singleTop" />
+
+        <!--闪屏引导活动-->
+        <activity android:name=".ui.activity.SplashActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/theme_umeng_push_splash"
+            android:exported="true">
+            <!-- 程序入口 -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--登录活动-->
+        <activity android:name=".ui.activity.LoginActivity"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"
+                  android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.kicc.collect.LoginActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!--标记点活动-->
+        <activity android:name=".ui.activity.PointActivity"
+                  android:launchMode="singleTop" />
+
+        <!--收样任务列表活动-->
+        <activity android:name=".ui.activity.CollectTaskListActivity"
+                  android:launchMode="singleTop" />
+
+        <!--标记点搜索活动-->
+        <activity android:name=".ui.activity.PointSearchActivity"
+                  android:launchMode="singleTop" />
+
+        <!--任务表单活动-->
+        <activity android:name=".ui.activity.TaskFormActivity"
+                  android:launchMode="singleTop" />
+
+        <!--图片选择活动-->
+        <activity android:name=".ui.activity.PictureSelectorActivity"
+                  android:launchMode="singleTop" />
+
+        <!-- APP关于与帮助 -->
+        <activity android:name=".ui.activity.AppAboutActivity"
+                  android:launchMode="standard" />
+
+        <!--路线规划活动-->
+        <activity android:name=".ui.activity.RoutePlanActivity"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"/>
+
+        <!--驾车路线详情活动-->
+        <activity android:name=".ui.activity.DriveRouteDetailActivity"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"/>
+
+        <!--骑行路线详情活动-->
+        <activity android:name=".ui.activity.RideRouteDetailActivity"
+                  android:launchMode="singleTop"
+                  android:screenOrientation="portrait"/>
+
+    </application>
+</manifest>

@@ -1,0 +1,206 @@
+ext {
+
+    // 测试服
+    def SERVER_TYPE_TEST = 'test'
+    // 正式服
+    def SERVER_TYPE_PRODUCT = 'pro'
+
+    def taskName = project.gradle.startParameter.taskNames[0]
+    if (taskName == null) taskName = ''
+
+    // 打印当前执行的任务名称
+    println 'GradleLog TaskNameOutput ' + taskName
+
+    def serverType = SERVER_TYPE_PRODUCT
+
+    if (taskName.endsWith('Debug')) {
+        serverType = SERVER_TYPE_TEST
+    }
+
+    // 从 Gradle 命令中读取参数配置，例如：./gradlew assembleRelease -P ServerType='test'
+    if (project.hasProperty('ServerType')) {
+        serverType = project.properties['ServerType']
+    }
+
+    // 打印当前服务器配置
+    println 'GradleLog ServerTypeOutput ' + serverType
+
+    /** U-Share 密钥配置: https://developer.umeng.com/docs/128606/detail/212656 */
+    // 友盟 AppKey
+    UMENG_APP_KEY = '637609c2ac3647427000a9e2'
+    // 友盟应用 Secret
+    UMENG_APP_MASTER_SECRET = '96621e752731bfa57294fbdf08c5a6f8'
+    // 友盟消息推送 Secret
+    UMENG_MESSAGE_SECRET = '1x6hmlberweewjw6unwbcqff7yyfgmip'
+
+    // 申请 https://connect.qq.com
+    // QQ AppId
+    QQ_APP_ID = '101830139'
+    // QQ Secret
+    QQ_APP_SECRET = '5d63ae8858f1caab67715ccd6c18d7a5'
+
+    // 申请 https://open.weixin.qq.com
+    // 微信 AppId
+    WX_APP_ID = 'wxdc1e388c3822c80b'
+    // 微信 Secret
+    WX_APP_SECRET = '3baf1193c85774b3fd9d18447d76cab0'
+    // 高德地图 AppKey
+    AMAP_KEY = '14b701ec502e4af728b10f7b86f010d4'
+
+    switch(serverType) {
+        case SERVER_TYPE_TEST:
+            BUGLY_ID = '请自行替换 Bugly 上面的 AppID'
+            HOST_URL = 'http://123.60.163.167:9999/'
+            break
+        case SERVER_TYPE_PRODUCT:
+            BUGLY_ID = '请自行替换 Bugly 上面的 AppID'
+            HOST_URL = 'http://123.60.163.167:9999/'
+            break
+    }
+
+    // 库版本统一管理配置,方便后期架构维护升级
+    DEPENDENCIES = [
+
+        // AndroidX 兼容库
+        // https://github.com/androidx/androidx
+        'androidx'                             : 'androidx.appcompat:appcompat:1.4.2',
+
+        // Material 安卓部件风格设计库
+        // https://github.com/material-components/material-components-android
+        'material-design'                      : 'com.google.android.material:material:1.4.0',
+
+        // 反应式编程与安卓扩展异步UI事件反应式编程
+        // https://github.com/ReactiveX/RxAndroid
+        'rxjava'                               : 'io.reactivex.rxjava2:rxjava:2.2.21',
+        'rxandroid'                            : 'io.reactivex.rxjava2:rxandroid:2.1.1',
+
+        // 反应式编程与安卓组件(活动或者碎片)生命周期同步,防止内存泄露
+        // https://github.com/trello/RxLifecycle
+        'rxlifecycle'                          : 'com.trello.rxlifecycle4:rxlifecycle:4.0.2',
+        'rxlifecycle-components'               : 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2',
+
+        // 安卓UI部件的RxJava绑定API
+        // https://github.com/JakeWharton/RxBinding
+        'rxbinding'                            : 'com.jakewharton.rxbinding4:rxbinding:4.0.0',
+
+        // 系统权限请求
+        // https://github.com/tbruyelle/RxPermissions
+        'rxpermissions'                        : 'com.github.tbruyelle:rxpermissions:0.12',
+
+        // 网络请求客户端
+        // https://github.com/square/retrofit
+        'retrofit'                             : 'com.squareup.retrofit2:retrofit:2.9.0',
+        'converter-gson'                       : 'com.squareup.retrofit2:converter-gson:2.9.0',
+        'adapter-rxjava'                       : 'com.squareup.retrofit2:adapter-rxjava2:2.9.0',
+        'okhttp'                               : 'com.squareup.okhttp3:okhttp:4.9.3',
+        'okhttp-logging'                       : 'com.squareup.okhttp3:logging-interceptor:4.10.0',
+
+        // Json 解析工具
+        // https://github.com/google/gson
+        'gson'                                 : 'com.google.code.gson:gson:2.9.1',
+
+        // AndroidUtilCode工具
+        // 参考文档:https://blankj.com/2016/07/31/android-utils-code/
+        'android-util-code'                    : 'com.blankj:utilcodex:1.30.1',
+
+        // 依赖注入框架dagger2,类似于spring的ioc
+        // 参考文档:https://developer.android.com/training/dependency-injection/dagger-android?hl=zh-cn
+        'dagger2'                              : 'com.google.dagger:dagger:2.17',
+        'dagger2-compiler'                     : 'com.google.dagger:dagger-compiler:2.17',
+
+        // 设置自定义字体
+        // https://github.com/InflationX/Calligraphy
+        'calligraphy3'                         : 'io.github.inflationx:calligraphy3:3.1.1',
+        'calligraphy3-viewpump'                : 'io.github.inflationx:viewpump:2.0.3',
+
+        // junit单元测试
+        // https://developer.android.com/training/testing/unit-testing/local-unit-tests?hl=zh-cn
+        'junit'                                : 'junit:junit:4.12',
+
+        // 安卓插桩集成测试
+        // https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests?hl=zh-cn
+        'android-test-core'                    : 'androidx.test:core:1.0.0',
+        'android-test-runner'                  : 'androidx.test:runner:1.1.0',
+        'android-test-junit'                   : 'androidx.test.ext:junit:1.0.0',
+
+        // lombok生成代码工具
+        // https://projectlombok.org
+        'lombok'                               : 'org.projectlombok:lombok:1.18.6',
+
+        // 内存泄漏监测
+        // https://github.com/square/leakcanary
+        'leakcanary'                           : 'com.squareup.leakcanary:leakcanary-android:2.7',
+
+        // 底部导航栏
+        // https://github.com/tyzlmjj/PagerBottomTabStrip
+        'pager-bottom-tab-strip'               : 'me.majiajie:pager-bottom-tab-strip:2.2.5',
+
+        // 腾讯bugly崩溃日志分析平台异常捕捉
+        // https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20190418140644
+        'crashreport'                          : 'com.tencent.bugly:crashreport:3.4.4',
+        'nativecrashreport'                    : 'com.tencent.bugly:nativecrashreport:3.9.2',
+
+        // 安卓图片选择器(功能比较全面)
+        // https://github.com/LuckSiege/PictureSelector
+        'pictureselector'                      : 'io.github.lucksiege:pictureselector:v3.10.7',
+        // 图片压缩 (按需引入)
+        'pictureselector-compress'             : 'io.github.lucksiege:compress:v3.10.7',
+        // 图片裁剪 (按需引入)
+        'pictureselector-ucrop'                : 'io.github.lucksiege:ucrop:v3.10.7',
+        // 自定义相机 (按需引入)
+        'pictureselector-camerax'              : 'io.github.lucksiege:camerax:v3.10.7',
+
+        // 友盟公共库
+        //fixme R8混淆打包会提示警告,不影响正常打包
+        // 内部操作采用了阻塞或影响执行,导致gradle跟jdk版本不兼容问题,等待后续版本更新修复此错误
+        // https://forum.developer.samsung.com/t/building-android-companion-with-sap-libraries/20148
+        'umeng-common'                         : 'com.umeng.umsdk:common:9.5.2',
+        'umeng-asms'                           : 'com.umeng.umsdk:asms:1.6.3',
+
+        // 友盟消息推送
+        // https://developer.umeng.com/docs/67966/detail/173238
+        'umeng-push'                           : 'com.umeng.umsdk:push:6.5.5',
+
+        // 友盟社会化分享
+        // https://developer.umeng.com/docs/128606/detail/193879
+        'umeng-share'                          : 'com.umeng.umsdk:share-core:7.2.1',
+        // 友盟微信分享
+        'umeng-share-wx'                       : 'com.umeng.umsdk:share-wx:7.2.1',
+        // 友盟QQ分享
+        'umeng-share-qq'                       : 'com.umeng.umsdk:share-qq:7.2.1',
+
+        // 微信官方依赖库
+        // https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/Android.html
+        'wechatcomponent'                      : 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:6.8.0',
+
+        // material风格对话框
+        // https://github.com/afollestad/material-dialogs
+        'material'                             : 'com.afollestad.material-dialogs:core:0.9.6.0',
+        'material-commons'                     : 'com.afollestad.material-dialogs:commons:0.9.6.0',
+
+        // glide图片加载库
+        // https://github.com/bumptech/glide
+        'glide'                                : 'com.github.bumptech.glide:glide:4.12.0',
+
+        // 腾讯 MMKV
+        // https://github.com/Tencent/MMKV
+        // https://www.jianshu.com/p/8f346d1984a2
+        'mmkv-static'                          : 'com.tencent:mmkv-static:1.2.10',
+
+        // Kotlin标准库,目中引入了采用kotlin语言编写的依赖库,需要此库提供基础kotlin打包功能
+        // https://kotlinlang.org/api/latest/jvm/stdlib/
+        'kotlin-stdlib'                        : 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10',
+
+        // RecyclerView扩展库
+        // https://github.com/h6ah4i/android-advancedrecyclerview
+        'advanced-recyclerview'                : 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0',
+
+        // ExoPlayer播放器
+        // https://github.com/google/ExoPlayer
+        'exoplayer'                            : 'com.google.android.exoplayer:exoplayer:2.18.0',
+
+    ]
+
+}
+
+

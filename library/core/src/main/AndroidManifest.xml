@@ -1,0 +1,43 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.kicc.core">
+
+    <!-- 共同权限,app工程会继承此权限配置 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 震动权限 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- 定位权限（用于高德地图定位）-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于获取wifi的获取权限,wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于提高GPS定位速度 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 后台GPS定位 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+    <!-- 唤醒屏幕权限用于后台定位唤醒熄屏后的cpu -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application>
+
+        <activity android:name="com.kicc.core.base.FragmentContainerActivity"
+                  android:configChanges="keyboardHidden|orientation|screenSize"
+                  android:launchMode="singleTop"
+        />
+
+        <activity android:name="com.kicc.core.crash.DefaultErrorActivity"
+                  android:process=":error_activity"
+                  android:launchMode="singleTop"
+        />
+
+        <!-- 注册对外提供崩溃共享数据
+        https://developer.android.com/guide/topics/manifest/service-element?hl=zh-cn-->
+        <provider android:name="com.kicc.core.crash.CaocInitProvider"
+                  android:authorities="${applicationId}.CrashActivityProvider"
+                  android:exported="false"
+                  android:initOrder="110"
+        />
+
+    </application>
+</manifest>

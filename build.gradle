@@ -1,0 +1,53 @@
+apply from: 'config.gradle'
+
+buildscript {
+    // 导入通用的 Maven 库配置
+    apply from : 'maven.gradle'
+    repositories {
+        // 阿里云云效仓库（Gradle 插件）：https://maven.aliyun.com/mvn/guide
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        addCommonMaven(repositories)
+    }
+    dependencies {
+        // Gradle 插件版本说明：https://developer.android.google.cn/studio/releases/gradle-plugin.html#updating-plugin
+        classpath 'com.android.tools.build:gradle:7.0.4'
+        // 引入kotlin的Gradle插件,项目中引入了采用kotlin语言编写的依赖库
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
+    }
+}
+
+allprojects {
+
+    //fixme 查看代码检查(使用过期api,某些输入文件使用了未经检查或不安全的操作)不通过位置
+    // 忽略代码警告可以注释这段
+    /*gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }*/
+
+    repositories {
+        maven { url 'https://repo1.maven.org/maven2' }
+        addCommonMaven(repositories)
+    }
+    tasks.withType(JavaCompile) {
+        // 设置全局编码
+        options.encoding = 'UTF-8'
+    }
+    tasks.withType(Javadoc) {
+        // 设置文档编码
+        options {
+            encoding 'UTF-8'
+            charSet 'UTF-8'
+            links 'http://docs.oracle.com/javase/11/docs/api'
+        }
+    }
+    // 将构建文件统一输出到项目根目录下的 build 文件夹
+    setBuildDir(new File(rootDir, "build/${path.replaceAll(':', '/')}"))
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+

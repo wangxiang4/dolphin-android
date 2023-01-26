@@ -1,0 +1,69 @@
+// 通用配置
+android {
+
+    // 编译源码版本
+    compileSdkVersion 31
+    defaultConfig {
+        // 最低安装版本
+        minSdkVersion 29
+        // 目标适配版本
+        targetSdkVersion 31
+        versionName '1.0'
+        versionCode 1
+    }
+
+    // 开启数据绑定
+    dataBinding {
+        enabled true
+    }
+
+    // 支持 Java JDK 11
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_11
+    }
+
+    // 设置存放 so 文件的目录
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+        test.root 'src/unitTest'
+        test.java.srcDirs 'src/unitTest/java'
+        androidTest.root 'src/androidTest'
+        androidTest.java.srcDirs 'src/androidTest/java'
+    }
+
+    // 可在 Studio 最左侧中的 Build Variants 选项中切换默认的构建类型
+    buildTypes {
+        // 调试版本
+        debug {}
+        // 正式版本
+        release {}
+    }
+
+    // 代码警告配置
+    lintOptions {
+        // 禁用文本硬编码警告
+        disable 'HardcodedText'
+        // 禁用图片描述警告
+        disable 'ContentDescription'
+    }
+}
+
+dependencies {
+    // 依赖 libs 目录下所有的 jar 和 aar 包
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    implementation DEPENDENCIES['androidx']
+    implementation DEPENDENCIES['material-design']
+    implementation DEPENDENCIES['lombok']
+    implementation DEPENDENCIES['kotlin-stdlib']
+    annotationProcessor DEPENDENCIES['lombok']
+    implementation DEPENDENCIES['dagger2']
+    annotationProcessor DEPENDENCIES['dagger2-compiler']
+    testImplementation DEPENDENCIES['junit']
+    androidTestImplementation DEPENDENCIES['android-test-core']
+    androidTestImplementation DEPENDENCIES['android-test-runner']
+    androidTestImplementation DEPENDENCIES['android-test-junit']
+    debugImplementation DEPENDENCIES['leakcanary']
+}

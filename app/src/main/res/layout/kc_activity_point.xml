@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.kicc.collect.ui.vm.PointViewModel" />
+    </data>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/common_list_bg"
+        android:orientation="vertical">
+        <include android:id="@+id/include"
+            layout="@layout/kc_layout_toolbar"
+            binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:background="@drawable/kc_ic_point_top">
+            <RelativeLayout
+                android:gravity="right"
+                android:layout_marginRight="@dimen/dp_30"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_point_street"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_23"/>
+                <TextView
+                    android:id="@+id/tv_point_city"
+                    android:textColor="#635C56"
+                    android:textSize="@dimen/dp_15"
+                    android:layout_marginTop="@dimen/dp_70"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp_23"/>
+            </RelativeLayout>
+        </LinearLayout>
+        <!--地图点高级回收视图-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/point_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5" />
+    </LinearLayout>
+</layout>

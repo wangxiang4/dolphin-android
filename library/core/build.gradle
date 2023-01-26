@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+apply from : '../../common.gradle'
+
+android {
+    defaultConfig {
+        // 模块混淆配置
+        consumerProguardFiles 'proguard-core.pro'
+        // 腾讯bugly崩溃日志分析平台ID
+        buildConfigField('String', 'BUGLY_ID', '"' + BUGLY_ID + '"')
+        // 后端服务器的主机地址
+        buildConfigField('String', 'HOST_URL', '"' + HOST_URL + '"')
+    }
+    sourceSets {
+        main {
+            // res 资源目录配置
+            res.srcDirs(
+                    'src/main/res',
+                    'src/main/res-sw',
+            )
+        }
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+    api DEPENDENCIES['rxjava']
+    api DEPENDENCIES['rxandroid']
+    api DEPENDENCIES['rxlifecycle']
+    api DEPENDENCIES['rxlifecycle-components']
+    api DEPENDENCIES['rxbinding']
+    api DEPENDENCIES['rxpermissions']
+    api DEPENDENCIES['retrofit']
+    api DEPENDENCIES['converter-gson']
+    api DEPENDENCIES['adapter-rxjava']
+    api DEPENDENCIES['okhttp']
+    api DEPENDENCIES['gson']
+    api DEPENDENCIES['android-util-code']
+    api DEPENDENCIES['calligraphy3']
+    api DEPENDENCIES['calligraphy3-viewpump']
+    api DEPENDENCIES['gson']
+    api DEPENDENCIES['material']
+    api DEPENDENCIES['material-commons']
+    api DEPENDENCIES['glide']
+    api DEPENDENCIES['okhttp-logging']
+    api DEPENDENCIES['mmkv-static']
+    api DEPENDENCIES['crashreport']
+    api DEPENDENCIES['nativecrashreport']
+}
