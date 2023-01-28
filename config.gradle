@@ -1,8 +1,8 @@
 ext {
 
-    // 测试服
+    // 测试线
     def SERVER_TYPE_TEST = 'test'
-    // 正式服
+    // 生产线
     def SERVER_TYPE_PRODUCT = 'pro'
 
     def taskName = project.gradle.startParameter.taskNames[0]
