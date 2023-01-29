@@ -14,12 +14,10 @@
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/home_recycler_view"
+        <com.amap.api.maps.MapView
+            android:id="@+id/amap"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10" />
+            android:layout_height="0dp"
+            android:layout_weight="14" />
     </LinearLayout>
 </layout>

@@ -4,41 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dolphin.demo.ui.activity.PictureSelectorActivity">
     <data>
-        <import type="com.dolphin.demo.ui.vm.PictureSelectorViewModel" />
-        <variable name="pictureSelectorViewModel" type="PictureSelectorViewModel" />
+        <variable
+            name="pictureSelectorViewModel"
+            type="com.dolphin.demo.ui.vm.PictureSelectorViewModel" />
     </data>
-    <RelativeLayout android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:clipChildren="false">
-        <include android:id="@+id/picture_selector_toolbar"
+        <include
+            android:id="@+id/picture_selector_toolbar"
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{pictureSelectorViewModel.toolbarViewModel}" />
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/picture_selector_toolbar"
             android:orientation="vertical"
             android:weightSum="10">
-            <androidx.recyclerview.widget.RecyclerView android:id="@+id/picture_selector_recycler"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/picture_selector_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="9"
                 android:overScrollMode="never" />
-
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:background="#c3c3c3"
+                android:background="@color/white"
                 android:gravity="center">
-
-                <Button android:id="@+id/picture_selector_upload"
+                <Button
+                    android:id="@+id/picture_selector_upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="-8dp"
                     android:background="@drawable/icon_btn_primary_radius_bg"
                     android:gravity="center"
                     android:paddingTop="8dp"

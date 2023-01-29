@@ -4,31 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dolphin.demo.ui.activity.RoutePlanActivity">
     <data>
-        <import type="com.dolphin.demo.ui.vm.ToolbarViewModel" />
-        <variable name="viewModel" type="ToolbarViewModel" />
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.ToolbarViewModel" />
     </data>
-
-    <LinearLayout android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
-
-        <include android:id="@+id/picture_selector_toolbar"
+        <include
+            android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
-
-        <LinearLayout android:id="@+id/route_path"
+        <LinearLayout
+            android:id="@+id/route_path"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <LinearLayout android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/icon_bg_bottom_bar"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="5dp">
-                <TextView android:id="@+id/route_time"
+                <TextView
+                    android:id="@+id/route_time"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginLeft="12dp"
@@ -36,12 +36,12 @@
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
-
-            <ImageView android:layout_width="match_parent"
+            <ImageView
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#e0e0e0" />
-
-            <ListView android:id="@+id/route_list"
+            <ListView
+                android:id="@+id/route_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:cacheColorHint="@color/transparent"
