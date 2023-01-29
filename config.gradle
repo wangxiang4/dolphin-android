@@ -27,25 +27,25 @@ ext {
 
     /** U-Share 密钥配置: https://developer.umeng.com/docs/128606/detail/212656 */
     // 友盟 AppKey
-    UMENG_APP_KEY = '637609c2ac3647427000a9e2'
+    UMENG_APP_KEY = '******'
     // 友盟应用 Secret
-    UMENG_APP_MASTER_SECRET = '96621e752731bfa57294fbdf08c5a6f8'
+    UMENG_APP_MASTER_SECRET = '******'
     // 友盟消息推送 Secret
-    UMENG_MESSAGE_SECRET = '1x6hmlberweewjw6unwbcqff7yyfgmip'
+    UMENG_MESSAGE_SECRET = '******'
 
     // 申请 https://connect.qq.com
     // QQ AppId
-    QQ_APP_ID = '101830139'
+    QQ_APP_ID = '******'
     // QQ Secret
-    QQ_APP_SECRET = '5d63ae8858f1caab67715ccd6c18d7a5'
+    QQ_APP_SECRET = '******'
 
     // 申请 https://open.weixin.qq.com
     // 微信 AppId
-    WX_APP_ID = 'wxdc1e388c3822c80b'
+    WX_APP_ID = '******'
     // 微信 Secret
-    WX_APP_SECRET = '3baf1193c85774b3fd9d18447d76cab0'
+    WX_APP_SECRET = '******'
     // 高德地图 AppKey
-    AMAP_KEY = '14b701ec502e4af728b10f7b86f010d4'
+    AMAP_KEY = '******'
 
     switch(serverType) {
         case SERVER_TYPE_TEST:

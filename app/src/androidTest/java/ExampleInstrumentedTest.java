@@ -24,7 +24,7 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.kicc.core.test", appContext.getPackageName());
+        assertEquals("com.dolphin.core.test", appContext.getPackageName());
     }
 
 }

@@ -2,9 +2,8 @@
 <resources>
 
     <!--通用视图颜色-->
-    <color name="common_phone_bg">#f6f6f6</color>
     <color name="common_list_bg">#F0F0F0</color>
-    <color name="common_app_them">#B39F8F</color>
+    <color name="common_app_them">#409EFF</color>
     <color name="common_btn_tit">#1677D2</color>
     <color name="common_hint_bg">#A0A0A0</color>
     <color name="common_blue_dark">#303F9F</color>

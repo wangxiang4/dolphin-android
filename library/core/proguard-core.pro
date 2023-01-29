@@ -4,7 +4,7 @@
 -allowaccessmodification
 -dontpreverify
 
--keep class com.kicc.core.entity.**{*;}
+-keep class com.dolphin.core.entity.**{*;}
 
 # The remainder of this file is identical to the non-optimized version
 # of the Proguard configuration file (except that the other file has

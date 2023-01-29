@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="common_primary_color">#39AE41</color>
+    <color name="common_primary_color">#2C82FF</color>
     <color name="common_tab_color">#DCDCDC</color>
     <color name="common_edit_text_color">#C4C5C6</color>
 

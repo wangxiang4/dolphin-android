@@ -1,6 +1,6 @@
 # 忽略警告
 #-ignorewarning
--keep class com.kicc.collect.entity.**{*;}
+-keep class com.dolphin.demo.entity.**{*;}
 
 # 混淆保护自己项目的部分代码以及引用的第三方jar包
 #-libraryjars libs/xxxxxxxxx.jar

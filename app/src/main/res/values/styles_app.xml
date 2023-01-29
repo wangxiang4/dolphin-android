@@ -29,7 +29,7 @@
 
     <!-- 友盟飞溅引导页 -->
     <style name="theme_umeng_push_splash" parent="android:Theme.NoTitleBar.Fullscreen">
-        <item name="android:windowBackground">@drawable/kicc_ic_umeng_push_default_splash_bg</item>
+        <item name="android:windowBackground">@drawable/icon_umeng_push_default_splash_bg</item>
     </style>
 
     <!-- AlertDialog弹窗白色背景 -->

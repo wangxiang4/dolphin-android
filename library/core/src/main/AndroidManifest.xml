@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.kicc.core">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.dolphin.core">
 
     <!-- 共同权限,app工程会继承此权限配置 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,19 +21,19 @@
 
     <application>
 
-        <activity android:name="com.kicc.core.base.FragmentContainerActivity"
+        <activity android:name="com.dolphin.core.base.FragmentContainerActivity"
                   android:configChanges="keyboardHidden|orientation|screenSize"
                   android:launchMode="singleTop"
         />
 
-        <activity android:name="com.kicc.core.crash.DefaultErrorActivity"
+        <activity android:name="com.dolphin.core.crash.DefaultErrorActivity"
                   android:process=":error_activity"
                   android:launchMode="singleTop"
         />
 
         <!-- 注册对外提供崩溃共享数据
         https://developer.android.com/guide/topics/manifest/service-element?hl=zh-cn-->
-        <provider android:name="com.kicc.core.crash.CaocInitProvider"
+        <provider android:name="com.dolphin.core.crash.CaocInitProvider"
                   android:authorities="${applicationId}.CrashActivityProvider"
                   android:exported="false"
                   android:initOrder="110"

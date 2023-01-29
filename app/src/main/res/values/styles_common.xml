@@ -1,56 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- 文本视图文字 -->
-    <style name="textViewFont">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">15dp</item>
-    </style>
-
-    <!-- 文本视图文字靠右 -->
-    <style name="textViewFontRight">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">13dp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-    </style>
-
-    <!-- 标记点底部按钮 -->
-    <style name="pointBottomBtn">
-        <item name="android:layout_marginTop">@dimen/dp_5</item>
-        <item name="android:layout_marginBottom">@dimen/dp_5</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!-- 表单报告单信息布局 -->
-    <style name="formReportLayout">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <!--表单编辑组件-->
-    <style name="formEditText">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:background">@drawable/kc_form_task_ic</item>
-        <item name="android:textSize">15dp</item>
-        <item name="android:layout_marginLeft">15dp</item>
-        <item name="android:layout_marginRight">15dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
-    <!--用户栏布局-->
+    <!--用户栏布局样式属性-->
     <style name="userItemLinearLayout">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
@@ -58,7 +9,7 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <!--用户栏图片-->
+    <!--用户栏图片样式属性-->
     <style name="userBarImg">
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
@@ -66,7 +17,7 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
-    <!--用户栏文字-->
+    <!--用户栏文字样式属性-->
     <style name="userBarText">
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_weight">5</item>
@@ -77,20 +28,13 @@
         <item name="android:layout_marginLeft">6dp</item>
     </style>
 
-    <!--用户栏右侧箭头-->
+    <!--用户栏右侧箭头样式属性-->
     <style name="userBarTextRightArrow">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">20dp</item>
         <item name="android:layout_weight">0.3</item>
         <item name="android:layout_marginRight">12dp</item>
         <item name="android:scaleType">centerInside</item>
-    </style>
-
-    <!-- 表单线 -->
-    <style name="formLine">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/gray</item>
     </style>
 
 </resources>

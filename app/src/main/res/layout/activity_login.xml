@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.LoginViewModel" />
+    </data>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- 表单部分 -->
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dp_40"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:orientation="vertical">
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.3"
+                android:gravity="center"
+                android:orientation="vertical">
+                <!--logo-->
+                <ImageView android:layout_width="@dimen/dp_140"
+                    android:layout_height="@dimen/dp_140"
+                    android:src="@drawable/kc_ic_login_logo" />
+                <!-- 输入框 -->
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_37"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:layout_marginRight="@dimen/dp_50"
+                    android:gravity="bottom">
+                    <EditText android:id="@+id/et_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_35"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入账号"
+                        android:text="@={viewModel.username}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/sp_14"
+                        binding:textChanged="@{viewModel.usernameValueChangeCommand}"
+                        binding:onFocusChangeCommand="@{viewModel.usernameFocusChangeCommand}" />
+                    <ImageView android:id="@+id/iv_switch_clean_username"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:padding="@dimen/dp_6"
+                        android:src="@drawable/icon_clean_edit"
+                        binding:isThrottleFirst="@{true}"
+                        android:visibility="@{viewModel.usernameVisible}"
+                        binding:onClickCommand="@{viewModel.usernameCleanClickCommand}" />
+                </LinearLayout>
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_marginRight="@dimen/dp_50"
+                    android:background="@color/gray" />
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_37"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_50"
+                    android:gravity="bottom">
+                    <EditText android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_35"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="请输入密码"
+                        android:inputType="textPassword"
+                        android:text="@={viewModel.password}"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        android:textSize="@dimen/sp_14"
+                        binding:textChanged="@{viewModel.passwordValueChangeCommand}" />
+                    <ImageView android:id="@+id/iv_switch_password"
+                        android:layout_width="@dimen/dp_30"
+                        android:layout_height="@dimen/dp_30"
+                        android:padding="@dimen/dp_6"
+                        android:src="@drawable/icon_password_show"
+                        binding:isThrottleFirst="@{true}"
+                        android:visibility="@{viewModel.passwordVisible}"
+                        binding:onClickCommand="@{viewModel.passwordVisibleClickCommand}" />
+                </LinearLayout>
+                <View android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0_5"
+                    android:layout_marginLeft="@dimen/dp_50"
+                    android:layout_marginRight="@dimen/dp_50"
+                    android:background="@color/gray" />
+                <Button android:layout_width="@dimen/dp_300"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginTop="@dimen/dp_45"
+                    android:background="@drawable/icon_btn_circle_bg"
+                    android:text="登 录"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_13"
+                    android:textStyle="bold"
+                    binding:onClickCommand="@{viewModel.loginClickCommand}" />
+            </LinearLayout>
+            <View android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.4" />
+        </LinearLayout>
+        <!-- 页尾 -->
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <!-- 虚线以及文字 -->
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_18"
+                android:layout_marginLeft="90dp"
+                android:layout_marginRight="90dp"
+                android:gravity="center">
+                <View android:layout_width="0dp"
+                    android:layout_height="0.8dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
+                <TextView android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="其他登录方式"
+                    android:textSize="@dimen/sp_12" />
+                <View android:layout_width="0dp"
+                    android:layout_height="0.8dp"
+                    android:layout_weight="1"
+                    android:background="@color/gray" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_logo_qq"
+                    android:onClick="qqLoginClick" />
+                <ImageView android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_logo_wechat"
+                    android:onClick="wechatLoginClick" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

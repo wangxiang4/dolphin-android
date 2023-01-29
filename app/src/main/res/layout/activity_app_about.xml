@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:binding="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.AppAboutViewModel" />
+    </data>
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#F5F5F5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/include"
+            layout="@layout/layout_toolbar"
+            binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
+        <ImageView
+            android:padding="@dimen/dp_30"
+            android:src="@drawable/kc_ic_login_logo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"/>
+        <LinearLayout
+            android:gravity="center|top"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kicc-App"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="24dp"/>
+            <TextView
+                android:padding="5dp"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="Version 1.0.3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="center|bottom"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6">
+            <TextView
+                android:textColor="@color/black40"
+                android:text="客服电话：400-1512-686"
+                android:textSize="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/black40"
+                android:text="长沙康来生物科技有限公司 版权所有"
+                android:layout_margin="6dp"
+                android:textSize="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/black40"
+                android:text="Copyright © Changsha Kanglai Biotechnology.All Rights Reserved"
+                android:textSize="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

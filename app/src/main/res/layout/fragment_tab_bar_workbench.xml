@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:binging="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.dolphin.demo.ui.vm.TabBarWorkbenchViewModel" />
+
+        <variable
+            name="viewModel"
+            type="TabBarWorkbenchViewModel" />
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:binding="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black5"
+        android:orientation="vertical">
+        <LinearLayout
+            android:background="@color/common_app_them"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <TextView
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/sp_13"
+                android:text="工 作 台"/>
+        </LinearLayout>
+        <!-- KICC bannar-->
+        <LinearLayout
+            android:gravity="bottom|center"
+            android:background="@drawable/kc_ic_bg_work_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:background="@drawable/kc_ic_bg_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- 三大按钮 -->
+        <LinearLayout
+            android:background="@drawable/icon_white_bg"
+            android:layout_margin="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="3">
+                <ImageView
+                    binding:onClickCommand="@{viewModel.midIconCollectList}"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/kc_ic_collecting"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收样列表"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="3">
+                <ImageView
+                    binding:onClickCommand="@{viewModel.midIconCollectHistory}"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/kc_ic_history"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收样历史"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="3">
+                <ImageView
+                    binding:onClickCommand="@{viewModel.midIconOrther}"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/kc_ic_route"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="行程任务"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="6dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 列表排序 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

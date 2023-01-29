@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.kicc.umeng">
+    package="com.dolphin.umeng">
 
     <!-- 用于访问网络,网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
