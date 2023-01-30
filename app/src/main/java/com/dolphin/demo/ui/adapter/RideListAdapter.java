@@ -56,7 +56,7 @@ public class RideListAdapter extends BaseAdapter {
 		ViewHolder holder;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = View.inflate(mContext, R.layout.kc_item_route_plan, null);
+			convertView = View.inflate(mContext, R.layout.item_route_plan, null);
 			holder.lineName = convertView.findViewById(R.id.route_line_name);
 			holder.dirIcon = convertView.findViewById(R.id.route_dir_icon);
 			holder.dirUp = convertView.findViewById(R.id.route_dir_icon_up);
@@ -68,14 +68,14 @@ public class RideListAdapter extends BaseAdapter {
 		}
 		final RideStep item = mItemList.get(position);
 		if (position == 0) {
-			holder.dirIcon.setImageResource(R.drawable.kc_ic_orgin);
+			holder.dirIcon.setImageResource(R.drawable.icon_orgin);
 			holder.lineName.setText("出发");
 			holder.dirUp.setVisibility(View.INVISIBLE);
 			holder.dirDown.setVisibility(View.VISIBLE);
 			holder.splitLine.setVisibility(View.INVISIBLE);
 			return convertView;
 		} else if (position == mItemList.size() - 1) {
-			holder.dirIcon.setImageResource(R.drawable.kc_ic_destination);
+			holder.dirIcon.setImageResource(R.drawable.icon_destination);
 			holder.lineName.setText("到达终点");
 			holder.dirUp.setVisibility(View.VISIBLE);
 			holder.dirDown.setVisibility(View.INVISIBLE);

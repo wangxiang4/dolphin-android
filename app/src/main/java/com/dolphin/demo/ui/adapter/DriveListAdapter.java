@@ -56,7 +56,7 @@ public class DriveListAdapter extends BaseAdapter {
 		ViewHolder holder;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = View.inflate(mContext, R.layout.kc_item_route_plan, null);
+			convertView = View.inflate(mContext, R.layout.item_route_plan, null);
 			holder.driveDirIcon = convertView.findViewById(R.id.route_dir_icon);
 			holder.driveLineName = convertView.findViewById(R.id.route_line_name);
 			holder.driveDirUp = convertView.findViewById(R.id.route_dir_icon_up);
@@ -68,14 +68,14 @@ public class DriveListAdapter extends BaseAdapter {
 		}
 		final DriveStep item = mItemList.get(position);
 		if (position == 0) {
-			holder.driveDirIcon.setImageResource(R.drawable.kc_ic_orgin);
+			holder.driveDirIcon.setImageResource(R.drawable.icon_orgin);
 			holder.driveLineName.setText("出发");
 			holder.driveDirUp.setVisibility(View.GONE);
 			holder.driveDirDown.setVisibility(View.VISIBLE);
 			holder.splitLine.setVisibility(View.GONE);
 			return convertView;
 		} else if (position == mItemList.size() - 1) {
-			holder.driveDirIcon.setImageResource(R.drawable.kc_ic_destination);
+			holder.driveDirIcon.setImageResource(R.drawable.icon_destination);
 			holder.driveLineName.setText("到达终点");
 			holder.driveDirUp.setVisibility(View.VISIBLE);
 			holder.driveDirDown.setVisibility(View.GONE);

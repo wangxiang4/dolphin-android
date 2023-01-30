@@ -106,7 +106,7 @@ import top.zibin.luban.OnRenameListener;
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/9/29
  */
-public class PictureSelectorActivity extends BaseActivity<KcActivityPictureSelectorBinding, PictureSelectorViewModel> {
+public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelectorBinding, PictureSelectorViewModel> {
 
     private RecyclerView recyclerView;
     private Button uploadButton;

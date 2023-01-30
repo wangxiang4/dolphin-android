@@ -10,7 +10,6 @@ import androidx.annotation.Nullable;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.KcFragmentTabBarWorkbenchBinding;
-import com.dolphin.demo.ui.activity.CollectTaskListActivity;
 import com.dolphin.demo.ui.vm.TabBarWorkbenchViewModel;
 import com.dolphin.core.base.BaseFragment;
 

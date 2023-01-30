@@ -17,7 +17,6 @@ import com.dolphin.demo.di.component.DaggerServiceComponent;
 import com.dolphin.demo.entity.User;
 import com.dolphin.demo.service.LoginService;
 import com.dolphin.demo.ui.activity.AppAboutActivity;
-import com.dolphin.demo.util.TimesUtil;
 import com.dolphin.core.base.BaseViewModel;
 import com.dolphin.core.binding.command.BindingAction;
 import com.dolphin.core.binding.command.BindingCommand;

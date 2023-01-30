@@ -125,7 +125,7 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.kc_item_point, parent, false);
+        final View v = inflater.inflate(R.layout.item_point, parent, false);
         return new MyViewHolder(v);
     }
 

@@ -64,12 +64,6 @@ public class User extends CommonEntity {
     /** 最后登陆时间 */
     private String loginTime;
 
-    /** 地图标记点位置图片旋转值 */
-    private Double mapOrientation;
-
-    /** 地图设计器默认中心点位置 */
-    private String mapCenter;
-
     /** 用户状态 */
     private String status;
 
@@ -96,8 +90,6 @@ public class User extends CommonEntity {
         sex = in.readString();
         loginIp = in.readString();
         loginTime = in.readString();
-        mapOrientation = in.readDouble();
-        mapCenter = in.readString();
         status = in.readString();
     }
 
@@ -121,8 +113,6 @@ public class User extends CommonEntity {
         dest.writeString(sex);
         dest.writeString(loginIp);
         dest.writeString(loginTime);
-        dest.writeDouble(mapOrientation);
-        dest.writeString(mapCenter);
         dest.writeString(status);
     }
 

@@ -2,10 +2,6 @@ package com.dolphin.demo.di.component;
 
 import com.dolphin.demo.di.module.ServiceModule;
 import com.dolphin.demo.di.scope.ServiceScope;
-import com.dolphin.demo.ui.vm.CollectTaskListViewModel;
-import com.dolphin.demo.ui.vm.TaskFormViewModel;
-import com.dolphin.demo.ui.vm.PoiSearchViewModel;
-import com.dolphin.demo.ui.vm.PointViewModel;
 import com.dolphin.demo.ui.vm.TabBarHomeViewModel;
 import com.dolphin.demo.ui.vm.LoginViewModel;
 import com.dolphin.demo.ui.vm.TabBarMessageViewModel;

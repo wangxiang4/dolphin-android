@@ -19,7 +19,7 @@ import com.dolphin.core.base.BaseActivity;
  * @Author: liuSiXiang
  * @since: 2022/10/24
  */
-public class AppAboutActivity extends BaseActivity<KcActivityAppAboutBinding, AppAboutViewModel> {
+public class AppAboutActivity extends BaseActivity<ActivityAppAboutBinding, AppAboutViewModel> {
     @Override
     public int setContentView(Bundle savedInstanceState) {
         return R.layout.kc_activity_app_about;

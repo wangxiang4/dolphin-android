@@ -13,16 +13,12 @@ import com.dolphin.core.BuildConfig;
 public interface CommonConstant {
 
     /** 友盟消息推送别名类型 */
-    String UMENG_PUSH_USER_ALIAS_TYPE = "KICC_UID";
+    String UMENG_PUSH_USER_ALIAS_TYPE = "DOLPHIN_UID";
 
+    /** oss文件预览地址 */
     String OSS_FILE_URL = BuildConfig.HOST_URL+"system_proxy/system/file/getFile/%s/%s";
 
-    /** 行程规划传输点 */
+    /** 路线规划经纬度 */
     String ROUTE_PLAN_LAT_POINT = "ROUTE_PLAN_LAT_POINT";
 
-    /** 用户当前所在城市 */
-    String USER_NOW_CITY = "GPS_USER_NOW_CITY";
-
-    /** 预设点规划传输点 */
-    String PRESET_PLAN_LAT_POINT = "PRESET_PLAN_LAT_POINT";
 }

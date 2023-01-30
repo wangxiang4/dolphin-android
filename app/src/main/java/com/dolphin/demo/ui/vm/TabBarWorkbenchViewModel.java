@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 //import com.kicc.collect.ui.activity.PointActivity;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.dolphin.demo.ui.activity.PointActivity;
 import com.dolphin.core.binding.command.BindingAction;
 import com.dolphin.core.binding.command.BindingCommand;
 import com.dolphin.core.bus.SingleLiveEvent;

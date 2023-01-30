@@ -10,8 +10,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.demo.app.AppApplication;
 import com.dolphin.demo.di.component.DaggerServiceComponent;
-import com.dolphin.demo.entity.Message;
-import com.dolphin.demo.service.MessageService;
 import com.dolphin.core.bus.SingleLiveEvent;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;

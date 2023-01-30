@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.KcActivityLoginBinding;
+import com.dolphin.demo.databinding.ActivityLoginBinding;
 import com.dolphin.demo.ui.vm.LoginViewModel;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.constant.AppConstant;
@@ -39,7 +39,7 @@ import java.util.List;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/14
  */
-public class LoginActivity extends BaseActivity<KcActivityLoginBinding, LoginViewModel> {
+public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
 
     /** 请求权限检查 */
     private boolean requestPermissionNeedCheck = true;
@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity<KcActivityLoginBinding, LoginVie
     
     @Override
     public int setContentView(Bundle savedInstanceState) {
-        return R.layout.kc_activity_login;
+        return R.layout.activity_login;
     }
 
     @Override

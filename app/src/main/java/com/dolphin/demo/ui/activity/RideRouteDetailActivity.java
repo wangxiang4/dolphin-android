@@ -22,11 +22,11 @@ import com.dolphin.core.util.AMapCommonUtil;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/11
  */
-public class RideRouteDetailActivity extends BaseActivity<KcActivityRoutePlanDetailBinding, ToolbarViewModel> {
+public class RideRouteDetailActivity extends BaseActivity<ActivityRoutePlanDetailBinding, ToolbarViewModel> {
 
 	@Override
 	public int setContentView(Bundle savedInstanceState) {
-		return R.layout.kc_activity_route_plan_detail;
+		return R.layout.activity_route_plan_detail;
 	}
 
 	@Override

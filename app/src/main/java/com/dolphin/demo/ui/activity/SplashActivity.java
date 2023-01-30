@@ -32,7 +32,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
     public boolean onCustomPretreatment() {
         if (MMKV.defaultMMKV().getInt(CacheConstant.SOFTWARE_PRIVACY_AGREEMENT_AUTH, 1) == 0) {
             InAppMessageManager mInAppMessageManager = InAppMessageManager.getInstance(SplashActivity.this);
-            mInAppMessageManager.setMainActivityPath("com.kicc.collect.ui.activity.LoginActivity");
+            mInAppMessageManager.setMainActivityPath("com.dolphin.collect.ui.activity.LoginActivity");
             return super.onCustomPretreatment();
         } else {
             softwarePrivacyAgreement();

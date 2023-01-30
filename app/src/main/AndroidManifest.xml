@@ -76,8 +76,6 @@
         </activity>
 
         <!--高德地图单条路线计算-->
-        <activity android:name=".ui.activity.SingleRouteCalculateActivity"
-                  android:launchMode="singleTop" />
 
         <!--闪屏引导活动-->
         <activity android:name=".ui.activity.SplashActivity"
@@ -104,20 +102,12 @@
         </activity>
 
         <!--标记点活动-->
-        <activity android:name=".ui.activity.PointActivity"
-                  android:launchMode="singleTop" />
 
         <!--收样任务列表活动-->
-        <activity android:name=".ui.activity.CollectTaskListActivity"
-                  android:launchMode="singleTop" />
 
         <!--标记点搜索活动-->
-        <activity android:name=".ui.activity.PointSearchActivity"
-                  android:launchMode="singleTop" />
 
         <!--任务表单活动-->
-        <activity android:name=".ui.activity.TaskFormActivity"
-                  android:launchMode="singleTop" />
 
         <!--图片选择活动-->
         <activity android:name=".ui.activity.PictureSelectorActivity"

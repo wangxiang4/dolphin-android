@@ -32,14 +32,14 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/21
  */
-public class TabBarActivity extends BaseActivity<KcActivityTabBarBinding, BaseViewModel> {
+public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseViewModel> {
 
     private List<Fragment> mFragments;
     private PageNavigationView pageNavigationView;
 
     @Override
     public int setContentView(Bundle savedInstanceState) {
-        return R.layout.kc_activity_tab_bar;
+        return R.layout.activity_tab_bar;
     }
 
     @Override
@@ -68,10 +68,10 @@ public class TabBarActivity extends BaseActivity<KcActivityTabBarBinding, BaseVi
 
     private void initBottomTab(int position) {
         NavigationController navigationController = pageNavigationView.material()
-                .addItem(R.drawable.kc_ic_tab_map, "地图")
-                .addItem(R.drawable.kc_ic_tab_workbench, "任务")
-                .addItem(R.drawable.kc_ic_tab_message,"消息")
-                .addItem(R.drawable.kc_ic_tab_user, "个人")
+                .addItem(R.drawable.icon_tab_home, "首页")
+                .addItem(R.drawable.icon_tab_workbench, "工作台")
+                .addItem(R.drawable.icon_tab_message,"消息")
+                .addItem(R.drawable.icon_tab_user, "我的")
                 .setDefaultColor(ContextCompat.getColor(this, R.color.black))
                 .build();
         // 设置默认底部按钮选中

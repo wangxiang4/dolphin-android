@@ -44,7 +44,7 @@ import com.dolphin.core.util.ToastUtil;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/9
  */
-public class RoutePlanActivity extends BaseActivity<KcActivityRoutePlanBinding, RoutePlanViewModel> implements OnRouteSearchListener {
+public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, RoutePlanViewModel> implements OnRouteSearchListener {
 
 
 	private AMap aMap;
@@ -66,7 +66,7 @@ public class RoutePlanActivity extends BaseActivity<KcActivityRoutePlanBinding, 
 
 	@Override
 	public int setContentView(Bundle savedInstanceState) {
-		return R.layout.kc_activity_route_plan;
+		return R.layout.activity_route_plan;
 	}
 
 	@Override

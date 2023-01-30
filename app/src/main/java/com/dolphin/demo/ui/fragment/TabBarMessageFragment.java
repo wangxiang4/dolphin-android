@@ -17,8 +17,6 @@ import com.google.gson.Gson;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.KcFragmentTabBarMessageBinding;
-import com.dolphin.demo.entity.Message;
-import com.dolphin.demo.ui.adapter.TabBarMessageAdapter;
 import com.dolphin.demo.ui.vm.TabBarMessageViewModel;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;

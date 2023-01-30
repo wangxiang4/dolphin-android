@@ -58,7 +58,7 @@ public class AppApplication extends BaseApplication {
             // 崩溃的间隔时间(毫秒)定义应用程序崩溃之间的最短时间,以确定我们不在崩溃循环中,比如:在规定的时间内再次崩溃,框架将不处理,让系统处理
             .minTimeBetweenCrashesMs(2000)
             // 错误图标
-            .errorDrawable(R.drawable.kc_ic_app)
+            .errorDrawable(R.drawable.icon_app)
             // 重新启动后的activity
             .restartActivity(LoginActivity.class)
             .apply();
