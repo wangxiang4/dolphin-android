@@ -114,7 +114,7 @@
                   android:launchMode="singleTop" />
 
         <!-- APP关于与帮助 -->
-        <activity android:name=".ui.activity.AppAboutActivity"
+        <activity android:name=".ui.activity.AboutActivity"
                   android:launchMode="standard" />
 
         <!--路线规划活动-->

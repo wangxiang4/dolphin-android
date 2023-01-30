@@ -1,23 +1,15 @@
 package com.dolphin.demo.ui.fragment;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
@@ -40,53 +32,33 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
-import com.blankj.utilcode.util.CacheDiskUtils;
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.dolphin.core.amap.LocationRequest;
 import com.dolphin.core.amap.overlay.DrivingRouteOverlay;
 import com.dolphin.core.base.BaseFragment;
-import com.dolphin.core.constant.AppConstant;
-import com.dolphin.core.entity.MapLogisticPoint;
-import com.dolphin.core.util.AMapCommonUtil;
 import com.dolphin.core.util.PermissionUtil;
 import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
-import com.dolphin.demo.constant.CacheConstant;
-import com.dolphin.demo.constant.CommonConstant;
-import com.dolphin.demo.databinding.KcFragmentTabBarHomeBinding;
-import com.dolphin.demo.entity.RoutePlanLatPoint;
-import com.dolphin.demo.entity.User;
+import com.dolphin.demo.databinding.FragmentMapBinding;
 import com.dolphin.demo.listener.MapGpsSensorEventListener;
-import com.dolphin.demo.ui.activity.PictureSelectorActivity;
-import com.dolphin.demo.ui.activity.RoutePlanActivity;
 import com.dolphin.demo.ui.activity.TabBarActivity;
-import com.dolphin.demo.ui.vm.TabBarHomeViewModel;
-import com.google.gson.Gson;
-import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.entity.LocalMedia;
-import com.umeng.message.PushAgent;
-import com.umeng.message.api.UPushAliasCallback;
+import com.dolphin.demo.ui.vm.MapViewModel;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  *<p>
- * 主页地图
+ * 高德地图
  *</p>
  *
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/7/15
  */
-public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding, TabBarHomeViewModel> implements LocationSource, AMap.OnMapTouchListener, RouteSearch.OnRouteSearchListener {
+public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> implements LocationSource, AMap.OnMapTouchListener, RouteSearch.OnRouteSearchListener {
 
     /** 高德地图组件 */
     private AMap aMap;
@@ -109,15 +81,6 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
     /** 路线搜索 */
     private RouteSearch mRouteSearch;
 
-    /** 路线标记点 */
-    private List<Marker> routeMarker = new ArrayList();
-
-    /** 中间途径点 */
-    private List<LatLonPoint> throughPoints;
-
-    /** 路线规划活动结果处理(双向传递数据) */
-    private ActivityResultLauncher<RoutePlanLatPoint> launcherResult;
-
     /** 默认地图配置 */
     interface DefaultConfig {
 
@@ -135,7 +98,7 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
-        return R.layout.kc_fragment_tab_bar_home;
+        return R.layout.fragment_map;
     }
 
     @Override
@@ -150,32 +113,6 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
         mapGpsSensorEventListener = new MapGpsSensorEventListener(getActivity());
         locationRequest.setLocationListen(locationListener);
         singleAMapLocationClient();
-        launcherResult = registerForActivityResult(new ActivityResultContract<RoutePlanLatPoint, Void>() {
-            @Override
-            public Void parseResult(int resultCode, @Nullable Intent intent) {
-                return null;
-            }
-            @Override
-            public Intent createIntent(@NonNull Context context, RoutePlanLatPoint routePlanLatPoint) {
-                Intent intent = new Intent(getActivity(), RoutePlanActivity.class);
-                intent.putExtra(CommonConstant.ROUTE_PLAN_LAT_POINT, routePlanLatPoint);
-                return intent;
-            }
-        }, result -> {});
-        // 登录进来获取到用户对象设置友盟消息推送别名,后台需要别名推送
-        User user = CacheDiskUtils.getInstance().getParcelable(CacheConstant.USER_INFO, User.CREATOR);
-        if (!StringUtils.isTrimEmpty(user.getId())) {
-            PushAgent mPushAgent = PushAgent.getInstance(getActivity());
-            mPushAgent.addAlias(user.getId(), CommonConstant.UMENG_PUSH_USER_ALIAS_TYPE, (UPushAliasCallback) (success, message) ->{
-                String msg;
-                if (success) {
-                    msg = "add alias success! type:" + CommonConstant.UMENG_PUSH_USER_ALIAS_TYPE + " alias:" + user.getId();
-                } else {
-                    msg = "add alias failure! msg:" + message;
-                }
-                LogUtils.i(msg);
-            });
-        } else throw new RuntimeException("用户对象为空请退出重写登录!");
     }
 
     AMapLocationListener locationListener = location -> {
@@ -183,7 +120,7 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             if (locationMarker == null) {
                 locationMarker = aMap.addMarker(new MarkerOptions().position(latLng)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kc_ic_map_gps))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_map_gps))
                         .anchor(0.5f, 0.5f));
                 mapGpsSensorEventListener.setGpsMarker(locationMarker);
                 mapGpsSensorEventListener.setAMap(aMap);
@@ -205,7 +142,7 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
                 });
             }
         } else {
-            LogUtils.e("定位失败!");
+            ToastUtil.showAmapError(getActivity(), location.getErrorCode());
         }
     };
 
@@ -224,118 +161,83 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
         aMap.setLocationSource(this);
         aMap.setOnMapTouchListener(this);
         // 设置地图默认中心点
-        User user = CacheDiskUtils.getInstance().getParcelable(CacheConstant.USER_INFO, User.CREATOR);
         LatLng latLng = new LatLng(DefaultConfig.mapCentreLat, DefaultConfig.mapCentreLng);
-        if(!StringUtils.isTrimEmpty(user.getMapCenter()) && user.getMapCenter().indexOf(",") != -1){
-            // 设置用户个性化自定义的中心点
-            BigDecimal lat = new BigDecimal(user.getMapCenter().split(",")[1]);
-            BigDecimal lng = new BigDecimal(user.getMapCenter().split(",")[0]);
-            latLng = new LatLng(lat.doubleValue(), lng.doubleValue());
-        }
         // 首次定位移动到地图中心点并修改一些默认属性
         aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, DefaultConfig.zoom, DefaultConfig.tilt, DefaultConfig.bearing)));
         mapGpsSensorEventListener.registerSensorListener();
         locationRequest.start();
-        // 间隔上传gps数据
-        ThreadUtils.executeByFixedAtFixRate(AppConstant.defaultThreadPoolSize,
-                mViewModel.backgroundUploadLocationGpsTask(locationRequest.getLocationClient()),
-                AppConstant.LOCATION_TASK_INTERVAL_TIME,
-                TimeUnit.MILLISECONDS);
         try {
             mRouteSearch = new RouteSearch(getActivity());
             mRouteSearch.setRouteSearchListener(this);
-            // 获取当前用户地图数据
-            mViewModel.requestMapDataByCourierUser();
         } catch (AMapException e) {
             e.printStackTrace();
         }
     }
 
+    class PointData {
+        String id;
+        String label;
+        Double mapLng;
+        Double mapLat;
+        public PointData(String id, String label, Double mapLng, Double mapLat) {
+            this.id = id;
+            this.label = label;
+            this.mapLng = mapLng;
+            this.mapLat = mapLat;
+        }
+    }
+
+
+    List<PointData> carPointData = CollectionUtils.newArrayList(
+            new PointData("001","小黄车", 112.918119, 28.282891),
+            new PointData("002","小绿车", 112.918919, 28.282991),
+            new PointData("003","小红车", 112.918019, 28.283991)
+    );
+
+    List<PointData> gasStationPointData = CollectionUtils.newArrayList(
+            new PointData("001","地沟油加油站", 112.919043, 28.288623),
+            new PointData("002","一路平安加油站", 112.919165, 28.289924),
+            new PointData("003","一把火加油站", 112.919965, 28.289924)
+    );
+
     @Override
     public void onStart() {
         super.onStart();
-        // 监听地图数据发生变化处理
-        mViewModel.mapLogistic.observe(this, mapLogistic -> {
-            routeMarker.clear();
-            try {
-                List<MapLogisticPoint> mapLogisticPoint = mapLogistic.getMapLogisticPoint();
-                List<MapLogisticPoint> mapTaskPresetLogisticPoint = mapLogistic.getMapTaskPresetLogisticPoint();
-                setMapDataPointMarker(new LatLng(mapLogistic.getCourierLat(), mapLogistic.getCourierLng()), 2);
-                mapLogisticPoint.addAll(mapTaskPresetLogisticPoint);
-                mapLogisticPoint.forEach(item -> {
-                    if(ObjectUtils.isNotEmpty(item.getLat()) && ObjectUtils.isNotEmpty(item.getLng())){
-                        setMapDataPointMarker(new LatLng(item.getLat(),item.getLng()), Integer.valueOf(item.getType()));
-                    }
-                });
-                if (ObjectUtils.isNotEmpty(routeMarker)) {
-                    Marker origin = routeMarker.get(0);
-                    Marker destination = routeMarker.get(routeMarker.size() - 1);
-                    List<Marker> throughMarker = routeMarker.subList(1, routeMarker.size() - 1);
-                    throughPoints = throughMarker.stream().map(item -> AMapCommonUtil.convertToLatLonPoint(item.getPosition())).collect(Collectors.toList());
-                    // 渲染导航路线
-                    final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(AMapCommonUtil.convertToLatLonPoint(origin.getPosition()), AMapCommonUtil.convertToLatLonPoint(destination.getPosition()));
-                    // 第一个参数表示路径规划的起点和终点,第二个参数表示驾车模式,第三个参数表示途经点,第四个参数表示避让区域,第五个参数表示避让道路
-                    RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_SINGLE_DEFAULT, throughPoints, null, "");
-                    mRouteSearch.calculateDriveRouteAsyn(query);
+        try {
+            carPointData.forEach(item -> {
+                if(ObjectUtils.isNotEmpty(item.mapLat) && ObjectUtils.isNotEmpty(item.mapLng)){
+                    setMapDataPointMarker(new LatLng(item.mapLat, item.mapLng), item.label, 0);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getActivity().getApplicationContext(), "当前没有地图数据,请联系管理员配置!", Toast.LENGTH_LONG).show();
-            }
-        });
-        // 已到达
-        mViewModel.homeUiObservable.hasArrivedSwitchEvent.observe(this, click -> {
-            SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("确认已到达【" + "目的地" + "】？");
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("提示")
-                    .setMessage(spannableStringBuilder)
-                    .setCancelable(true)
-                    .setPositiveButton("确认",(dialogInterface, i) ->{
-                        Intent intents = new Intent(getActivity(), TaskFormActivity.class);
-                        startActivity(intents);
-                        dialogInterface.dismiss();
-                    })
-                    .setNegativeButton("取消",((dialogInterface, i) -> {
-                        ToastUtils.showShort("取消到达");
-                    })).show();
-        });
-        // 开始导航
-        mViewModel.homeUiObservable.beginNavidSwitchEvent.observe(this, click -> {
-            if (ObjectUtils.isNotEmpty(routeMarker)) {
-                RoutePlanLatPoint routePlanLatPoint = new RoutePlanLatPoint();
-                AMapLocation location = locationRequest.getLocationClient().getLastKnownLocation();
-                routePlanLatPoint.setOriginPoint(new LatLonPoint(location.getLatitude(), location.getLongitude()));
-                Marker taskPoint = routeMarker.get(1);
-                routePlanLatPoint.setDestinationPoint(AMapCommonUtil.convertToLatLonPoint(taskPoint.getPosition()));
-                launcherResult.launch(routePlanLatPoint);
-            } else ToastUtils.showShort("当前没有地图数据");
-        });
-        // todo:
-        mViewModel.pictureSelectorClick.observe(this, v -> {
-            ArrayList<LocalMedia> list = new ArrayList();
-            list.add(LocalMedia.generateHttpAsLocalMedia("https://wx2.sinaimg.cn/mw2000/0073ozWdly1h0afoipj8xj30kw3kmwru.jpg"));
-            list.add(LocalMedia.generateHttpAsLocalMedia("https://wx4.sinaimg.cn/mw2000/0073ozWdly1h0afoj5q8ij30u04gqkb1.jpg"));
-            list.add(LocalMedia.generateHttpAsLocalMedia("https://ww1.sinaimg.cn/bmiddle/bcd10523ly1g96mg4sfhag20c806wu0x.gif"));
-            pictureSelectorLauncherResult.launch(list);
-        });
+            });
+            gasStationPointData.forEach(item -> {
+                if(ObjectUtils.isNotEmpty(item.mapLat) && ObjectUtils.isNotEmpty(item.mapLng)){
+                    setMapDataPointMarker(new LatLng(item.mapLat, item.mapLng), item.label, 1);
+                }
+            });
+            // 渲染导航路线
+            final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(carPointData.get(0).mapLat, carPointData.get(0).mapLng), new LatLonPoint(gasStationPointData.get(0).mapLat, gasStationPointData.get(0).mapLng));
+            // 第一个参数表示路径规划的起点和终点,第二个参数表示驾车模式,第三个参数表示途经点,第四个参数表示避让区域,第五个参数表示避让道路
+            RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_SINGLE_DEFAULT, null, null, "");
+            mRouteSearch.calculateDriveRouteAsyn(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setMapDataPointMarker(LatLng latlng, Integer type) {
+    public void setMapDataPointMarker(LatLng latlng, String title, Integer type) {
         int resourcesId;
         switch (type) {
             case 0:
-                resourcesId = R.drawable.kc_ic_hospital;
+                resourcesId = R.drawable.icon_car;
                 break;
             case 1:
-                resourcesId = R.drawable.kc_ic_red_flag;
-                break;
-            case 2:
-                resourcesId = R.drawable.kc_ic_medical_kit;
+                resourcesId = R.drawable.icon_gasstation;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
         MarkerOptions markerOptions = new MarkerOptions()
+                .title(title)
                 .icon(BitmapDescriptorFactory.fromResource(resourcesId))
                 .position(latlng).anchor(0.5f, 0.5f);
         Marker marker = aMap.addMarker(markerOptions);
@@ -348,7 +250,6 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
         marker.setAnimation(animation);
         // 开始动画
         marker.startAnimation();
-        routeMarker.add(marker);
     }
 
     @Override
@@ -373,7 +274,7 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
                     drivePath,
                     result.getStartPos(),
                     result.getTargetPos(),
-                    throughPoints
+                    null
             );
             drivingRouteOverlay.removeFromMap();
             drivingRouteOverlay.drawDrivingRoute();
@@ -455,26 +356,4 @@ public class TabBarMapFragment extends BaseFragment<KcFragmentTabBarHomeBinding,
     public void onTouch(MotionEvent motionEvent) {
         userMoveToLocationMark = true;
     }
-
-    private ActivityResultLauncher<ArrayList<LocalMedia>> pictureSelectorLauncherResult = registerForActivityResult(new ActivityResultContract<ArrayList<LocalMedia>, ArrayList<LocalMedia>>() {
-        @Override
-        public ArrayList<LocalMedia> parseResult(int resultCode, @Nullable Intent intent) {
-            if (intent == null) {
-                return null;
-            }
-            return intent.getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
-        }
-        @Override
-        public Intent createIntent(@NonNull Context context, ArrayList<LocalMedia> localMediaList) {
-            Intent intent = new Intent(getActivity(), PictureSelectorActivity.class);
-            intent.putExtra(PictureConfig.EXTRA_RESULT_SELECTION, localMediaList);
-            return intent;
-        }
-    }, result -> {
-        // todo: OssFile数据保存自定义处理
-        ToastUtil.show(getActivity(), "回调成功数据:" + new Gson().toJson(result));
-        LogUtils.i("选择文件上传成功回调数据", result);
-    });;
-
-
 }

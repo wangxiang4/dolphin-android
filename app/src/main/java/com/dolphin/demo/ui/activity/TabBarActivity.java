@@ -6,16 +6,16 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.dolphin.demo.BR;
-import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.KcActivityTabBarBinding;
-import com.dolphin.demo.ui.fragment.TabBarHomeFragment;
-import com.dolphin.demo.ui.fragment.TabBarMessageFragment;
-import com.dolphin.demo.ui.fragment.TabBarUserFragment;
-import com.dolphin.demo.ui.fragment.TabBarWorkbenchFragment;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.base.BaseViewModel;
 import com.dolphin.core.constant.AppConstant;
+import com.dolphin.demo.BR;
+import com.dolphin.demo.R;
+import com.dolphin.demo.databinding.ActivityTabBarBinding;
+import com.dolphin.demo.ui.fragment.HomeFragment;
+import com.dolphin.demo.ui.fragment.MessageFragment;
+import com.dolphin.demo.ui.fragment.UserFragment;
+import com.dolphin.demo.ui.fragment.WorkbenchFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,10 +57,10 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
 
     private void initFragment() {
         mFragments = new ArrayList<>();
-        mFragments.add(new TabBarHomeFragment());
-        mFragments.add(new TabBarWorkbenchFragment());
-        mFragments.add(new TabBarMessageFragment());
-        mFragments.add(new TabBarUserFragment());
+        mFragments.add(new HomeFragment());
+        mFragments.add(new WorkbenchFragment());
+        mFragments.add(new MessageFragment());
+        mFragments.add(new UserFragment());
         Integer defaultPoint = getIntent().getIntExtra(AppConstant.TAB_BAR_DEFAULT_INDEX, 0);
         commitAllowingStateLoss(defaultPoint);
         initBottomTab(defaultPoint);
@@ -68,10 +68,10 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
 
     private void initBottomTab(int position) {
         NavigationController navigationController = pageNavigationView.material()
-                .addItem(R.drawable.icon_tab_home, "首页")
-                .addItem(R.drawable.icon_tab_workbench, "工作台")
-                .addItem(R.drawable.icon_tab_message,"消息")
-                .addItem(R.drawable.icon_tab_user, "我的")
+                .addItem(R.drawable.icon_home, "首页")
+                .addItem(R.drawable.icon_workbench, "工作台")
+                .addItem(R.drawable.icon_message,"消息")
+                .addItem(R.drawable.icon_user, "我的")
                 .setDefaultColor(ContextCompat.getColor(this, R.color.black))
                 .build();
         // 设置默认底部按钮选中

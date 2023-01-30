@@ -2,9 +2,9 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dolphin.demo.ui.fragment.TabBarWorkbenchFragment">
+    tools:context="com.dolphin.demo.ui.fragment.WorkbenchFragment">
     <data>
-        <variable name="viewModel" type="com.dolphin.demo.ui.vm.TabBarWorkbenchViewModel" />
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.WorkbenchViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,8 +43,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"
-                    android:src="@drawable/icon_oa"
-                    binding:onClickCommand="@{viewModel.midIconOrther}" />
+                    android:src="@drawable/icon_oa" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,8 +62,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"
-                    android:src="@drawable/icon_work"
-                    binding:onClickCommand="@{viewModel.midIconOrther}" />
+                    android:src="@drawable/icon_work" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -83,8 +81,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"
-                    android:src="@drawable/icon_resignation"
-                    binding:onClickCommand="@{viewModel.midIconOrther}" />
+                    android:src="@drawable/icon_resignation" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,8 +100,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"
-                    android:src="@drawable/icon_death"
-                    binding:onClickCommand="@{viewModel.midIconOrther}" />
+                    android:src="@drawable/icon_death" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

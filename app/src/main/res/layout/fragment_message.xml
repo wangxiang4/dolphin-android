@@ -2,21 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dolphin.demo.ui.fragment.TabBarMessageFragment">
+    tools:context="com.dolphin.demo.ui.fragment.MessageFragment">
     <data>
-        <variable name="viewModel" type="com.dolphin.demo.ui.vm.TabBarMessageViewModel" />
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.MessageViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F5F5F5"
+        android:background="@color/white"
         android:orientation="vertical">
         <include
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/message_recycler_view"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dp_10"

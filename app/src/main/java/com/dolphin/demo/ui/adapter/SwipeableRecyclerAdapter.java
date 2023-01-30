@@ -1,10 +1,8 @@
 package com.dolphin.demo.ui.adapter;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,8 +29,8 @@ import java.util.List;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/16
  */
-public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<SwipeableWithButtonPointAdapter.MyViewHolder>
-        implements SwipeableItemAdapter<SwipeableWithButtonPointAdapter.MyViewHolder> {
+public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecyclerAdapter.MyViewHolder>
+        implements SwipeableItemAdapter<SwipeableRecyclerAdapter.MyViewHolder> {
 
     /** 视图集合数据 */
     private List<MapLogisticPoint> mItemList;
@@ -47,48 +45,47 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
         /** 滑动容器点击 */
         void onItemViewClicked(View v);
 
-        /** 开始导航点击 */
-        void onStartNavigation(View v);
+        /** 滑动按钮点击1 */
+        void onBtnSwipeable1(View v);
 
-        /** 已到达目的地点击 */
-        void onSetPresetPoint(View v);
+        /** 滑动按钮点击2 */
+        void onBtnSwipeable2(View v);
 
-        /** 设置交接点点击 */
-        void onReachDestination(View v);
+        /** 滑动按钮点击3 */
+        void onBtnSwipeable3(View v);
     }
 
     /** 视图当前持有者对象 */
     public static class MyViewHolder extends AbstractSwipeableItemViewHolder {
-        public LinearLayout mContainer;
-        public RelativeLayout mBehindViews;
-        public TextView mHospital;
-        public TextView mIndex;
-        public TextView mType;
-        public TextView mNavi;
-        public TextView mSetPreset;
-        public TextView mDestin;
+        public RelativeLayout mContentLayout;
+        public RelativeLayout mBehindLayout;
+        public TextView mBtnSwipeable1;
+        public TextView mBtnSwipeable2;
+        public TextView mBtnSwipeable3;
+        public TextView mTitleLabel;
+        public TextView mDetailLabel;
+        public TextView mSecondDetailLabel;
 
         public MyViewHolder(View v) {
             super(v);
-            // item_hospital_name | item_index | item_type
-            mContainer = v.findViewById(R.id.container);
-            mBehindViews = v.findViewById(R.id.behind_views);
-            mNavi = v.findViewById(R.id.start_navigation);  // 导航
-            mSetPreset = v.findViewById(R.id.set_preset_point);    // 已到达
-            mDestin = v.findViewById(R.id.reach_destination);   // 交接点设置
-            mHospital = v.findViewById(R.id.item_hospital_name);
-            mIndex = v.findViewById(R.id.item_index);
-            mType = v.findViewById(R.id.item_type);
+            mContentLayout = v.findViewById(R.id.content_layout);
+            mBehindLayout = v.findViewById(R.id.behind_layout);
+            mBtnSwipeable1 = v.findViewById(R.id.btn_swipeable1);
+            mBtnSwipeable2 = v.findViewById(R.id.btn_swipeable2);
+            mBtnSwipeable3 = v.findViewById(R.id.btn_swipeable3);
+            mTitleLabel = v.findViewById(R.id.title_label);
+            mDetailLabel = v.findViewById(R.id.detail_label);
+            mSecondDetailLabel = v.findViewById(R.id.second_detail_label);
         }
 
         @Override
         public View getSwipeableContainerView() {
-            return mContainer;
+            return mContentLayout;
         }
 
     }
 
-    public SwipeableWithButtonPointAdapter(List<MapLogisticPoint> mItemList) {
+    public SwipeableRecyclerAdapter(List<MapLogisticPoint> mItemList) {
         this.mItemList = mItemList;
         // SwipeableItemAdapter需要稳定的ID,并且还必须适当地实现getItemId()方法,
         // 否则会导致局部刷新,找不到匹配刷新项
@@ -101,19 +98,19 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
             mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
         }
     }
-    private void onSwipeableViewNaviClick(View v) {
+    private void onBtnSwipeable1Click(View v) {
         if (mEventListener != null) {
-            mEventListener.onStartNavigation(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
+            mEventListener.onBtnSwipeable1(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
         }
     }
-    private void onSwipeableViewPresetClick(View v) {
+    private void onBtnSwipeable2Click(View v) {
         if (mEventListener != null) {
-            mEventListener.onSetPresetPoint(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
+            mEventListener.onBtnSwipeable2(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
         }
     }
-    private void onSwipeableViewDestinClick(View v) {
+    private void onBtnSwipeable3Click(View v) {
         if (mEventListener != null) {
-            mEventListener.onReachDestination(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
+            mEventListener.onBtnSwipeable3(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
         }
     }
 
@@ -125,7 +122,7 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.item_point, parent, false);
+        final View v = inflater.inflate(R.layout.item_swipeable, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -138,27 +135,13 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
         // 设置水平滑动的量
         holder.setSwipeItemHorizontalSlideAmount(item.getPinned() ? -0.46f : 0);
 
-        // 赋值 | 控制文字显示类型
-        holder.mHospital.setText(item.getHospitalName());
-        String taskType = item.getTaskType().equals("2") ? "交接" : "普通";
-        holder.mIndex.setText(taskType);
-        String types = item.getType().equals("1") ? "医检" : "医院";
-
-        if (TextUtils.isEmpty(item.getHospitalId())) {
-            holder.mType.setVisibility(View.GONE);
-            holder.setSwipeItemHorizontalSlideAmount(0);    // 非交接预设点 拖动自动返回
-        }else holder.mType.setText(types);
-
-        // 设置点击事件 | 按钮的显示以及隐藏
-        holder.mContainer.setOnClickListener(view -> onSwipeableViewContainerClick(view));
-        holder.mNavi.setOnClickListener(view -> onSwipeableViewNaviClick(view));
-        holder.mSetPreset.setOnClickListener(view -> onSwipeableViewPresetClick(view)); // 已到达
-        holder.mDestin.setOnClickListener(view -> onSwipeableViewDestinClick(view)); //预设点
-        if (!item.getTaskType().equals("2")) holder.mDestin.setVisibility(View.GONE);
-        if (TextUtils.isEmpty(item.getHospitalId())) {
-            holder.mNavi.setVisibility(View.GONE);
-            holder.mSetPreset.setVisibility(View.GONE);
-        }
+        holder.mDetailLabel.setVisibility(View.GONE);
+        holder.mSecondDetailLabel.setVisibility(View.GONE);
+        holder.mContentLayout.setOnClickListener(view -> onSwipeableViewContainerClick(view));
+        holder.mBtnSwipeable1.setOnClickListener(view -> onBtnSwipeable1Click(view));
+        holder.mBtnSwipeable2.setOnClickListener(view -> onBtnSwipeable2Click(view));
+        holder.mBtnSwipeable3.setOnClickListener(view -> onBtnSwipeable3Click(view));
+        holder.mTitleLabel.setText("这是一条审批数据");
     }
 
     @Override
@@ -190,9 +173,9 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
     @Override
     public void onSetSwipeBackground(@NonNull MyViewHolder holder, int position, int type) {
         if (type == SwipeableItemConstants.DRAWABLE_SWIPE_NEUTRAL_BACKGROUND) {
-            holder.mBehindViews.setVisibility(View.GONE);
+            holder.mBehindLayout.setVisibility(View.GONE);
         } else {
-            holder.mBehindViews.setVisibility(View.VISIBLE);
+            holder.mBehindLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -223,11 +206,11 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
 
     /** 向左滑动操作 */
     private static class SwipeLeftResultAction extends SwipeResultActionMoveToSwipedDirection {
-        private SwipeableWithButtonPointAdapter mAdapter;
+        private SwipeableRecyclerAdapter mAdapter;
         private final int mPosition;
         private boolean mSetPinned;
 
-        SwipeLeftResultAction(SwipeableWithButtonPointAdapter adapter, int position) {
+        SwipeLeftResultAction(SwipeableRecyclerAdapter adapter, int position) {
             mAdapter = adapter;
             mPosition = position;
         }
@@ -262,10 +245,10 @@ public class SwipeableWithButtonPointAdapter extends RecyclerView.Adapter<Swipea
 
     /** 关闭向左滑动操作 */
     private static class UnpinResultAction extends SwipeResultActionDefault {
-        private SwipeableWithButtonPointAdapter mAdapter;
+        private SwipeableRecyclerAdapter mAdapter;
         private final int mPosition;
 
-        UnpinResultAction(SwipeableWithButtonPointAdapter adapter, int position) {
+        UnpinResultAction(SwipeableRecyclerAdapter adapter, int position) {
             mAdapter = adapter;
             mPosition = position;
         }

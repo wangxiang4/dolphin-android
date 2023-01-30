@@ -32,7 +32,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
     public boolean onCustomPretreatment() {
         if (MMKV.defaultMMKV().getInt(CacheConstant.SOFTWARE_PRIVACY_AGREEMENT_AUTH, 1) == 0) {
             InAppMessageManager mInAppMessageManager = InAppMessageManager.getInstance(SplashActivity.this);
-            mInAppMessageManager.setMainActivityPath("com.dolphin.collect.ui.activity.LoginActivity");
+            mInAppMessageManager.setMainActivityPath("com.dolphin.demo.ui.activity.LoginActivity");
             return super.onCustomPretreatment();
         } else {
             softwarePrivacyAgreement();
@@ -45,7 +45,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
         MapsInitializer.updatePrivacyShow(SplashActivity.this,true,true);
         SpannableStringBuilder spannable = new SpannableStringBuilder(getResources().getString(R.string.privacy_agreement));
         spannable.setSpan(new ForegroundColorSpan(Color.BLUE), 108, 126, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(Color.RED), 206, 225, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.RED), 150, 160, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         AlertDialog builder =new AlertDialog.Builder(this, R.style.alert_dialog_white_background)
                 .setTitle("隐私政策")
                 .setMessage(spannable)

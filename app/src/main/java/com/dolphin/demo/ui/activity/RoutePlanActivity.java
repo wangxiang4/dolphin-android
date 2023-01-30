@@ -24,17 +24,17 @@ import com.amap.api.services.route.RouteSearch.OnRouteSearchListener;
 import com.amap.api.services.route.RouteSearch.RideRouteQuery;
 import com.amap.api.services.route.WalkRouteResult;
 import com.blankj.utilcode.util.ToastUtils;
-import com.dolphin.demo.BR;
-import com.dolphin.demo.R;
-import com.dolphin.demo.constant.CommonConstant;
-import com.dolphin.demo.databinding.KcActivityRoutePlanBinding;
-import com.dolphin.demo.entity.RoutePlanLatPoint;
-import com.dolphin.demo.ui.vm.RoutePlanViewModel;
 import com.dolphin.core.amap.overlay.DrivingRouteOverlay;
 import com.dolphin.core.amap.overlay.RideRouteOverlay;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.util.AMapCommonUtil;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.demo.BR;
+import com.dolphin.demo.R;
+import com.dolphin.demo.constant.CommonConstant;
+import com.dolphin.demo.databinding.ActivityRoutePlanBinding;
+import com.dolphin.demo.entity.RoutePlanLatPoint;
+import com.dolphin.demo.ui.vm.RoutePlanViewModel;
 
 /**
  *<p>
@@ -103,21 +103,21 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 	}
 
 	public void onDriveClick(View view) {
-		searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DrivingDefault);
-		mDrive.setImageResource(R.drawable.kc_ic_route_drive_select);
-		mRide.setImageResource(R.drawable.kc_ic_route_ride_normal);
+		searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DRIVING_SINGLE_DEFAULT);
+		mDrive.setImageResource(R.drawable.icon_route_drive_select);
+		mRide.setImageResource(R.drawable.icon_route_drive_normal);
 	}
 
 	public void onRideClick(View view) {
-		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.RidingDefault);
-		mDrive.setImageResource(R.drawable.kc_ic_route_drive_normal);
-		mRide.setImageResource(R.drawable.kc_ic_route_ride_select);
+		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.DRIVING_SINGLE_DEFAULT);
+		mDrive.setImageResource(R.drawable.icon_route_ride_normal);
+		mRide.setImageResource(R.drawable.icon_route_ride_select);
 	}
 
 	public void onNavigationClick(View view) {
-		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.RidingDefault);
-		mDrive.setImageResource(R.drawable.kc_ic_route_drive_normal);
-		mRide.setImageResource(R.drawable.kc_ic_route_ride_select);
+		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.DRIVING_SINGLE_DEFAULT);
+		mDrive.setImageResource(R.drawable.icon_route_drive_normal);
+		mRide.setImageResource(R.drawable.icon_route_ride_select);
 	}
 
 	public void searchRouteResult(int routeType, int mode) {
@@ -256,7 +256,6 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 				.canceledOnTouchOutside(false)
 				.backgroundColorRes(com.dolphin.core.R.color.white)
 				.keyListener((dialog, keyCode, event) -> false).build();
-
 		}
 		mMaterialDialog = mMaterialDialog.getBuilder().title("正在搜索").build();
 		mMaterialDialog.show();

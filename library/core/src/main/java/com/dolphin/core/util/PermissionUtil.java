@@ -39,7 +39,7 @@ public class PermissionUtil {
         MMKV.defaultMMKV().remove(AppConstant.ACCESS_TOKEN_NAME);
         MMKV.defaultMMKV().remove(AppConstant.REFRESH_TOKEN_NAME);
         AppManager.getAppManager().finishAllActivity();
-        Intent intent = new Intent("com.android.dolphin.collect.LoginActivity");
+        Intent intent = new Intent("com.android.dolphin.demo.LoginActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Utils.getApp().startActivity(intent);
     }

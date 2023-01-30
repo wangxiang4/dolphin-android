@@ -12,7 +12,7 @@ import com.dolphin.core.binding.command.BindingCommand;
 
 /**
  *<p>
- * 导航工具栏
+ * 导航工具栏视图模型层
  *</p>
  *
  * @Author: entfrm开发团队-王翔

@@ -72,10 +72,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         }
         mViewModel.passwordSwitchEvent.observe(this, visible -> {
             if (visible) {
-                mView.ivSwitchPassword.setImageResource(R.drawable.kc_ic_password_hide);
+                mView.ivSwitchPassword.setImageResource(R.drawable.icon_password_hide);
                 mView.etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             } else {
-                mView.ivSwitchPassword.setImageResource(R.drawable.kc_ic_password_show);
+                mView.ivSwitchPassword.setImageResource(R.drawable.icon_password_show);
                 mView.etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
         });

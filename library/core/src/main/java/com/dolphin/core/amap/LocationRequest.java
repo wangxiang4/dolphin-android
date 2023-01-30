@@ -272,7 +272,7 @@ public class LocationRequest implements AMapLocationListener {
         notificationManager.createNotificationChannel(notificationChannel);
         Notification.Builder builder = new Notification.Builder(mContext, channelId);
         builder.setSmallIcon(R.drawable.umeng_push_notification_default_small_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.icon_app))
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.umeng_push_notification_default_large_icon))
                 .setContentTitle(mContext.getResources().getString(R.string.app_name))
                 .setContentText("正在后台运行")
                 // 点击通知后自动取消

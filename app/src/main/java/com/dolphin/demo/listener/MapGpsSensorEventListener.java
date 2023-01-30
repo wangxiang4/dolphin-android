@@ -12,7 +12,7 @@ import android.view.WindowManager;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.model.Marker;
-import com.dolphin.demo.ui.fragment.TabBarHomeFragment;
+import com.dolphin.demo.ui.fragment.MapFragment;
 
 /**
  *<p>
@@ -120,7 +120,7 @@ public class MapGpsSensorEventListener implements SensorEventListener {
             mAngle = Float.isNaN(x) ? 0 : x;
             x = (360 - mAngle);
             if (mMarker != null) mMarker.setRotateAngle(x);
-            if (aMap != null && !TabBarHomeFragment.userMoveToLocationMark) aMap.moveCamera(CameraUpdateFactory.changeBearing(360 - mAngle));
+            if (aMap != null && !MapFragment.userMoveToLocationMark) aMap.moveCamera(CameraUpdateFactory.changeBearing(360 - mAngle));
             lastTime = System.currentTimeMillis();
         }
     }

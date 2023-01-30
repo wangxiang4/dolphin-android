@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dolphin.demo.R;
 import com.dolphin.demo.listener.OnItemLongClickListener;
-import com.dolphin.core.BuildConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/3
  */
-public class PictureSelectorGridAdapter extends RecyclerView.Adapter<PictureSelectorGridAdapter.ViewHolder> {
+public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<PictureSelectorRecyclerAdapter.ViewHolder> {
 
     private ArrayList<LocalMedia> list;
 
@@ -48,7 +47,7 @@ public class PictureSelectorGridAdapter extends RecyclerView.Adapter<PictureSele
         }
     }
 
-    public PictureSelectorGridAdapter(ArrayList<LocalMedia> result) {
+    public PictureSelectorRecyclerAdapter(ArrayList<LocalMedia> result) {
         this.list = result;
     }
 

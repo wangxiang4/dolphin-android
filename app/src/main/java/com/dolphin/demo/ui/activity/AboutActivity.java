@@ -6,23 +6,23 @@ import android.os.PersistableBundle;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 
-import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.KcActivityAppAboutBinding;
-import com.dolphin.demo.ui.vm.AppAboutViewModel;
 import com.dolphin.core.base.BaseActivity;
+import com.dolphin.demo.R;
+import com.dolphin.demo.databinding.ActivityAboutBinding;
+import com.dolphin.demo.ui.vm.AboutViewModel;
 
 /**
  *<p>
- *  APP简介与帮助
+ *  关于
  *</p>
  *
- * @Author: liuSiXiang
+ * @Author: wangxiang4
  * @since: 2022/10/24
  */
-public class AppAboutActivity extends BaseActivity<ActivityAppAboutBinding, AppAboutViewModel> {
+public class AboutActivity extends BaseActivity<ActivityAboutBinding, AboutViewModel> {
     @Override
     public int setContentView(Bundle savedInstanceState) {
-        return R.layout.kc_activity_app_about;
+        return R.layout.activity_about;
     }
 
     @Override

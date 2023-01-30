@@ -38,17 +38,16 @@ import com.blankj.utilcode.util.ObjectUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.dolphin.core.base.BaseActivity;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CommonConstant;
-import com.dolphin.demo.databinding.KcActivityPictureSelectorBinding;
+import com.dolphin.demo.databinding.ActivityPictureSelectorBinding;
 import com.dolphin.demo.engine.ExoPlayerEngine;
 import com.dolphin.demo.engine.GlideEngine;
-import com.dolphin.demo.ui.adapter.PictureSelectorGridAdapter;
+import com.dolphin.demo.ui.adapter.PictureSelectorRecyclerAdapter;
 import com.dolphin.demo.ui.vm.PictureSelectorViewModel;
 import com.dolphin.demo.util.ImageLoaderUtil;
-import com.dolphin.core.BuildConfig;
-import com.dolphin.core.base.BaseActivity;
 import com.luck.lib.camerax.SimpleCameraX;
 import com.luck.lib.camerax.listener.OnSimpleXPermissionDeniedListener;
 import com.luck.lib.camerax.listener.OnSimpleXPermissionDescriptionListener;
@@ -110,7 +109,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
 
     private RecyclerView recyclerView;
     private Button uploadButton;
-    private PictureSelectorGridAdapter mAdapter;
+    private PictureSelectorRecyclerAdapter mAdapter;
     private ImageEngine imageEngine;
     private VideoPlayerEngine videoPlayerEngine;
     private PictureSelectorStyle selectorStyle;
@@ -122,7 +121,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
 
     @Override
     public int setContentView(Bundle savedInstanceState) {
-        return R.layout.kc_activity_picture_selector;
+        return R.layout.activity_picture_selector;
     }
 
     @Override
@@ -148,7 +147,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         }
 
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtil.dip2px(getContext(), 8), false));
-        mAdapter = new PictureSelectorGridAdapter(mData);
+        mAdapter = new PictureSelectorRecyclerAdapter(mData);
         recyclerView.setAdapter(mAdapter);
 
         imageEngine = GlideEngine.createGlideEngine();
@@ -451,7 +450,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         builder.setSpan(new AbsoluteSizeSpan(DensityUtil.dip2px(viewGroup.getContext(), 16)), startIndex, endOf, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         builder.setSpan(new ForegroundColorSpan(0xFF333333), startIndex, endOf, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         view.setText(builder);
-        view.setBackground(ContextCompat.getDrawable(viewGroup.getContext(), R.drawable.kc_ic_permission_desc_bg));
+        view.setBackground(ContextCompat.getDrawable(viewGroup.getContext(), R.drawable.icon_privacy_white_bg));
 
         RelativeLayout.LayoutParams layoutParams =
                 new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

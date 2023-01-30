@@ -6,13 +6,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amap.api.services.route.DrivePath;
-import com.dolphin.demo.BR;
-import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.KcActivityRoutePlanDetailBinding;
-import com.dolphin.demo.ui.adapter.DriveListAdapter;
-import com.dolphin.demo.ui.vm.ToolbarViewModel;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.util.AMapCommonUtil;
+import com.dolphin.demo.BR;
+import com.dolphin.demo.R;
+import com.dolphin.demo.databinding.ActivityRoutePlanDetailBinding;
+import com.dolphin.demo.ui.adapter.DriveListAdapter;
+import com.dolphin.demo.ui.vm.ToolbarViewModel;
 
 /**
  *<p>
@@ -22,11 +22,11 @@ import com.dolphin.core.util.AMapCommonUtil;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/11
  */
-public class DriveRouteDetailActivity extends BaseActivity<KcActivityRoutePlanDetailBinding, ToolbarViewModel> {
+public class DriveRouteDetailActivity extends BaseActivity<ActivityRoutePlanDetailBinding, ToolbarViewModel> {
 
 	@Override
 	public int setContentView(Bundle savedInstanceState) {
-		return R.layout.kc_activity_route_plan_detail;
+		return R.layout.activity_route_plan_detail;
 	}
 
 	@Override
