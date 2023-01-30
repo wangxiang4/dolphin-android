@@ -5,7 +5,7 @@ android {
     defaultConfig {
         // 应用商店唯一标识ID
         // https://developer.android.com/studio/build/application-id?hl=zh-cn
-        applicationId 'com.kicc.collect'
+        applicationId 'com.dolphin.demo'
 
         // 仅保留 xxhdpi 图片资源（目前主流分辨率 1920 * 1080）
         resConfigs 'xxhdpi'
@@ -24,7 +24,7 @@ android {
         config {
             storeFile file('app.jks')
             storePassword '123456'
-            keyAlias 'kicc'
+            keyAlias 'dolphin'
             keyPassword '123456'
             // https://source.android.com/docs/security/features/apksigning?hl=zh-cn
             v1SigningEnabled true

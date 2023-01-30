@@ -6,13 +6,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amap.api.services.route.RidePath;
-import com.dolphin.demo.BR;
-import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.KcActivityRoutePlanDetailBinding;
-import com.dolphin.demo.ui.adapter.RideListAdapter;
-import com.dolphin.demo.ui.vm.ToolbarViewModel;
+import com.dolphin.collect.databinding.ActivityRoutePlanDetailBinding;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.util.AMapCommonUtil;
+import com.dolphin.demo.BR;
+import com.dolphin.demo.R;
+import com.dolphin.demo.ui.adapter.RideListAdapter;
+import com.dolphin.demo.ui.vm.ToolbarViewModel;
 
 /**
  *<p>
