@@ -48,7 +48,7 @@ android {
             signingConfig signingConfigs.config
             // 添加清单占位符
             addManifestPlaceholders([
-                'app_name': 'KICC收样APP Debug 版'
+                'app_name': '海豚生态 Debug 版'
             ])
             // 调试模式下只保留一种主流cpu架构so库,提升打包速度
             ndk {

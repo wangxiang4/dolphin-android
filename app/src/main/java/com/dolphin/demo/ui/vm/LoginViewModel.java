@@ -121,7 +121,7 @@ public class LoginViewModel extends BaseViewModel {
                     MMKV.defaultMMKV().putString(AppConstant.ACCESS_TOKEN_NAME, tokenEnhancer.getAccess_token());
                     MMKV.defaultMMKV().putString(AppConstant.REFRESH_TOKEN_NAME, tokenEnhancer.getRefresh_token());
                     // 请求最好不要使用同步的会阻塞ui主线程,否则超过5秒卡顿会报ANR错误,如果非要创建同步请求,尽力控制在5秒
-                    // 实现方法重写com.kicc.core.http.HttpRequest的retrofit去掉addCallAdapterFactory,极力不推荐
+                    // 实现方法重写com.dolphin.core.http.HttpRequest的retrofit去掉addCallAdapterFactory,极力不推荐
                     // https://developer.android.com/topic/performance/vitals/anr?hl=zh-cn
                     loginService.getUserInfo()
                         .compose(RxUtil.schedulersTransformer())
