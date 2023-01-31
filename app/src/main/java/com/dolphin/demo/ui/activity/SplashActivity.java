@@ -44,8 +44,8 @@ public class SplashActivity extends UmengSplashMessageActivity {
     private void softwarePrivacyAgreement() {
         MapsInitializer.updatePrivacyShow(SplashActivity.this,true,true);
         SpannableStringBuilder spannable = new SpannableStringBuilder(getResources().getString(R.string.privacy_agreement));
-        spannable.setSpan(new ForegroundColorSpan(Color.BLUE), 108, 126, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(Color.RED), 150, 160, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.BLUE), 65, 69, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(Color.RED), 133, 137, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         AlertDialog builder =new AlertDialog.Builder(this, R.style.alert_dialog_white_background)
                 .setTitle("隐私政策")
                 .setMessage(spannable)
