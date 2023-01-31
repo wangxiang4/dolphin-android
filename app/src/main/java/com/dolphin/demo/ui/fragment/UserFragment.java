@@ -1,5 +1,6 @@
 package com.dolphin.demo.ui.fragment;
 
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentUserBinding;
-import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
+import com.dolphin.demo.ui.activity.AboutActivity;
 import com.dolphin.demo.ui.adapter.UserRecyclerAdapter;
 import com.dolphin.demo.ui.vm.UserViewModel;
 
@@ -31,7 +33,7 @@ import java.util.List;
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/7/15
  */
-public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewModel> implements UserRecyclerAdapter.EventListener{
+public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewModel> implements UserRecyclerAdapter.EventListener {
 
     private RecyclerView mRecyclerView;
     private UserRecyclerAdapter mAdapter;
@@ -80,16 +82,18 @@ public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewMode
     public void onItemViewClicked(UserRecyclerAdapter.UserEntity userEntity) {
         switch (userEntity.code) {
             case "1":
+                startActivity(AboutActivity.class);
                 break;
             case "2":
-                break;
-            case "3":
+                new MaterialDialog.Builder(getActivity())
+                    .title("温馨提示")
+                    .content(R.string.login_out)
+                    .positiveText("确认")
+                    .negativeText("取消")
+                    .widgetColor(Color.RED)
+                    .onPositive((dialog, which) -> mViewModel.loginOut()).show();
                 break;
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 }
