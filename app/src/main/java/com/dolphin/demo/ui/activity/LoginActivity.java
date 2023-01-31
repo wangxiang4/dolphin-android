@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     /** 微信登录点击事件 */
     public void wechatLoginClick(View view) {
         if(!UmengClient.isAppInstalled(this, PlatformEnum.WECHAT)) {
-            ToastUtil.show(this, "当前没有安装微信!");
+            ToastUtil.showActivityToast(this, "当前没有安装微信!");
             return;
         }
         UmengClient.login(this, PlatformEnum.WECHAT, (platformEnum, data) -> {
@@ -96,7 +96,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     /** QQ登录点击事件 */
     public void qqLoginClick(View view) {
         if(!UmengClient.isAppInstalled(this, PlatformEnum.QQ)) {
-            ToastUtil.show(this, "当前没有安装QQ!");
+            ToastUtil.showActivityToast(this, "当前没有安装QQ!");
             return;
         }
         UmengClient.login(this, PlatformEnum.QQ, (platformEnum, data) -> {

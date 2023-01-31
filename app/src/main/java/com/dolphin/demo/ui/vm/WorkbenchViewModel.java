@@ -25,4 +25,5 @@ public class WorkbenchViewModel extends ToolbarViewModel{
         super.onCreate(owner);
         super.setTitleText("工作台");
     }
+
 }

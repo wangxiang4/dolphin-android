@@ -17,7 +17,7 @@
         <LinearLayout
             android:id="@+id/top_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/dp_180"
             android:background="@drawable/icon_white_bg_radius3"
             android:layout_below="@id/layout_toolbar">
             <LinearLayout
@@ -35,6 +35,7 @@
             android:orientation="horizontal"
             android:layout_below="@id/top_layout">
             <LinearLayout
+                android:id="@+id/btn_oa1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -54,6 +55,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_oa2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -73,6 +75,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_oa3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -92,6 +95,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/btn_oa4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
@@ -113,7 +117,7 @@
         </LinearLayout>
         <TextView
             android:id="@+id/bottom_text"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/dp_30"
             android:layout_width="match_parent"
             android:text="海豚生态审批工作台"
             android:gravity="center"

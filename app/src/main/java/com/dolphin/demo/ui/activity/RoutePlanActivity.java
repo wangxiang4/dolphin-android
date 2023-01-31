@@ -122,11 +122,11 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 
 	public void searchRouteResult(int routeType, int mode) {
 		if (mOriginPoint == null) {
-			ToastUtil.show(this, "起点未设置");
+			ToastUtil.showActivityToast(this, "起点未设置");
 			return;
 		}
 		if (mDestinationPoint == null) {
-			ToastUtil.show(this, "终点未设置");
+			ToastUtil.showActivityToast(this, "终点未设置");
 		}
 		showProgressDialog();
 		final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(mOriginPoint, mDestinationPoint);

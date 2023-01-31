@@ -1,30 +1,61 @@
 package com.dolphin.core.util;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import com.amap.api.services.core.AMapException;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.dolphin.core.R;
+
+import lombok.experimental.UtilityClass;
 
 /**
  *<p>
- * 高德请求错误码吐司工具
+ * 吐司工具
  *</p>
  *
  * @Author: entfrm开发团队-王翔
  * @since: 2022/11/8
  */
+@UtilityClass
 public class ToastUtil {
 
-    public static void show(Context context, String info) {
-        Toast.makeText(context.getApplicationContext(), info, Toast.LENGTH_LONG).show();
+    public void showBottom(final CharSequence text) {
+        ToastUtils.make()
+                .setLeftIcon(R.drawable.icon_app)
+                .setMode(ToastUtils.MODE.DARK)
+                .setNotUseSystemToast()
+                .setDurationIsLong(false)
+                .show(text);
     }
 
-    public static void show(Context context, int info) {
-        Toast.makeText(context.getApplicationContext(), info, Toast.LENGTH_LONG).show();
+    public void showCenter(final CharSequence text) {
+        ToastUtils.make()
+                .setGravity(Gravity.CENTER, 0, 0)
+                .setLeftIcon(R.drawable.icon_app)
+                .setMode(ToastUtils.MODE.DARK)
+                .setNotUseSystemToast()
+                .setDurationIsLong(false)
+                .show(text);
     }
 
-	public static void showAmapError(Context context, int rCode){
+    public void showTop(final CharSequence text) {
+        ToastUtils.make()
+                .setGravity(Gravity.CENTER_HORIZONTAL, 0, 0)
+                .setLeftIcon(R.drawable.icon_app)
+                .setMode(ToastUtils.MODE.DARK)
+                .setNotUseSystemToast()
+                .setDurationIsLong(false)
+                .show(text);
+    }
+
+    public void showActivityToast(Context context, final CharSequence text) {
+        Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+	public void showAmapError(Context context, int rCode){
 		try {
 	        switch (rCode) {
 	        //服务错误码
