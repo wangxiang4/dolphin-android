@@ -3,7 +3,6 @@ package com.dolphin.demo.ui.adapter;
 import android.view.View;
 
 import com.blankj.utilcode.util.ObjectUtils;
-
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,15 +11,15 @@ import lombok.experimental.Accessors;
 
 /**
  *<p>
- * 首页回收列表数据适配器
+ * 我的回收列表数据适配器
  *</p>
  *
  * @Author: wangxiang4
- * @since: 2023/1/30
+ * @since: 2023/1/31
  */
-public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
+public class UserRecyclerAdapter extends DefaultRecyclerAdapter {
 
-    private List<HomeEntity> mItemList;
+    private List<UserEntity> mItemList;
 
     private EventListener mEventListener;
 
@@ -28,7 +27,7 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
     @Accessors
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class HomeEntity {
+    public static class UserEntity {
 
         public String code;
 
@@ -47,21 +46,21 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
         public Boolean hidesLeftImage;
     }
 
-    public HomeRecyclerAdapter(List<HomeEntity> mItemList){
+    public UserRecyclerAdapter(List<UserEntity> mItemList){
         this.mItemList = mItemList;
     }
 
-    public HomeRecyclerAdapter(List<HomeEntity> mItemList, Boolean hidesDisclosure) {
+    public UserRecyclerAdapter(List<UserEntity> mItemList, Boolean hidesDisclosure) {
         super(null, null, hidesDisclosure, null);
         this.mItemList = mItemList;
     }
 
-    public HomeRecyclerAdapter(List<HomeEntity> mItemList, Boolean hidesDisclosure, Boolean hidesLeftImage) {
+    public UserRecyclerAdapter(List<UserEntity> mItemList, Boolean hidesDisclosure, Boolean hidesLeftImage) {
         super(null, null, hidesDisclosure, hidesLeftImage);
         this.mItemList = mItemList;
     }
 
-    public HomeRecyclerAdapter(List<HomeEntity> mItemList,
+    public UserRecyclerAdapter(List<UserEntity> mItemList,
                                Integer defaultImage,
                                Integer defaultBadge,
                                Boolean hidesDisclosure,
@@ -72,7 +71,7 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
 
     public interface EventListener {
 
-        void onItemViewClicked(HomeEntity homeEntity);
+        void onItemViewClicked(UserEntity userEntity);
 
     }
 
@@ -84,7 +83,7 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         super.onBindViewHolder(viewHolder, position);
-        final HomeEntity item = mItemList.get(position);
+        final UserEntity item = mItemList.get(position);
         viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
         viewHolder.titleLabel.setText(item.title);
         viewHolder.detailLabel.setText(item.detail);
@@ -103,9 +102,9 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
         }
     }
 
-    private void onItemViewClick(HomeEntity homeEntity) {
+    private void onItemViewClick(UserEntity userEntity) {
         if (mEventListener != null && ObjectUtils.isNotEmpty(mItemList)) {
-            mEventListener.onItemViewClicked(homeEntity);
+            mEventListener.onItemViewClicked(userEntity);
         }
     }
 

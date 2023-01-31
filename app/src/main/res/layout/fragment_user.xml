@@ -80,8 +80,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_3"
-                android:background="@drawable/icon_white_bg_radius3" />
+                android:layout_marginTop="@dimen/dp_3" />
         </LinearLayout>
     </LinearLayout>
 </layout>

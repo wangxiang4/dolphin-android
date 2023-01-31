@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,7 +16,7 @@ import com.dolphin.demo.R;
 
 /**
  *<p>
- * 默认回收列表数据适配器
+ * 基础默认回收列表数据适配器
  *</p>
  *
  * @Author: wangxiang4
@@ -27,11 +28,14 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
     protected Integer defaultBadge;
 
-    protected Boolean hidesDisclosure = false;
+    protected Boolean hideDisclosure = false;
+
+    protected Boolean hideLeftImage= false;
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public RelativeLayout contentLayout;
+        public LinearLayout contentLayout;
+        public RelativeLayout leftLayout;
         public ImageView leftImage;
         public ImageView leftBadge;
         public TextView titleLabel;
@@ -42,6 +46,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
         public ViewHolder(@NonNull View v) {
             super(v);
             contentLayout = v.findViewById(R.id.content_layout);
+            leftLayout = v.findViewById(R.id.left_layout);
             leftImage = v.findViewById(R.id.left_image);
             leftBadge = v.findViewById(R.id.left_badge);
             titleLabel = v.findViewById(R.id.title_label);
@@ -51,13 +56,16 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
         }
     }
 
-    protected DefaultRecyclerAdapter(){
-    }
+    protected DefaultRecyclerAdapter(){}
 
-    protected DefaultRecyclerAdapter(Integer defaultImage, Integer defaultBadge, Boolean hidesDisclosure){
+    protected DefaultRecyclerAdapter(Integer defaultImage,
+                                     Integer defaultBadge,
+                                     Boolean hidesDisclosure,
+                                     Boolean hideLeftImage){
         this.defaultImage = defaultImage;
         this.defaultBadge = defaultBadge;
-        this.hidesDisclosure = hidesDisclosure;
+        if (ObjectUtils.isNotEmpty(hidesDisclosure)) this.hideDisclosure = hidesDisclosure;
+        if (ObjectUtils.isNotEmpty(hideLeftImage)) this.hideLeftImage = hideLeftImage;
     }
 
     @Override
@@ -83,7 +91,8 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
             viewHolder.leftBadge.setImageResource(defaultBadge);
         }
 
-        viewHolder.disclosureImage.setVisibility(hidesDisclosure? View.INVISIBLE: View.VISIBLE);
+        viewHolder.disclosureImage.setVisibility(hideDisclosure? View.GONE: View.VISIBLE);
+        viewHolder.leftLayout.setVisibility(hideLeftImage ? View.GONE: View.VISIBLE);
     }
 
 }
