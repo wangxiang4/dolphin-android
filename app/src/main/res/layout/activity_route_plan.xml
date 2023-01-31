@@ -7,7 +7,9 @@
         <variable name="viewModel" type="com.dolphin.demo.ui.vm.RoutePlanViewModel" />
     </data>
     <RelativeLayout
-        android:layout_width="match_parent" android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black5">
         <include
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"

@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/black5"
         android:clipChildren="false">
         <include
             android:id="@+id/picture_selector_toolbar"
