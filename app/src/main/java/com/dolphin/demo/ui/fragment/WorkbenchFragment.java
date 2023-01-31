@@ -2,7 +2,9 @@ package com.dolphin.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -36,4 +38,12 @@ public class WorkbenchFragment extends BaseFragment<FragmentWorkbenchBinding, Wo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImageView toolbarBack = getView().findViewById(R.id.iv_back);
+        toolbarBack.setVisibility(View.INVISIBLE);
+    }
+
 }

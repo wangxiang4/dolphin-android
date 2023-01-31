@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,8 @@ public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewMode
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ImageView toolbarBack = getView().findViewById(R.id.iv_back);
+        toolbarBack.setVisibility(View.INVISIBLE);
         mRecyclerView = getView().findViewById(R.id.recycler_view);
         List<UserRecyclerAdapter.UserEntity> list = CollectionUtils.newArrayList(
                 new UserRecyclerAdapter.UserEntity().setCode("1").setTitle("关于我们").setBadge(0).setImage(R.drawable.icon_about),

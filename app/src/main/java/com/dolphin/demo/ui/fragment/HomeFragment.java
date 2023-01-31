@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,6 +74,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ImageView toolbarBack = getView().findViewById(R.id.iv_back);
+        toolbarBack.setVisibility(View.INVISIBLE);
         mRecyclerView = getView().findViewById(R.id.home_recycler_view);
         List<HomeRecyclerAdapter.HomeEntity> list = CollectionUtils.newArrayList(
                 new HomeRecyclerAdapter.HomeEntity().setCode("1").setTitle("高德地图"),

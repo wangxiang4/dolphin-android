@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,6 +46,8 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ImageView toolbarBack = getView().findViewById(R.id.iv_back);
+        toolbarBack.setVisibility(View.INVISIBLE);
         mRecyclerView = getActivity().findViewById(R.id.recycler_view);
     }
 }
