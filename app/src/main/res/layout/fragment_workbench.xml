@@ -113,7 +113,7 @@
         </LinearLayout>
         <TextView
             android:id="@+id/bottom_text"
-            android:layout_height="25dp"
+            android:layout_height="30dp"
             android:layout_width="match_parent"
             android:text="海豚生态审批工作台"
             android:gravity="center"

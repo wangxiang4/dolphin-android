@@ -31,7 +31,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/title_label"
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="50dp"
@@ -42,7 +42,7 @@
             android:textSize="@dimen/sp_14" />
         <TextView
             android:id="@+id/detail_label"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_90"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/title_label"
@@ -53,7 +53,7 @@
             android:textSize="@dimen/sp_12" />
         <TextView
             android:id="@+id/second_detail_label"
-            android:layout_width="@dimen/dp_100"
+            android:layout_width="@dimen/dp_90"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/detail_label"

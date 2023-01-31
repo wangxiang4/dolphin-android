@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dolphin.demo.R;
-import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
 
 /**
  *<p>
@@ -24,9 +23,9 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
  */
 public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecyclerAdapter.ViewHolder> {
 
-    protected int defaultImage;
+    protected Integer defaultImage;
 
-    protected int defaultBadge;
+    protected Integer defaultBadge;
 
     protected Boolean hidesDisclosure = false;
 
@@ -55,7 +54,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
     protected DefaultRecyclerAdapter(){
     }
 
-    protected DefaultRecyclerAdapter(int defaultImage, int defaultBadge, boolean hidesDisclosure){
+    protected DefaultRecyclerAdapter(Integer defaultImage, Integer defaultBadge, Boolean hidesDisclosure){
         this.defaultImage = defaultImage;
         this.defaultBadge = defaultBadge;
         this.hidesDisclosure = hidesDisclosure;
@@ -75,6 +74,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+
         if (ObjectUtils.isNotEmpty(defaultImage)) {
             viewHolder.leftImage.setImageResource(defaultImage);
         }
@@ -83,7 +83,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
             viewHolder.leftBadge.setImageResource(defaultBadge);
         }
 
-        viewHolder.disclosureImage.setVisibility(hidesDisclosure? View.GONE: View.VISIBLE);
+        viewHolder.disclosureImage.setVisibility(hidesDisclosure? View.INVISIBLE: View.VISIBLE);
     }
 
 }

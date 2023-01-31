@@ -5,6 +5,10 @@ import android.view.View;
 import com.blankj.utilcode.util.ObjectUtils;
 
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  *<p>
@@ -20,6 +24,10 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
 
     private EventListener mEventListener;
 
+    @Data
+    @Accessors
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class HomeEntity {
 
         public String code;
@@ -30,29 +38,18 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
 
         public String secondDetail;
 
-        public int image;
+        public Integer image;
 
-        public int badge;
+        public Integer badge;
 
         public Boolean hidesDisclosure;
-
-        public HomeEntity(String code, String title, String detail, String secondDetail,
-                          int image, int badge, Boolean hidesDisclosure) {
-            this.code = code;
-            this.title = title;
-            this.detail = detail;
-            this.secondDetail = secondDetail;
-            this.image = image;
-            this.badge = badge;
-            this.hidesDisclosure = hidesDisclosure;
-        }
     }
 
     public HomeRecyclerAdapter(List<HomeEntity> mItemList){
         this.mItemList = mItemList;
     }
 
-    public HomeRecyclerAdapter(List<HomeEntity> mItemList, int defaultImage, int defaultBadge, boolean hidesDisclosure){
+    public HomeRecyclerAdapter(List<HomeEntity> mItemList, Integer defaultImage, Integer defaultBadge, Boolean hidesDisclosure){
         super(defaultImage, defaultBadge, hidesDisclosure);
         this.mItemList = mItemList;
     }
@@ -60,6 +57,7 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
     public interface EventListener {
 
         void onItemViewClicked(HomeEntity homeEntity);
+
     }
 
     @Override
@@ -82,7 +80,7 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
             viewHolder.leftBadge.setImageResource(item.badge);
         }
         if (ObjectUtils.isNotEmpty(item.hidesDisclosure)) {
-            viewHolder.disclosureImage.setVisibility(hidesDisclosure? View.GONE: View.VISIBLE);
+            viewHolder.disclosureImage.setVisibility(item.hidesDisclosure? View.INVISIBLE: View.VISIBLE);
         }
     }
 

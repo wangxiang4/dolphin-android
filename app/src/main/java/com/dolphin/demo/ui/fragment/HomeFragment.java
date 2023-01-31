@@ -73,78 +73,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = getView().findViewById(R.id.home_recycler_view);
         List<HomeRecyclerAdapter.HomeEntity> list = CollectionUtils.newArrayList(
-               new HomeRecyclerAdapter.HomeEntity(
-                       "1",
-                       "高德地图",
-                       null,
-                       null,
-                       0,
-                       0,
-                       null
-               ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "2",
-                        "可滑动列表",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "3",
-                        "后台保活",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "4",
-                        "地图路线规划",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "5",
-                        "文件上传",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "6",
-                        "文件下载",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "7",
-                        "图片选择器",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                ),
-                new HomeRecyclerAdapter.HomeEntity(
-                        "8",
-                        "消息通知",
-                        null,
-                        null,
-                        0,
-                        0,
-                        null
-                )
+                new HomeRecyclerAdapter.HomeEntity().setCode("1").setTitle("高德地图"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("2").setTitle("可滑动列表"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("3").setTitle("后台保活"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("4").setTitle("地图路线规划"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("5").setTitle("文件上传"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("6").setTitle("文件下载"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("7").setTitle("图片选择器"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("消息通知")
         );
         final HomeRecyclerAdapter homeRecyclerAdapter = new HomeRecyclerAdapter(list);
         homeRecyclerAdapter.setEventListener(this);
