@@ -1,11 +1,13 @@
 package com.dolphin.demo.ui.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.afollestad.materialdialogs.Theme;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.base.BaseViewModel;
 import com.dolphin.core.constant.AppConstant;
@@ -20,8 +22,11 @@ import com.dolphin.demo.ui.fragment.WorkbenchFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.majiajie.pagerbottomtabstrip.MaterialMode;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
+import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
+import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 /**
@@ -67,12 +72,11 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     }
 
     private void initBottomTab(int position) {
-        NavigationController navigationController = pageNavigationView.material()
-                .addItem(R.drawable.icon_home, "首页")
-                .addItem(R.drawable.icon_workbench, "工作台")
-                .addItem(R.drawable.icon_message,"消息")
-                .addItem(R.drawable.icon_user, "我的")
-                .setDefaultColor(ContextCompat.getColor(this, R.color.black))
+        NavigationController navigationController = pageNavigationView.custom()
+                .addItem(normalItem(R.drawable.icon_home, R.drawable.icon_home_app_them, "首页"))
+                .addItem(normalItem(R.drawable.icon_workbench, R.drawable.icon_workbench_app_them, "工作台"))
+                .addItem(normalItem(R.drawable.icon_notification, R.drawable.icon_notification_app_them,"消息"))
+                .addItem(normalItem(R.drawable.icon_settings, R.drawable.icon_settings_app_them, "我的"))
                 .build();
         // 设置默认底部按钮选中
         navigationController.setSelect(position);
@@ -87,6 +91,18 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
             public void onRepeat(int index) {
             }
         });
+        //设置消息数
+        navigationController.setMessageNumber(2, 8);
+        //设置显示小圆点
+        navigationController.setHasMessage(0, true);
+    }
+
+    private BaseTabItem normalItem(int drawable, int checkedDrawable, String text) {
+        NormalItemView normalItemView = new NormalItemView(this);
+        normalItemView.initialize(drawable, checkedDrawable, text);
+        normalItemView.setTextDefaultColor(ContextCompat.getColor(this, R.color.black));
+        normalItemView.setTextCheckedColor(ContextCompat.getColor(this, R.color.common_app_them));
+        return normalItemView;
     }
 
     private void commitAllowingStateLoss(int position) {
@@ -102,7 +118,7 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
         transaction.commitAllowingStateLoss();
     }
 
-    // 隐藏所有Fragment
+    /** 隐藏所有Fragment */
     private void hideAllFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         for (int i = 0; i < mFragments.size(); i++) {
