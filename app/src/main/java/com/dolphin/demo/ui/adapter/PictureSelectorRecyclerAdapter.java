@@ -83,7 +83,7 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View view = inflater.inflate(R.layout.item_filter_picture_selector, parent, false);
+        final View view = inflater.inflate(R.layout.item_picture_selector, parent, false);
         return new ViewHolder(view);
     }
 
