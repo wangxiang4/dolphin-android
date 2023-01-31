@@ -9,18 +9,10 @@ import androidx.databinding.ObservableInt;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.CacheDiskUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
-import com.dolphin.demo.app.AppApplication;
-import com.dolphin.demo.constant.CacheConstant;
-import com.dolphin.demo.di.component.DaggerServiceComponent;
-import com.dolphin.demo.entity.TokenEnhancer;
-import com.dolphin.demo.entity.User;
-import com.dolphin.demo.service.LoginService;
-import com.dolphin.demo.ui.activity.TabBarActivity;
 import com.dolphin.core.base.BaseViewModel;
 import com.dolphin.core.binding.command.BindingCommand;
 import com.dolphin.core.bus.SingleLiveEvent;
@@ -29,6 +21,13 @@ import com.dolphin.core.entity.DolphinUser;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.util.RxUtil;
+import com.dolphin.demo.app.AppApplication;
+import com.dolphin.demo.constant.CacheConstant;
+import com.dolphin.demo.di.component.DaggerServiceComponent;
+import com.dolphin.demo.entity.TokenEnhancer;
+import com.dolphin.demo.entity.User;
+import com.dolphin.demo.service.LoginService;
+import com.dolphin.demo.ui.activity.TabBarActivity;
 import com.tencent.mmkv.MMKV;
 
 import javax.inject.Inject;
@@ -52,7 +51,7 @@ public class LoginViewModel extends BaseViewModel {
     LoginService loginService;
 
     /** 用户名称 */
-    public ObservableField<String> username = new ObservableField("王权富贵");
+    public ObservableField<String> username = new ObservableField("admin");
 
     /** 用户密码 */
     public ObservableField<String> password = new ObservableField("123456");
@@ -97,6 +96,15 @@ public class LoginViewModel extends BaseViewModel {
     public BindingCommand passwordVisibleClickCommand = new BindingCommand(() ->
             passwordSwitchEvent.setValue(ObjectUtils.isEmpty(passwordSwitchEvent.getValue()) || !passwordSwitchEvent.getValue()));
 
+    public LoginViewModel(@NonNull Application application) {
+        super(application);
+        // 注入服务组件
+        DaggerServiceComponent
+                .builder()
+                .appComponent(((AppApplication)Utils.getApp().getApplicationContext()).appComponent)
+                .build().inject(this);
+    }
+
     /** 登录按钮点击事件 */
     public BindingCommand loginClickCommand = new BindingCommand(() -> {
         if (StringUtils.isTrimEmpty(username.get())) {
@@ -117,7 +125,6 @@ public class LoginViewModel extends BaseViewModel {
             .subscribe(new DisposableObserver<TokenEnhancer>() {
                 @Override
                 public void onNext(TokenEnhancer tokenEnhancer) {
-                    LogUtils.i("访问token",tokenEnhancer.getAccess_token());
                     MMKV.defaultMMKV().putString(AppConstant.ACCESS_TOKEN_NAME, tokenEnhancer.getAccess_token());
                     MMKV.defaultMMKV().putString(AppConstant.REFRESH_TOKEN_NAME, tokenEnhancer.getRefresh_token());
                     // 请求最好不要使用同步的会阻塞ui主线程,否则超过5秒卡顿会报ANR错误,如果非要创建同步请求,尽力控制在5秒
@@ -163,19 +170,10 @@ public class LoginViewModel extends BaseViewModel {
             });
     });
 
-    public LoginViewModel(@NonNull Application application) {
-        super(application);
-        // 注入服务组件
-        DaggerServiceComponent
-                .builder()
-                    .appComponent(((AppApplication)Utils.getApp().getApplicationContext()).appComponent)
-                .build().inject(this);
-    }
-
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
         super.onCreate(owner);
-        // 检查token是否有效,避免调入首页请求错误又调到登录活动中
+        // 记住用户名与密码
         if(!StringUtils.isTrimEmpty(MMKV.defaultMMKV().getString(AppConstant.ACCESS_TOKEN_NAME,null))){
             username.set(MMKV.defaultMMKV().getString(CacheConstant.LOGIN_USERNAME,null));
             password.set(MMKV.defaultMMKV().getString(CacheConstant.LOGIN_PASSWORD,null));

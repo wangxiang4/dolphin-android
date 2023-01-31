@@ -4,11 +4,11 @@
 
     <!-- 用于访问网络,网络定位需要上网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 读取手机WIFI的状态-->
+    <!-- 读取手机WIFI的状态 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 用于读取手机网络的状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--读取手机状态和身份权限-->
+    <!-- 读取手机状态和身份权限 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 外部存储 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

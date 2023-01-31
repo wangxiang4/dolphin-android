@@ -22,10 +22,10 @@ public interface AppConstant {
     /** 临时保存容器活动碎片类实例,完全退出程序会消失 */
     String TEMP_CONTAINER_FRAGMENT_INSTANCE_STATE = "TEMP_CONTAINER_FRAGMENT_INSTANCE_STATE";
 
-    /** 刷新token */
+    /** 访问token */
     String ACCESS_TOKEN_NAME = "DOLPHIN_ACCESS_TOKEN";
 
-    /** 访问token */
+    /** 刷新token */
     String REFRESH_TOKEN_NAME = "DOLPHIN_REFRESH_TOKEN";
 
     /** 通用权限请求码(可以自定义请求权限对应各自的请求码) */

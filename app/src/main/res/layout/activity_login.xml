@@ -100,8 +100,8 @@
                     android:layout_marginRight="@dimen/dp_50"
                     android:background="@color/gray" />
                 <Button
-                    android:layout_width="@dimen/dp_300"
-                    android:layout_height="@dimen/dp_40"
+                    android:layout_width="@dimen/dp_240"
+                    android:layout_height="@dimen/dp_30"
                     android:layout_marginTop="@dimen/dp_45"
                     android:background="@drawable/icon_btn_circle_bg"
                     android:text="登 录"
