@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_44"
-    android:background="@drawable/icon_white_item_bg"
+    android:background="@drawable/icon_white_bg_stroke1"
     android:minHeight="@dimen/dp_44">
     <RelativeLayout
         android:id="@+id/behind_layout"
@@ -55,7 +55,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/content_layout"
-        android:background="@drawable/icon_white_item_bg"
+        android:background="@drawable/icon_white_bg_stroke1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout

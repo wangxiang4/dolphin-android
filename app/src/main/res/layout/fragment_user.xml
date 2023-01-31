@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dolphin.demo.ui.fragment.UserFragment">
     <data>
-        <variable name="viewModel" type="com.dolphin.demo.ui.vm.UserViewModel" />
+        <variable
+            name="viewModel" type="com.dolphin.demo.ui.vm.UserViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,52 +19,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_3"
+            android:layout_marginTop="@dimen/dp_3"
+            android:layout_marginRight="@dimen/dp_3"
             android:layout_weight="2"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_98"
+                android:layout_height="@dimen/dp_80"
                 android:layout_gravity="bottom"
-                android:background="@drawable/icon_white_bg">
-                <ImageView
-                    android:id="@+id/avatar"
+                android:background="@drawable/icon_white_bg_radius10">
+                <RelativeLayout
+                    android:id="@+id/left_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginStart="15dp">
+                    <ImageView
+                        android:id="@+id/avatar"
+                        android:layout_width="@dimen/dp_50"
+                        android:layout_height="@dimen/dp_50"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/icon_defaultavatar" />
+                </RelativeLayout>
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/dp_15"
-                    android:layout_marginTop="@dimen/dp_15"
-                    android:layout_marginBottom="@dimen/dp_15"
-                    android:layout_weight="1"
-                    android:src="@drawable/icon_defaultavatar" />
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/nickName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_19"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:id="@+id/remarks"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/dp_6"
-                        android:textColor="@color/black45" />
-                </LinearLayout>
+                    android:layout_weight="2">
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_120"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/nickName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewModel.user.nickName}"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_14"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/remarks"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/dp_6"
+                            android:text="@{viewModel.user.remarks}"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/black90"
+                            android:textSize="@dimen/sp_12" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"
-                android:background="@drawable/icon_white_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp_10" />
+                android:layout_marginTop="@dimen/dp_3"
+                android:background="@drawable/icon_white_bg_radius3" />
         </LinearLayout>
     </LinearLayout>
 </layout>

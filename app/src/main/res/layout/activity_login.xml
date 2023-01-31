@@ -25,7 +25,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp_140"
                     android:layout_height="@dimen/dp_140"
-                    android:src="@drawable/icon_login_logo" />
+                    android:src="@drawable/icon_dolphin" />
                 <!-- 输入框 -->
                 <LinearLayout
                     android:layout_width="match_parent"

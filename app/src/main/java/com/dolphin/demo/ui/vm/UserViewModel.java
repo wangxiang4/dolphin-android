@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.CacheDiskUtils;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;
@@ -35,7 +36,7 @@ public class UserViewModel extends ToolbarViewModel {
     @Inject
     LoginService loginService;
 
-    User user = CacheDiskUtils.getInstance().getParcelable(CacheConstant.USER_INFO, User.CREATOR);
+    public User user = CacheDiskUtils.getInstance().getParcelable(CacheConstant.USER_INFO, User.CREATOR, new User());
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
