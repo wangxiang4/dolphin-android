@@ -26,7 +26,16 @@ import io.reactivex.functions.Consumer;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/16
  */
-public class BaseViewModel extends AndroidViewModel implements IBaseViewModel, Consumer<Disposable> {
+public class BaseViewModel<A> extends AndroidViewModel implements IBaseViewModel, Consumer<Disposable> {
+
+    /** 当前页码 */
+    public Integer pageCurrent = 1;
+
+    /** 页面大小 */
+    public Integer pageSize = 10;
+
+    /** 视图活动 */
+    public A mActivity;
 
     /** ui处理订阅发布监听处理  */
     private UiObservable mUiObservable;
@@ -44,7 +53,7 @@ public class BaseViewModel extends AndroidViewModel implements IBaseViewModel, C
     }
 
     protected void showDialog() {
-        showDialog("拼命加速中...");
+        showDialog("加载中...");
     }
 
     protected void showDialog(String title) {

@@ -23,7 +23,6 @@ import com.amap.api.services.route.RouteSearch.DriveRouteQuery;
 import com.amap.api.services.route.RouteSearch.OnRouteSearchListener;
 import com.amap.api.services.route.RouteSearch.RideRouteQuery;
 import com.amap.api.services.route.WalkRouteResult;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dolphin.core.amap.overlay.DrivingRouteOverlay;
 import com.dolphin.core.amap.overlay.RideRouteOverlay;
 import com.dolphin.core.base.BaseActivity;
@@ -122,11 +121,11 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 
 	public void searchRouteResult(int routeType, int mode) {
 		if (mOriginPoint == null) {
-			ToastUtil.showActivityToast(this, "起点未设置");
+			ToastUtil.show("起点未设置");
 			return;
 		}
 		if (mDestinationPoint == null) {
-			ToastUtil.showActivityToast(this, "终点未设置");
+			ToastUtil.show("终点未设置");
 		}
 		showProgressDialog();
 		final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(mOriginPoint, mDestinationPoint);
@@ -147,11 +146,11 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		closeProgressDialog();
 		aMap.clear();
 		if (errorCode != AMapException.CODE_AMAP_SUCCESS) {
-			ToastUtil.showAmapError(this, errorCode);
+			ToastUtil.showAmapError(errorCode);
 			return;
 		}
 		if (result == null && result.getPaths() == null) {
-			ToastUtils.showLong("对不起,没有搜索到相关数据！");
+			ToastUtil.show("对不起,没有搜索到相关数据！");
 			return;
 		}
 		if (result.getPaths().size() > 0) {
@@ -187,11 +186,11 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		closeProgressDialog();
 		aMap.clear();
 		if (errorCode != AMapException.CODE_AMAP_SUCCESS) {
-			ToastUtil.showAmapError(this, errorCode);
+			ToastUtil.showAmapError(errorCode);
 			return;
 		}
 		if (result == null && result.getPaths() == null) {
-			ToastUtils.showLong("对不起,没有搜索到相关数据！");
+			ToastUtil.show("对不起,没有搜索到相关数据！");
 			return;
 		}
 		if (result.getPaths().size() > 0) {

@@ -10,18 +10,17 @@ import android.view.View;
 
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.google.gson.Gson;
-import com.dolphin.demo.BR;
-import com.dolphin.demo.R;
-import com.dolphin.demo.databinding.ActivityLoginBinding;
-import com.dolphin.demo.ui.vm.LoginViewModel;
 import com.dolphin.core.base.BaseActivity;
 import com.dolphin.core.constant.AppConstant;
 import com.dolphin.core.util.PermissionUtil;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.demo.BR;
+import com.dolphin.demo.R;
+import com.dolphin.demo.databinding.ActivityLoginBinding;
+import com.dolphin.demo.ui.vm.LoginViewModel;
 import com.dolphin.umeng.UmengClient;
 import com.dolphin.umeng.enums.PlatformEnum;
+import com.google.gson.Gson;
 import com.tencent.mmkv.MMKV;
 
 import java.util.ArrayList;
@@ -84,24 +83,24 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     /** 微信登录点击事件 */
     public void wechatLoginClick(View view) {
         if(!UmengClient.isAppInstalled(this, PlatformEnum.WECHAT)) {
-            ToastUtil.showActivityToast(this, "当前没有安装微信!");
+            ToastUtil.show("当前没有安装微信!");
             return;
         }
         UmengClient.login(this, PlatformEnum.WECHAT, (platformEnum, data) -> {
             if (ObjectUtils.isEmpty(data)) return;
-            ToastUtils.showLong(new Gson().toJson(data));
+            ToastUtil.show(new Gson().toJson(data));
         });
     }
 
     /** QQ登录点击事件 */
     public void qqLoginClick(View view) {
         if(!UmengClient.isAppInstalled(this, PlatformEnum.QQ)) {
-            ToastUtil.showActivityToast(this, "当前没有安装QQ!");
+            ToastUtil.show("当前没有安装QQ!");
             return;
         }
         UmengClient.login(this, PlatformEnum.QQ, (platformEnum, data) -> {
             if (ObjectUtils.isEmpty(data)) return;
-            ToastUtils.showLong(new Gson().toJson(data));
+            ToastUtil.show(new Gson().toJson(data));
         });
     }
 

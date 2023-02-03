@@ -19,6 +19,7 @@ import com.trello.rxlifecycle4.components.support.RxFragment;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
 /**
  *<p>
  * 安卓基础碎片

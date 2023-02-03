@@ -18,7 +18,7 @@ import com.dolphin.core.binding.command.BindingCommand;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/3
  */
-public class ToolbarViewModel extends BaseViewModel {
+public class ToolbarViewModel<A> extends BaseViewModel<A> {
 
     /**
      * 标题文字

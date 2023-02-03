@@ -35,7 +35,6 @@ import com.amap.api.services.route.WalkRouteResult;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.dolphin.core.amap.LocationRequest;
 import com.dolphin.core.amap.overlay.DrivingRouteOverlay;
 import com.dolphin.core.base.BaseFragment;
@@ -142,7 +141,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                 });
             }
         } else {
-            ToastUtil.showAmapError(getActivity(), location.getErrorCode());
+            ToastUtil.showAmapError(location.getErrorCode());
         }
     };
 
@@ -258,11 +257,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     @Override
     public void onDriveRouteSearched(DriveRouteResult result, int errorCode) {
         if (errorCode != AMapException.CODE_AMAP_SUCCESS) {
-            ToastUtil.showAmapError(getActivity(), errorCode);
+            ToastUtil.showAmapError(errorCode);
             return;
         }
         if (result == null && result.getPaths() == null) {
-            ToastUtils.showLong("对不起,没有搜索到相关数据！");
+            ToastUtil.show("对不起,没有搜索到相关数据！");
             return;
         }
         if (result.getPaths().size() > 0) {
@@ -325,7 +324,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
             if (null != location) {
                 switch (location.getLocationQualityReport().getGPSStatus()){
                     case AMapLocationQualityReport.GPS_STATUS_NOGPSPROVIDER:
-                        ToastUtils.showLong("手机中没有GPS模块提供,无法进行GPS定位,请更换设备");
+                        ToastUtil.show("手机中没有GPS模块提供,无法进行GPS定位,请更换设备");
                         break;
                     case AMapLocationQualityReport.GPS_STATUS_OFF:
                         PermissionUtil.openApplicationSettings(getActivity(), "GPS关闭,建议开启GPS,提高定位质量");
@@ -334,7 +333,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                         PermissionUtil.openApplicationSettings(getActivity(), "没有GPS定位权限,建议开启gps定位权限");
                         break;
                 }
-            } else ToastUtils.showLong("定位失败,请联系系统管理员!");
+            } else ToastUtil.show("定位失败,请联系系统管理员!");
             singleLocationClient.onDestroy();
         });
     }

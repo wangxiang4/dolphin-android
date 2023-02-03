@@ -15,12 +15,24 @@
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10" />
+            tools:ignore="MissingClass">
+            <ezy.ui.layout.LoadingLayout
+                android:id="@+id/loading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10" />
+            </ezy.ui.layout.LoadingLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
     </LinearLayout>
 </layout>

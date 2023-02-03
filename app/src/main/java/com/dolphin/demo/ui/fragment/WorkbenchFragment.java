@@ -65,7 +65,7 @@ public class WorkbenchFragment extends BaseFragment<FragmentWorkbenchBinding, Wo
             ToastUtil.showBottom("你刚刚点击了辞职申请");
         });
         btnOa4.setOnClickListener(v -> {
-            ToastUtil.showActivityToast(getActivity(),"你刚刚点击了死亡证明");
+            ToastUtil.show("你刚刚点击了死亡证明");
         });
     }
 

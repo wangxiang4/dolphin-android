@@ -39,6 +39,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.dolphin.core.base.BaseActivity;
+import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CommonConstant;
@@ -85,7 +86,6 @@ import com.luck.picture.lib.utils.DensityUtil;
 import com.luck.picture.lib.utils.MediaUtils;
 import com.luck.picture.lib.utils.PictureFileUtils;
 import com.luck.picture.lib.utils.StyleUtils;
-import com.luck.picture.lib.utils.ToastUtils;
 import com.luck.picture.lib.widget.MediumBoldTextView;
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropImageEngine;
@@ -377,7 +377,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         @Override
         public boolean onSelectLimitTips(Context context, @Nullable LocalMedia media, PictureSelectionConfig config, int limitType) {
             if (limitType == SelectLimitType.SELECT_NOT_SUPPORT_SELECT_LIMIT) {
-                ToastUtils.showToast(context, "暂不支持的选择类型");
+                ToastUtil.show("暂不支持的选择类型");
                 return true;
             }
             return false;

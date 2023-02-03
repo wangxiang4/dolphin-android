@@ -199,6 +199,27 @@ ext {
         // https://github.com/google/ExoPlayer
         'exoplayer'                            : 'com.google.android.exoplayer:exoplayer:2.18.0',
 
+        // 下拉刷新框架
+        // https://github.com/scwang90/SmartRefreshLayout
+        'refresh-layout-kernel'                : 'io.github.scwang90:refresh-layout-kernel:2.0.5',
+        // 经典刷新头
+        'refresh-header-classics'              : 'io.github.scwang90:refresh-header-classics:2.0.5',
+        // 雷达刷新头
+        'refresh-header-radar'                 : 'io.github.scwang90:refresh-header-radar:2.0.5',
+        // 虚拟刷新头
+        'refresh-header-falsify'               : 'io.github.scwang90:refresh-header-falsify:2.0.5',
+        // 谷歌刷新头
+        'refresh-header-material'              : 'io.github.scwang90:refresh-header-material:2.0.5',
+        // 二级刷新头
+        'refresh-header-two-level'             : 'io.github.scwang90:refresh-header-two-level:2.0.5',
+        // 球脉冲加载
+        'refresh-footer-ball'                  : 'io.github.scwang90:refresh-footer-ball:2.0.5',
+        // 经典加载
+        'refresh-footer-classics'              : 'io.github.scwang90:refresh-footer-classics:2.0.5',
+
+        // 多状态布局
+        // https://github.com/czy1121/loadinglayout
+        'loadinglayout'                        : 'com.github.czy1121:loadinglayout:1.0.1'
     ]
 
 }

@@ -1,12 +1,12 @@
 package com.dolphin.core.util;
 
-import android.content.Context;
 import android.view.Gravity;
 import android.widget.Toast;
 
 import com.amap.api.services.core.AMapException;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.R;
 
 import lombok.experimental.UtilityClass;
@@ -51,11 +51,11 @@ public class ToastUtil {
                 .show(text);
     }
 
-    public void showActivityToast(Context context, final CharSequence text) {
-        Toast.makeText(context.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    public void show(final CharSequence text) {
+        Toast.makeText(Utils.getApp(), text, Toast.LENGTH_SHORT).show();
     }
 
-	public void showAmapError(Context context, int rCode){
+	public void showAmapError(int rCode){
 		try {
 	        switch (rCode) {
 	        //服务错误码
@@ -160,13 +160,13 @@ public class ToastUtil {
 	        case 4001:
 	        	throw new AMapException(AMapException.AMAP_SHARE_FAILURE); 
 	        default:
-	        	Toast.makeText(context,"查询失败："+rCode , Toast.LENGTH_LONG).show();
+	        	Toast.makeText(Utils.getApp(),"查询失败："+rCode , Toast.LENGTH_LONG).show();
                 LogUtils.i("查询失败", rCode,
                         "高德地图错误码查询地址:http://lbs.amap.com/api/android-sdk/guide/map-tools/error-code/");
                 break;
 	        }
         } catch (Exception e) {
-            Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(Utils.getApp(), e.getMessage(), Toast.LENGTH_LONG).show();
             LogUtils.e("查询失败", rCode,
                     "高德地图错误码查询地址:http://lbs.amap.com/api/android-sdk/guide/map-tools/error-code/");
         }

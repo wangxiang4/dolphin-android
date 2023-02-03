@@ -2,7 +2,7 @@ package com.dolphin.core.http.exception;
 
 import android.net.ParseException;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.dolphin.core.util.ToastUtil;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.MalformedJsonException;
 import com.dolphin.core.constant.ExceptionCodeConstant;
@@ -115,10 +115,10 @@ public class ExceptionHandle {
     public static void baseExceptionMsg (Throwable e){
         e.printStackTrace();
         if (e instanceof ResponseException) {
-            ToastUtils.showShort(((ResponseException) e).message);
+            ToastUtil.show(((ResponseException) e).message);
             return;
         }
-        ToastUtils.showShort("未知错误,请联系系统管理员!");
+        ToastUtil.show("未知错误,请联系系统管理员!");
     }
 }
 

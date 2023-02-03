@@ -3,6 +3,7 @@ package com.dolphin.demo.di.component;
 import com.dolphin.demo.di.module.MapperModule;
 import com.dolphin.demo.di.scope.MapperScope;
 import com.dolphin.demo.service.Impl.LoginServiceImpl;
+import com.dolphin.demo.service.Impl.MessageServiceImpl;
 
 import dagger.Component;
 
@@ -19,5 +20,7 @@ import dagger.Component;
 public interface MapperComponent {
 
     void inject(LoginServiceImpl impl);
+
+    void inject(MessageServiceImpl impl);
 
 }

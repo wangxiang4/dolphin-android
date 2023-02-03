@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.blankj.utilcode.util.ObjectUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.binding.command.BindingCommand;
 import com.dolphin.core.enums.FileObservableStatusEnum;
@@ -20,6 +19,7 @@ import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.http.file.DownLoadFile;
 import com.dolphin.core.http.observer.BaseDownLoadDisposableObserver;
 import com.dolphin.core.util.RxUtil;
+import com.dolphin.core.util.ToastUtil;
 
 import java.io.File;
 
@@ -54,7 +54,7 @@ public class HomeViewModel extends ToolbarViewModel {
                 @Override
                 public void onComplete() {
                     updateNotification(-1);
-                    ToastUtils.showLong("当前文件保存目录" + percent.getDestFileDir() + File.separator + percent.getDestFileName());
+                    ToastUtil.show("当前文件保存目录" + percent.getDestFileDir() + File.separator + percent.getDestFileName());
                 }
 
                 @Override

@@ -11,7 +11,6 @@ import androidx.lifecycle.LifecycleOwner;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.base.BaseViewModel;
 import com.dolphin.core.binding.command.BindingCommand;
@@ -21,6 +20,7 @@ import com.dolphin.core.entity.DolphinUser;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.util.RxUtil;
+import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.app.AppApplication;
 import com.dolphin.demo.constant.CacheConstant;
 import com.dolphin.demo.di.component.DaggerServiceComponent;
@@ -108,11 +108,11 @@ public class LoginViewModel extends BaseViewModel {
     /** 登录按钮点击事件 */
     public BindingCommand loginClickCommand = new BindingCommand(() -> {
         if (StringUtils.isTrimEmpty(username.get())) {
-            ToastUtils.showShort("请输入用户名称!");
+            ToastUtil.show("请输入用户名称!");
             return;
         }
         if (StringUtils.isTrimEmpty(password.get())) {
-            ToastUtils.showShort("请输入用户密码!");
+            ToastUtil.show("请输入用户密码!");
             return;
         }
         // 请求采用 RxJava2CallAdapterFactory 订阅监听处理
@@ -144,7 +144,7 @@ public class LoginViewModel extends BaseViewModel {
                                     CacheDiskUtils.getInstance().put(CacheConstant.USER_INFO, user);
                                     MMKV.defaultMMKV().putString(CacheConstant.LOGIN_USERNAME, username.get());
                                     MMKV.defaultMMKV().putString(CacheConstant.LOGIN_PASSWORD, password.get());
-                                } else ToastUtils.showShort(R.getMsg());
+                                } else ToastUtil.show(R.getMsg());
                             }
                             @Override
                             public void onError(Throwable e) {

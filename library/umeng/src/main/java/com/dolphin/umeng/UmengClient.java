@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.dolphin.core.bus.RxBus;
+import com.dolphin.core.constant.AppConstant;
+import com.dolphin.core.entity.MapLogisticPoint;
+import com.dolphin.core.util.ToastUtil;
 import com.dolphin.umeng.enums.PlatformEnum;
 import com.dolphin.umeng.listener.UmengLoginListener;
 import com.dolphin.umeng.listener.UmengShareListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.dolphin.core.bus.RxBus;
-import com.dolphin.core.constant.AppConstant;
-import com.dolphin.core.entity.MapLogisticPoint;
 import com.tencent.tauth.Tencent;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -130,7 +130,7 @@ public final class UmengClient {
                     MapLogisticPoint mapLogisticPoint = new Gson().fromJson(msg.custom, MapLogisticPoint.class);
                     RxBus.getInstance().postSticky(mapLogisticPoint);
                     Utils.getApp().startActivity(intent);
-                } else ToastUtils.showLong("传递消息参数数据格式错误!");
+                } else ToastUtil.show("传递消息参数数据格式错误!");
             }
         };
         // 使用自定义的NotificationHandler

@@ -1,5 +1,7 @@
 package com.dolphin.demo.app;
 
+import android.content.Context;
+
 import com.bumptech.glide.Glide;
 import com.dolphin.demo.R;
 import com.dolphin.demo.di.component.AppComponent;
@@ -9,6 +11,14 @@ import com.dolphin.core.BuildConfig;
 import com.dolphin.core.base.BaseApplication;
 import com.dolphin.core.crash.CaocConfig;
 import com.dolphin.umeng.UmengClient;
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.ClassicsHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import javax.inject.Inject;
@@ -68,6 +78,20 @@ public class AppApplication extends BaseApplication {
 
         // 友盟统计、登录、分享 SDK
         UmengClient.init(this, BuildConfig.DEBUG);
+
+        // 设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            // 全局设置主题颜色
+            layout.setPrimaryColorsId(R.color.design_default_color_primary, android.R.color.white);
+            // 指定为经典Header，默认是 贝塞尔雷达Header
+            return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));
+        });
+        // 设置全局的Footer构建器
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            //指定为经典Footer，默认是 BallPulseFooter
+            return new ClassicsFooter(context).setDrawableSize(20);
+        });
+
     }
 
     @Override
