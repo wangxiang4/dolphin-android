@@ -70,6 +70,7 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         } else refresh.finishRefreshWithNoMoreData();
                     } else {
                         refresh.finishRefresh(false);
+                        mActivity.mLoadingLayout.showEmpty();
                         ToastUtil.show(R.getMsg());
                     }
                 }
@@ -104,6 +105,7 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         } else layout.finishLoadMoreWithNoMoreData();
                     } else {
                         layout.finishLoadMore(false);
+                        mActivity.mLoadingLayout.showEmpty();
                         ToastUtil.show(R.getMsg());
                     }
                 }
