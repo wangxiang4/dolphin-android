@@ -52,8 +52,8 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
         super.setTitleText("消息");
     }
 
-    /** 下拉刷新查询消息列表 */
-    public void refreshListMessage(RefreshLayout refresh) {
+    /** 下拉刷新 */
+    public void refresh(RefreshLayout refresh) {
         super.pageCurrent = 1;
         messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent), Pair.create("size", pageSize)))
             .compose(RxUtil.schedulersTransformer())
@@ -67,29 +67,29 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         mActivity.mAdapter.refresh(R.getData());
                         if (mActivity.mAdapter.getItemCount() < R.getTotal()) {
                             refresh.finishRefresh();
-                        } else refresh.finishLoadMoreWithNoMoreData();
-                        if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
+                        } else refresh.finishRefreshWithNoMoreData();
                     } else {
-                        refresh.finishLoadMore(false);
-                        mActivity.mLoadingLayout.showEmpty();
+                        refresh.finishRefresh(false);
                         ToastUtil.show(R.getMsg());
                     }
                 }
                 @Override
                 public void onError(Throwable e) {
-                    refresh.finishLoadMore(false);
+                    refresh.finishRefresh(false);
                     mActivity.mLoadingLayout.showEmpty();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
                 public void onComplete() {
-                    mActivity.mLoadingLayout.showContent();
+                    if (mActivity.mAdapter.getItemCount() > 0) {
+                        mActivity.mLoadingLayout.showContent();
+                    } else mActivity.mLoadingLayout.showEmpty();
                 }
             });
     }
 
-    /** 上拉加载查询消息列表 */
-    public void footerListMessage(RefreshLayout layout) {
+    /** 加载更多 */
+    public void loadMore(RefreshLayout layout) {
         messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent += 1), Pair.create("size", pageSize)))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
@@ -102,10 +102,8 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         if (mActivity.mAdapter.getItemCount() < R.getTotal()) {
                             layout.finishLoadMore();
                         } else layout.finishLoadMoreWithNoMoreData();
-                        if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     } else {
                         layout.finishLoadMore(false);
-                        mActivity.mLoadingLayout.showEmpty();
                         ToastUtil.show(R.getMsg());
                     }
                 }
@@ -116,7 +114,11 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
-                public void onComplete() {}
+                public void onComplete() {
+                    if (mActivity.mAdapter.getItemCount() > 0) {
+                        mActivity.mLoadingLayout.showContent();
+                    } else mActivity.mLoadingLayout.showEmpty();
+                }
             });
     }
 

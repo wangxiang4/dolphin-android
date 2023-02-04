@@ -85,14 +85,14 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
 
         // 开启自动加载功能（非必须）
         mRefreshLayout.setEnableAutoLoadMore(true);
-        mRefreshLayout.setOnRefreshListener(mViewModel::refreshListMessage);
-        mRefreshLayout.setOnLoadMoreListener(mViewModel::footerListMessage);
+        mRefreshLayout.setOnRefreshListener(mViewModel::refresh);
+        mRefreshLayout.setOnLoadMoreListener(mViewModel::loadMore);
         mLoadingLayout.setRetryListener(v -> {
             mLoadingLayout.showContent();
             mRefreshLayout.autoRefresh();
         });
-        //mLoadingLayout.showContent();
-        //mRefreshLayout.autoRefresh();
+        mLoadingLayout.showContent();
+        mRefreshLayout.autoRefresh();
 
     }
 

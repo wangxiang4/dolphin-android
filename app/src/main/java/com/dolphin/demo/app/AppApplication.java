@@ -10,6 +10,7 @@ import com.dolphin.demo.ui.activity.LoginActivity;
 import com.dolphin.core.BuildConfig;
 import com.dolphin.core.base.BaseApplication;
 import com.dolphin.core.crash.CaocConfig;
+import com.dolphin.demo.util.TimeFormatUtil;
 import com.dolphin.umeng.UmengClient;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
@@ -84,7 +85,8 @@ public class AppApplication extends BaseApplication {
             // 全局设置主题颜色
             layout.setPrimaryColorsId(R.color.common_primary_color, android.R.color.white);
             // 指定为经典Header，默认是 贝塞尔雷达Header
-            return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));
+            return new ClassicsHeader(context)
+                    .setTimeFormat(new TimeFormatUtil("上次更新 %s"));
         });
         // 设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
