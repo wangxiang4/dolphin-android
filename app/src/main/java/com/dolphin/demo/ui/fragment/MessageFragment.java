@@ -83,6 +83,7 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
 
         mRefreshLayout.setOnRefreshListener(mViewModel::refresh);
         mRefreshLayout.setOnLoadMoreListener(mViewModel::loadMore);
+        mRefreshLayout.setEnableLoadMore(false);
         mLoadingLayout.showContent();
         mRefreshLayout.autoRefresh();
     }

@@ -70,6 +70,7 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         } else refresh.finishRefreshWithNoMoreData();
                     } else {
                         refresh.finishRefresh(false);
+                        mActivity.mRefreshLayout.setEnableLoadMore(false);
                         mActivity.mLoadingLayout.showEmpty();
                         ToastUtil.show(R.getMsg());
                     }
@@ -77,14 +78,19 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                 @Override
                 public void onError(Throwable e) {
                     refresh.finishRefresh(false);
+                    mActivity.mRefreshLayout.setEnableLoadMore(false);
                     mActivity.mLoadingLayout.showEmpty();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
                 public void onComplete() {
                     if (mActivity.mAdapter.getItemCount() > 0) {
+                        mActivity.mRefreshLayout.setEnableLoadMore(true);
                         mActivity.mLoadingLayout.showContent();
-                    } else mActivity.mLoadingLayout.showEmpty();
+                    } else {
+                        mActivity.mRefreshLayout.setEnableLoadMore(false);
+                        mActivity.mLoadingLayout.showEmpty();
+                    }
                 }
             });
     }
@@ -103,24 +109,15 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
                         if (mActivity.mAdapter.getItemCount() < R.getTotal()) {
                             layout.finishLoadMore();
                         } else layout.finishLoadMoreWithNoMoreData();
-                    } else {
-                        layout.finishLoadMore(false);
-                        mActivity.mLoadingLayout.showEmpty();
-                        ToastUtil.show(R.getMsg());
-                    }
+                    } else ToastUtil.show(R.getMsg());
                 }
                 @Override
                 public void onError(Throwable e) {
                     layout.finishLoadMore(false);
-                    mActivity.mLoadingLayout.showEmpty();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
-                public void onComplete() {
-                    if (mActivity.mAdapter.getItemCount() > 0) {
-                        mActivity.mLoadingLayout.showContent();
-                    } else mActivity.mLoadingLayout.showEmpty();
-                }
+                public void onComplete() {}
             });
     }
 
