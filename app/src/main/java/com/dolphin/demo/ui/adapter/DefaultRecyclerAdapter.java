@@ -97,7 +97,6 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
         viewHolder.disclosureImage.setVisibility(hideDisclosure? View.GONE: View.VISIBLE);
         viewHolder.leftLayout.setVisibility(hideLeftImage ? View.GONE: View.VISIBLE);
-        addAnimate(viewHolder, position);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
         addAnimate(holder, holder.getLayoutPosition());
     }
 
-    private void addAnimate(ViewHolder holder, int position) {
+    public void addAnimate(ViewHolder holder, int position) {
         if (mOpenAnimationEnable && mLastPosition < position) {
             holder.itemView.setAlpha(0);
             holder.itemView.animate().alpha(1).start();

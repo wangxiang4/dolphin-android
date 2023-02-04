@@ -66,7 +66,6 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         mRefreshLayout = getView().findViewById(R.id.refreshLayout);
         mRecyclerView = getView().findViewById(R.id.recycler_view);
         mLoadingLayout = getView().findViewById(R.id.loading);
-        mLoadingLayout.showEmpty();
 
         final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(CollectionUtils.newArrayList());
         messageRecyclerAdapter.setEventListener(this);
@@ -82,17 +81,10 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        mRefreshLayout.setEnableAutoLoadMore(false);
         mRefreshLayout.setOnRefreshListener(mViewModel::refresh);
         mRefreshLayout.setOnLoadMoreListener(mViewModel::loadMore);
-
-        mLoadingLayout.setRetryListener(v -> {
-            mLoadingLayout.showContent();
-            mRefreshLayout.autoRefresh();
-        });
         mLoadingLayout.showContent();
         mRefreshLayout.autoRefresh();
-
     }
 
     @Override

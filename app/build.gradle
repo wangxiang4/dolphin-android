@@ -112,7 +112,6 @@ dependencies {
     implementation DEPENDENCIES['pictureselector-camerax']
     implementation DEPENDENCIES['advanced-recyclerview']
     implementation DEPENDENCIES['exoplayer']
-    implementation DEPENDENCIES['refresh-layout-kernel']
     implementation DEPENDENCIES['refresh-header-classics']
     implementation DEPENDENCIES['refresh-footer-classics']
     implementation DEPENDENCIES['loadinglayout']

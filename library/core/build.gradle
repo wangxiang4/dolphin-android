@@ -45,4 +45,5 @@ dependencies {
     api DEPENDENCIES['mmkv-static']
     api DEPENDENCIES['crashreport']
     api DEPENDENCIES['nativecrashreport']
+    api DEPENDENCIES['refresh-layout-kernel']
 }
