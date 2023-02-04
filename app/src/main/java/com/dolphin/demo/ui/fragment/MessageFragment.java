@@ -82,11 +82,10 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         });
         mRecyclerView.setAdapter(mAdapter);
 
-
-        // 开启自动加载功能（非必须）
-        mRefreshLayout.setEnableAutoLoadMore(true);
+        mRefreshLayout.setEnableAutoLoadMore(false);
         mRefreshLayout.setOnRefreshListener(mViewModel::refresh);
         mRefreshLayout.setOnLoadMoreListener(mViewModel::loadMore);
+
         mLoadingLayout.setRetryListener(v -> {
             mLoadingLayout.showContent();
             mRefreshLayout.autoRefresh();

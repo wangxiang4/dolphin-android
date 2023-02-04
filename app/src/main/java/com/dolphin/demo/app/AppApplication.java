@@ -1,25 +1,18 @@
 package com.dolphin.demo.app;
 
-import android.content.Context;
-
 import com.bumptech.glide.Glide;
+import com.dolphin.core.BuildConfig;
+import com.dolphin.core.base.BaseApplication;
+import com.dolphin.core.crash.CaocConfig;
 import com.dolphin.demo.R;
 import com.dolphin.demo.di.component.AppComponent;
 import com.dolphin.demo.di.component.DaggerAppComponent;
 import com.dolphin.demo.ui.activity.LoginActivity;
-import com.dolphin.core.BuildConfig;
-import com.dolphin.core.base.BaseApplication;
-import com.dolphin.core.crash.CaocConfig;
 import com.dolphin.demo.util.TimeFormatUtil;
 import com.dolphin.umeng.UmengClient;
 import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.ClassicsHeader;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.scwang.smart.refresh.layout.api.RefreshFooter;
-import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
-import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import javax.inject.Inject;
@@ -80,20 +73,29 @@ public class AppApplication extends BaseApplication {
         // 友盟统计、登录、分享 SDK
         UmengClient.init(this, BuildConfig.DEBUG);
 
+        // 设置全局默认配置（优先级最低，会被其他设置覆盖）
+        SmartRefreshLayout.setDefaultRefreshInitializer((context, layout) -> {
+            // 开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
+            layout.setPrimaryColorsId(R.color.common_primary_color, android.R.color.white);
+            layout.setReboundDuration(300);
+            layout.setFooterHeight(100);
+            layout.setEnableAutoLoadMore(false);
+            layout.setDisableContentWhenRefresh(false);
+            layout.setDisableContentWhenLoading(false);
+            layout.setEnableLoadMoreWhenContentNotFull(true);
+        });
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
-            // 全局设置主题颜色
-            layout.setPrimaryColorsId(R.color.common_primary_color, android.R.color.white);
             // 指定为经典Header，默认是 贝塞尔雷达Header
             return new ClassicsHeader(context)
                     .setTimeFormat(new TimeFormatUtil("上次更新 %s"));
         });
         // 设置全局的Footer构建器
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
-            //指定为经典Footer，默认是 BallPulseFooter
-            return new ClassicsFooter(context).setDrawableSize(20);
+            // 指定为经典Footer，默认是 BallPulseFooter
+            return new ClassicsFooter(context)
+                    .setDrawableSize(20);
         });
-
     }
 
     @Override
