@@ -32,6 +32,10 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
     protected Boolean hideLeftImage= false;
 
+    protected int mLastPosition = -1;
+
+    protected boolean mOpenAnimationEnable = true;
+
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
         public LinearLayout contentLayout;
@@ -93,6 +97,20 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
         viewHolder.disclosureImage.setVisibility(hideDisclosure? View.GONE: View.VISIBLE);
         viewHolder.leftLayout.setVisibility(hideLeftImage ? View.GONE: View.VISIBLE);
+        addAnimate(viewHolder, position);
     }
 
+    @Override
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        addAnimate(holder, holder.getLayoutPosition());
+    }
+
+    private void addAnimate(ViewHolder holder, int position) {
+        if (mOpenAnimationEnable && mLastPosition < position) {
+            holder.itemView.setAlpha(0);
+            holder.itemView.animate().alpha(1).start();
+            mLastPosition = position;
+        }
+    }
 }

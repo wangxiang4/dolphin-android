@@ -5,6 +5,7 @@ import android.view.View;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dolphin.demo.entity.OssFile;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,7 +56,29 @@ public class MessageRecyclerAdapter extends DefaultRecyclerAdapter {
         return mEventListener;
     }
 
-    public void setEventListener(EventListener eventListener) {
+    public MessageRecyclerAdapter setEventListener(EventListener eventListener) {
         mEventListener = eventListener;
+        return this;
     }
+
+    public MessageRecyclerAdapter refresh(Collection<OssFile> collection) {
+        mItemList.clear();
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        mLastPosition = -1;
+        return this;
+    }
+
+    public MessageRecyclerAdapter loadMore(Collection<OssFile> collection) {
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public MessageRecyclerAdapter insert(Collection<OssFile> collection) {
+        mItemList.addAll(0, collection);
+        notifyItemRangeInserted(0, collection.size());
+        return this;
+    }
+
 }

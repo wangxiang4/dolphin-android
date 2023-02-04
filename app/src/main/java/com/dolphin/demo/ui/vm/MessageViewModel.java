@@ -35,8 +35,6 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
     @Inject
     MessageService messageService;
 
-    public List<OssFile> listMessage = new ArrayList();
-
     public MessageViewModel(@NonNull Application application) {
         super(application);
         // 注入服务组件
@@ -63,10 +61,9 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
+                    if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     if (R.getCode() == R.SUCCESS) {
-                        listMessage.clear();
-                        listMessage.addAll(R.getData());
-                        mActivity.mAdapter.notifyDataSetChanged();
+                        mActivity.mAdapter.refresh(R.getData());
                         if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
                             refresh.finishRefresh();
                         } else refresh.finishLoadMoreWithNoMoreData();
@@ -97,9 +94,9 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
+                    if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     if (R.getCode() == R.SUCCESS) {
-                        listMessage.addAll(R.getData());
-                        mActivity.mAdapter.notifyDataSetChanged();
+                        mActivity.mAdapter.loadMore(R.getData());
                         if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
                             layout.finishLoadMore();
                         } else layout.finishLoadMoreWithNoMoreData();

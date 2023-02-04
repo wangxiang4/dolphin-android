@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.util.ToastUtil;
@@ -22,6 +23,9 @@ import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.ui.adapter.MessageRecyclerAdapter;
 import com.dolphin.demo.ui.vm.MessageViewModel;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ezy.ui.layout.LoadingLayout;
 
@@ -36,9 +40,10 @@ import ezy.ui.layout.LoadingLayout;
 public class MessageFragment extends BaseFragment<FragmentMessageBinding, MessageViewModel> implements MessageRecyclerAdapter.EventListener {
 
     public RecyclerView mRecyclerView;
-    public RecyclerView.Adapter mAdapter;
+    public MessageRecyclerAdapter mAdapter;
     public RefreshLayout mRefreshLayout;
     public LoadingLayout mLoadingLayout;
+    public List<OssFile> listMessage = CollectionUtils.newArrayList();
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         mRecyclerView = getView().findViewById(R.id.recycler_view);
         mLoadingLayout = getView().findViewById(R.id.loading);
 
-        final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(mViewModel.listMessage);
+        final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(listMessage);
         messageRecyclerAdapter.setEventListener(this);
         mAdapter = messageRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
