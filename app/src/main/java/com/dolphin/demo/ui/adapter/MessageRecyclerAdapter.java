@@ -1,5 +1,7 @@
 package com.dolphin.demo.ui.adapter;
 
+import android.view.View;
+
 import com.blankj.utilcode.util.ObjectUtils;
 import com.dolphin.demo.entity.OssFile;
 
@@ -38,7 +40,9 @@ public class MessageRecyclerAdapter extends DefaultRecyclerAdapter {
         super.onBindViewHolder(viewHolder, position);
         final OssFile item = mItemList.get(position);
         viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
-        viewHolder.titleLabel.setText(item.getFileName());
+        viewHolder.titleLabel.setText(item.getOriginal());
+        viewHolder.detailLabel.setVisibility(View.GONE);
+        viewHolder.secondDetailLabel.setVisibility(View.GONE);
     }
 
     private void onItemViewClick(OssFile ossFile) {

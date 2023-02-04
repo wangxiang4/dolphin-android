@@ -82,7 +82,7 @@ public class AppApplication extends BaseApplication {
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
             // 全局设置主题颜色
-            layout.setPrimaryColorsId(R.color.design_default_color_primary, android.R.color.white);
+            layout.setPrimaryColorsId(R.color.common_primary_color, android.R.color.white);
             // 指定为经典Header，默认是 贝塞尔雷达Header
             return new ClassicsHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));
         });

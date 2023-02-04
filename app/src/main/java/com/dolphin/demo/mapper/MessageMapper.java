@@ -5,9 +5,10 @@ import com.dolphin.demo.entity.OssFile;
 
 import java.util.List;
 import java.util.Map;
+
 import io.reactivex.Observable;
-import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
+import retrofit2.http.QueryMap;
 
 /**
  *<p>
@@ -21,6 +22,6 @@ public interface MessageMapper {
 
     /** todo: 目前消息模块未使用，拿oss文件模块做演示 */
     @GET("system_proxy/system/file/list")
-    Observable<ResultResponse<List<OssFile>>> listMessage(@FieldMap Map<String, Object> fields);
+    Observable<ResultResponse<List<OssFile>>> listMessage(@QueryMap Map<String, Object> fields);
 
 }

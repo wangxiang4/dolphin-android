@@ -5,23 +5,21 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.blankj.utilcode.util.MapUtils;
+import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.util.RxUtil;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.demo.app.AppApplication;
+import com.dolphin.demo.di.component.DaggerServiceComponent;
 import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.service.MessageService;
 import com.dolphin.demo.ui.fragment.MessageFragment;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -41,6 +39,11 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
 
     public MessageViewModel(@NonNull Application application) {
         super(application);
+        // 注入服务组件
+        DaggerServiceComponent
+                .builder()
+                .appComponent(((AppApplication) Utils.getApp().getApplicationContext()).appComponent)
+                .build().inject(this);
     }
 
     @Override
@@ -50,76 +53,69 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
     }
 
     /** 下拉刷新查询消息列表 */
-    public void refreshListMessage(RefreshLayout layout,
-                                   MessageFragment messageFragment) {
+    public void refreshListMessage(RefreshLayout refresh) {
         super.pageCurrent = 1;
-        messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent), Pair.create("size", pageCurrent)))
+        messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent), Pair.create("size", pageSize)))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             .doOnSubscribe(this)
-            .doOnSubscribe(disposable -> showDialog())
+            .doOnSubscribe(disposable -> mActivity.mLoadingLayout.showLoading())
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
                     if (R.getCode() == R.SUCCESS) {
                         listMessage.clear();
                         listMessage.addAll(R.getData());
-                        messageFragment.mAdapter.notifyDataSetChanged();
-                        /*if (mAdapter.getItemCount() <= R.getTotal()) {
-                            //还有多的数据
-                            layout.finishLoadMore();
-                        } else {
-                            //将不会再次触发加载更多事件
-                            layout.finishLoadMoreWithNoMoreData();
-                        }*/
-                    } else ToastUtil.show(R.getMsg());
+                        mActivity.mAdapter.notifyDataSetChanged();
+                        if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
+                            refresh.finishRefresh();
+                        } else refresh.finishLoadMoreWithNoMoreData();
+                    } else {
+                        ToastUtil.show(R.getMsg());
+                        refresh.finishLoadMore(false);
+                    }
                 }
                 @Override
                 public void onError(Throwable e) {
-                    closeDialog();
-                    layout.finishLoadMore(false);
+                    refresh.finishLoadMore(false);
+                    mActivity.mLoadingLayout.showError();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
                 public void onComplete() {
-                    closeDialog();
+                    mActivity.mLoadingLayout.showContent();
                 }
             });
     }
 
     /** 上拉加载查询消息列表 */
-    public void footerListMessage(RefreshLayout layout,
-                                  RecyclerView.Adapter mAdapter) {
+    public void footerListMessage(RefreshLayout layout) {
         messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent += 1), Pair.create("size", pageCurrent)))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             .doOnSubscribe(this)
-            .doOnSubscribe(disposable -> showDialog())
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
                     if (R.getCode() == R.SUCCESS) {
                         listMessage.addAll(R.getData());
-                        mAdapter.notifyDataSetChanged();
-                        if (mAdapter.getItemCount() <= R.getTotal()) {
-                            //还有多的数据
+                        mActivity.mAdapter.notifyDataSetChanged();
+                        if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
                             layout.finishLoadMore();
-                        } else {
-                            //将不会再次触发加载更多事件
-                            layout.finishLoadMoreWithNoMoreData();
-                        }
-                    } else ToastUtil.show(R.getMsg());
+                        } else layout.finishLoadMoreWithNoMoreData();
+                    } else {
+                        ToastUtil.show(R.getMsg());
+                        layout.finishLoadMore(false);
+                    }
                 }
                 @Override
                 public void onError(Throwable e) {
-                    closeDialog();
                     layout.finishLoadMore(false);
+                    mActivity.mLoadingLayout.showError();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
-                public void onComplete() {
-                    closeDialog();
-                }
+                public void onComplete() {}
             });
     }
 

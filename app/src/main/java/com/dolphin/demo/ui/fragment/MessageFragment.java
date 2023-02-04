@@ -53,16 +53,19 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.mViewModel.mActivity = this;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        super.mViewModel.mActivity = this;
         ImageView toolbarBack = getView().findViewById(R.id.iv_back);
         toolbarBack.setVisibility(View.INVISIBLE);
-        mLoadingLayout = getView().findViewById(R.id.loading);
+
+        mRefreshLayout = getView().findViewById(R.id.refreshLayout);
         mRecyclerView = getView().findViewById(R.id.recycler_view);
+        mLoadingLayout = getView().findViewById(R.id.loading);
+
         final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(mViewModel.listMessage);
         messageRecyclerAdapter.setEventListener(this);
         mAdapter = messageRecyclerAdapter;
@@ -77,12 +80,18 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        mRefreshLayout = getView().findViewById(R.id.refreshLayout);
+
         // 开启自动加载功能（非必须）
         mRefreshLayout.setEnableAutoLoadMore(true);
-        mRefreshLayout.setOnRefreshListener(layout -> mViewModel.refreshListMessage(layout, this));
-        mRefreshLayout.setOnLoadMoreListener(layout -> mViewModel.footerListMessage(layout, mAdapter));
+        mRefreshLayout.setOnRefreshListener(mViewModel::refreshListMessage);
+        mRefreshLayout.setOnLoadMoreListener(mViewModel::footerListMessage);
+        mLoadingLayout.setRetryListener(v -> {
+            mLoadingLayout.showContent();
+            mRefreshLayout.autoRefresh();
+        });
+        mLoadingLayout.showContent();
         mRefreshLayout.autoRefresh();
+
     }
 
     @Override

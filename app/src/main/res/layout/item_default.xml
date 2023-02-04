@@ -33,8 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/left_layout"
-        android:gravity="center"
-        android:weightSum="3">
+        android:gravity="center">
         <TextView
             android:id="@+id/title_label"
             android:layout_width="0dp"
