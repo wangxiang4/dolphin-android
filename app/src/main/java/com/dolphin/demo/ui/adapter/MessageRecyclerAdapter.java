@@ -3,6 +3,7 @@ package com.dolphin.demo.ui.adapter;
 import android.view.View;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dolphin.demo.R;
 import com.dolphin.demo.entity.OssFile;
 
 import java.util.Collection;
@@ -44,6 +45,7 @@ public class MessageRecyclerAdapter extends DefaultRecyclerAdapter {
         viewHolder.titleLabel.setText(item.getOriginal());
         viewHolder.detailLabel.setVisibility(View.GONE);
         viewHolder.secondDetailLabel.setVisibility(View.GONE);
+        viewHolder.leftImage.setImageResource(R.drawable.icon_file);
     }
 
     private void onItemViewClick(OssFile ossFile) {

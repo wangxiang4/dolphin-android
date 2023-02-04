@@ -1,5 +1,7 @@
 package com.dolphin.demo.app;
 
+import androidx.core.content.ContextCompat;
+
 import com.bumptech.glide.Glide;
 import com.dolphin.core.BuildConfig;
 import com.dolphin.core.base.BaseApplication;
@@ -76,7 +78,6 @@ public class AppApplication extends BaseApplication {
         // 设置全局默认配置（优先级最低，会被其他设置覆盖）
         SmartRefreshLayout.setDefaultRefreshInitializer((context, layout) -> {
             // 开始设置全局的基本参数（可以被下面的DefaultRefreshHeaderCreator覆盖）
-            layout.setPrimaryColorsId(R.color.common_primary_color, android.R.color.white);
             layout.setReboundDuration(300);
             layout.setFooterHeight(100);
             layout.setEnableAutoLoadMore(false);
@@ -86,6 +87,7 @@ public class AppApplication extends BaseApplication {
         });
         // 设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.common_app_them, R.color.white);
             // 指定为经典Header，默认是 贝塞尔雷达Header
             return new ClassicsHeader(context)
                     .setTimeFormat(new TimeFormatUtil("上次更新 %s"));
@@ -94,7 +96,9 @@ public class AppApplication extends BaseApplication {
         SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
             // 指定为经典Footer，默认是 BallPulseFooter
             return new ClassicsFooter(context)
-                    .setDrawableSize(20);
+                    .setDrawableSize(20)
+                    .setPrimaryColor(ContextCompat.getColor(this, R.color.common_app_them))
+                    .setAccentColor(ContextCompat.getColor(this, R.color.white));
         });
     }
 
