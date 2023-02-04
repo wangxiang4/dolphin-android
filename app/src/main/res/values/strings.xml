@@ -6,4 +6,5 @@
 		3、我们会采取业界先进的安全措施保护您的信息安全。\n
 	</string>
 	<string name="login_out">你确定要退出登录吗？</string>
+	<string name="empty_text">暂无数据</string>
 </resources>

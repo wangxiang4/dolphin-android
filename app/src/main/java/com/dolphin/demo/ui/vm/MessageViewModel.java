@@ -19,6 +19,8 @@ import com.dolphin.demo.ui.fragment.MessageFragment;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.inject.Inject;
 import io.reactivex.observers.DisposableObserver;
 
@@ -61,21 +63,22 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
-                    if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     if (R.getCode() == R.SUCCESS) {
                         mActivity.mAdapter.refresh(R.getData());
-                        if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
+                        if (mActivity.mAdapter.getItemCount() < R.getTotal()) {
                             refresh.finishRefresh();
                         } else refresh.finishLoadMoreWithNoMoreData();
+                        if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     } else {
-                        ToastUtil.show(R.getMsg());
                         refresh.finishLoadMore(false);
+                        mActivity.mLoadingLayout.showEmpty();
+                        ToastUtil.show(R.getMsg());
                     }
                 }
                 @Override
                 public void onError(Throwable e) {
                     refresh.finishLoadMore(false);
-                    mActivity.mLoadingLayout.showError();
+                    mActivity.mLoadingLayout.showEmpty();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
@@ -87,28 +90,29 @@ public class MessageViewModel extends ToolbarViewModel<MessageFragment> {
 
     /** 上拉加载查询消息列表 */
     public void footerListMessage(RefreshLayout layout) {
-        messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent += 1), Pair.create("size", pageCurrent)))
+        messageService.listMessage(MapUtils.newHashMap(Pair.create("current", pageCurrent += 1), Pair.create("size", pageSize)))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             .doOnSubscribe(this)
             .subscribe(new DisposableObserver<ResultResponse<List<OssFile>>>() {
                 @Override
                 public void onNext(ResultResponse<List<OssFile>> R) {
-                    if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     if (R.getCode() == R.SUCCESS) {
                         mActivity.mAdapter.loadMore(R.getData());
-                        if (mActivity.mAdapter.getItemCount() <= R.getTotal()) {
+                        if (mActivity.mAdapter.getItemCount() < R.getTotal()) {
                             layout.finishLoadMore();
                         } else layout.finishLoadMoreWithNoMoreData();
+                        if (R.getTotal() == 0) mActivity.mLoadingLayout.showEmpty();
                     } else {
-                        ToastUtil.show(R.getMsg());
                         layout.finishLoadMore(false);
+                        mActivity.mLoadingLayout.showEmpty();
+                        ToastUtil.show(R.getMsg());
                     }
                 }
                 @Override
                 public void onError(Throwable e) {
                     layout.finishLoadMore(false);
-                    mActivity.mLoadingLayout.showError();
+                    mActivity.mLoadingLayout.showEmpty();
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override

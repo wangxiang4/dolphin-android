@@ -25,6 +25,8 @@
         <item name="android:adjustViewBounds">true</item>
         <!-- 关闭 TextView 自带的文字间距 -->
         <item name="android:includeFontPadding">false</item>
+        <!-- 多状态布局样式 -->
+        <item name="styleLoadingLayout">@style/LoadingLayoutStyle</item>
     </style>
 
     <!-- 友盟飞溅引导页 -->

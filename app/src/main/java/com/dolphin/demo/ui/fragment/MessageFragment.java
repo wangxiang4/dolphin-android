@@ -24,9 +24,6 @@ import com.dolphin.demo.ui.adapter.MessageRecyclerAdapter;
 import com.dolphin.demo.ui.vm.MessageViewModel;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ezy.ui.layout.LoadingLayout;
 
 /**
@@ -43,7 +40,6 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
     public MessageRecyclerAdapter mAdapter;
     public RefreshLayout mRefreshLayout;
     public LoadingLayout mLoadingLayout;
-    public List<OssFile> listMessage = CollectionUtils.newArrayList();
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -70,8 +66,9 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         mRefreshLayout = getView().findViewById(R.id.refreshLayout);
         mRecyclerView = getView().findViewById(R.id.recycler_view);
         mLoadingLayout = getView().findViewById(R.id.loading);
+        mLoadingLayout.showEmpty();
 
-        final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(listMessage);
+        final MessageRecyclerAdapter messageRecyclerAdapter = new MessageRecyclerAdapter(CollectionUtils.newArrayList());
         messageRecyclerAdapter.setEventListener(this);
         mAdapter = messageRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
@@ -94,8 +91,8 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
             mLoadingLayout.showContent();
             mRefreshLayout.autoRefresh();
         });
-        mLoadingLayout.showContent();
-        mRefreshLayout.autoRefresh();
+        //mLoadingLayout.showContent();
+        //mRefreshLayout.autoRefresh();
 
     }
 

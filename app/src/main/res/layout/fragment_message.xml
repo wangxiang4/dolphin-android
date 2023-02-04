@@ -29,9 +29,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_marginRight="@dimen/dp_10" />
+                    android:layout_marginLeft="@dimen/dp_3"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:layout_marginRight="@dimen/dp_3" />
             </ezy.ui.layout.LoadingLayout>
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
     </LinearLayout>

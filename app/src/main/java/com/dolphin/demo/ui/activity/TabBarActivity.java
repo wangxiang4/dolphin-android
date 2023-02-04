@@ -100,6 +100,7 @@ public class TabBarActivity extends BaseActivity<ActivityTabBarBinding, BaseView
     private BaseTabItem normalItem(int drawable, int checkedDrawable, String text) {
         NormalItemView normalItemView = new NormalItemView(this);
         normalItemView.initialize(drawable, checkedDrawable, text);
+        normalItemView.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         normalItemView.setTextDefaultColor(ContextCompat.getColor(this, R.color.black));
         normalItemView.setTextCheckedColor(ContextCompat.getColor(this, R.color.common_app_them));
         return normalItemView;

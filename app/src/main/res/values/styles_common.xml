@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 多状态布局样式 -->
+    <style name="LoadingLayoutStyle" parent="LoadingLayout.Style">
+        <item name="llEmptyImage">@drawable/icon_empty</item>
+        <item name="llEmptyText">@string/empty_text</item>
+        <item name="llTextColor">@color/gray</item>
+    </style>
+
 </resources>
