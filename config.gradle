@@ -45,7 +45,7 @@ ext {
     // 微信 Secret
     WX_APP_SECRET = '******'
     // 高德地图 AppKey
-    AMAP_KEY = '******'
+    AMAP_KEY = '5c32b5bc83e99b3ccc05d5e2eefc3c8b'
 
     switch(serverType) {
         case SERVER_TYPE_TEST:

@@ -11,7 +11,6 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
 import com.amap.api.maps.MapsInitializer;
-import com.dolphin.core.base.FragmentContainerActivity;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
 import com.tencent.mmkv.MMKV;
@@ -43,7 +42,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
 
     /** 软件隐私协议 */
     private void softwarePrivacyAgreement() {
-        MapsInitializer.updatePrivacyShow(SplashActivity.this,true,true);
+        MapsInitializer.updatePrivacyShow(getApplicationContext(), true, true);
         SpannableStringBuilder spannable = new SpannableStringBuilder(getResources().getString(R.string.privacy_agreement));
         spannable.setSpan(new ForegroundColorSpan(Color.BLUE), 65, 69, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new ForegroundColorSpan(Color.RED), 133, 137, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
