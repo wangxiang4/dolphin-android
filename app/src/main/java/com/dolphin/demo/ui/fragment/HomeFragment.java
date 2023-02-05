@@ -106,6 +106,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onItemViewClicked(HomeRecyclerAdapter.HomeEntity homeEntity) {
         switch (homeEntity.code) {
             case "1":
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.MapFragment");
                 break;
             case "2":
                 break;

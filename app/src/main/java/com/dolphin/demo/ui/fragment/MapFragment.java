@@ -108,7 +108,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        locationRequest = new LocationRequest(TabBarActivity.class);
+        locationRequest = new LocationRequest(getActivity().getClass());
         mapGpsSensorEventListener = new MapGpsSensorEventListener(getActivity());
         locationRequest.setLocationListen(locationListener);
         singleAMapLocationClient();

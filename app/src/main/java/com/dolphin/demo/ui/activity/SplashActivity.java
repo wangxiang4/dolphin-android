@@ -11,6 +11,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
 import com.amap.api.maps.MapsInitializer;
+import com.dolphin.core.base.FragmentContainerActivity;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
 import com.tencent.mmkv.MMKV;
@@ -50,7 +51,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
                 .setTitle("隐私政策")
                 .setMessage(spannable)
                 .setPositiveButton("同意", (dialogInterface, listener) -> {
-                    MapsInitializer.updatePrivacyAgree(SplashActivity.this,true);
+                    MapsInitializer.updatePrivacyAgree(getApplicationContext(),true);
                     MMKV.defaultMMKV().putInt(CacheConstant.SOFTWARE_PRIVACY_AGREEMENT_AUTH, 0);
                     // 友盟移动统计,账号统计隐私协议
                     UMConfigure.submitPolicyGrantResult(getApplicationContext(), true);
@@ -59,7 +60,7 @@ public class SplashActivity extends UmengSplashMessageActivity {
                     finish();
                 })
                 .setNegativeButton("不同意", (dialogInterface, listener) -> {
-                    MapsInitializer.updatePrivacyAgree(SplashActivity.this,false);
+                    MapsInitializer.updatePrivacyAgree(getApplicationContext(),false);
                     // 友盟移动统计,账号统计隐私协议
                     UMConfigure.submitPolicyGrantResult(getApplicationContext(), false);
                     // 不同意隐私协议,退出app

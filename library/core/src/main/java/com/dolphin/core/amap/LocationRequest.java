@@ -41,7 +41,7 @@ public class LocationRequest implements AMapLocationListener {
     public static volatile Notification notification;
 
     /** 后台定位请求状态 */
-    private Integer locationStatus = LocationRequestEnum.TERMINATED.getStatus();;
+    private Integer locationStatus = LocationRequestEnum.TERMINATED.getStatus();
 
     /** 手机电源管理 */
     private PowerManager powerManager;
