@@ -4,8 +4,6 @@
 -allowaccessmodification
 -dontpreverify
 
--keep class com.dolphin.core.entity.**{*;}
-
 # The remainder of this file is identical to the non-optimized version
 # of the Proguard configuration file (except that the other file has
 # flags to turn off optimization).
@@ -78,3 +76,6 @@
 
 # 高德api
 -keep class com.amap.api.**{*;}
+
+# 禁止类名混淆，否则通过类名称找不到类
+-keep class com.dolphin.core.entity.**{*;}

@@ -1,6 +1,5 @@
 # 忽略警告
 #-ignorewarning
--keep class com.dolphin.demo.entity.**{*;}
 
 # 混淆保护自己项目的部分代码以及引用的第三方jar包
 #-libraryjars libs/xxxxxxxxx.jar
@@ -58,5 +57,7 @@
   public *;
 }
 
+# 禁止类名混淆，否则通过类名称找不到类
+-keep class com.dolphin.demo.entity.**{*;}
 -keep class com.dolphin.demo.ui.activity.**{*;}
 -keep class com.dolphin.demo.ui.fragment.**{*;}
