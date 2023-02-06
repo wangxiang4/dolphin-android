@@ -61,7 +61,7 @@
         <service android:name="com.amap.api.location.APSService" />
         <!-- 开启后台定位保活前台服务 -->
         <service
-            android:name="com.dolphin.core.amap.service.BackgroundLocationKeepFrontService"
+            android:name="com.dolphin.core.service.BackgroundKeepActiveFrontService"
             android:exported="false"
             android:foregroundServiceType="location" />
 

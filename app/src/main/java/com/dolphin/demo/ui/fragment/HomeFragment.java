@@ -80,10 +80,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         toolbarBack.setVisibility(View.INVISIBLE);
         mRecyclerView = getView().findViewById(R.id.home_recycler_view);
         List<HomeRecyclerAdapter.HomeEntity> list = CollectionUtils.newArrayList(
-                new HomeRecyclerAdapter.HomeEntity().setCode("1").setTitle("高德地图"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("1").setTitle("高德地图,支持后台定位"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("2").setTitle("粘性RxBus全局通信"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("3").setTitle("信使全局通信"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("4").setTitle("后台保活"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("4").setTitle("媒体锁后台保活"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("5").setTitle("可滑动列表"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("6").setTitle("地图路线规划"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("7").setTitle("文件上传"),
@@ -124,6 +124,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoMessengerFragment");
                 break;
             case "4":
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoAppKeepActiveFragment");
                 break;
             case "5":
                 break;

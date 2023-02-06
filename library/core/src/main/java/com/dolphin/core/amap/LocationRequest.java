@@ -1,28 +1,18 @@
 package com.dolphin.core.amap;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
-import android.location.LocationManager;
-import android.os.PowerManager;
-import android.os.SystemClock;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.Utils;
-import com.dolphin.core.R;
-import com.dolphin.core.amap.service.BackgroundLocationKeepFrontService;
 import com.dolphin.core.constant.AppConstant;
 import com.dolphin.core.enums.LocationRequestEnum;
+import com.dolphin.core.service.AppKeepActive;
 
 /**
  *<p>
@@ -32,34 +22,13 @@ import com.dolphin.core.enums.LocationRequestEnum;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/27
  */
-public class LocationRequest implements AMapLocationListener {
+public class  LocationRequest implements AMapLocationListener {
 
     /** 活动上下文 */
     private Context mContext;
 
-    /** 前台服务通知 */
-    public static volatile Notification notification;
-
     /** 后台定位请求状态 */
     private Integer locationStatus = LocationRequestEnum.TERMINATED.getStatus();
-
-    /** 手机电源管理 */
-    private PowerManager powerManager;
-
-    /** 屏幕唤醒 */
-    private PowerManager.WakeLock wakeLock;
-
-    /** 系统警报提醒服务 */
-    private AlarmManager alarmManager;
-
-    /** 警报待定异步意图 */
-    private PendingIntent alarmPendingIntent;
-
-    /** 屏幕唤醒锁定屏幕接收 */
-    private BroadcastReceiver wakeLockScreenReceiver;
-
-    /** 判断屏幕唤醒锁定屏幕接收是否注册 */
-    private Boolean isRegisterPowerWakeLockReceiver = false;
 
     /** 位置接收 */
     private BroadcastReceiver locationReceiver;
@@ -70,14 +39,11 @@ public class LocationRequest implements AMapLocationListener {
     /** 位置客户端,进行位置定位相关的操作 */
     public static AMapLocationClient locationClient;
 
-    /** 后台位置保持服务意图 */
-    private Intent backgroundLocationKeepFrontServiceIntent;
-
     /** 位置客户端定位结果监听 */
     private AMapLocationListener locationListen;
 
-    /** 前台服务通知点击启动活动 */
-    private Class<?> notificationClickStartClass;
+    /** 应用保持活跃 */
+    private AppKeepActive appKeepActive;
 
     public LocationRequest(Class<?> notificationClickStartClass) {
         this(Utils.getApp(), notificationClickStartClass);
@@ -85,7 +51,7 @@ public class LocationRequest implements AMapLocationListener {
 
     public LocationRequest(Context mContext, Class<?> notificationClickStartClass) {
         this.mContext = mContext;
-        this.notificationClickStartClass = notificationClickStartClass;
+        appKeepActive = new AppKeepActive(mContext, notificationClickStartClass);
         init();
     }
 
@@ -109,8 +75,6 @@ public class LocationRequest implements AMapLocationListener {
 
     /** 初始化服务 */
     private void init() {
-        powerManager = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        notification = buildNotification();
         locationClient = initLocation(getDefaultOption());
         locationClient.setLocationListener(this);
     }
@@ -161,46 +125,31 @@ public class LocationRequest implements AMapLocationListener {
     /** 注册位置请求服务 */
     public void registerService() {
         registerLocationReceiver();
-        startBackgroundLocationKeepFrontService();
-        registerPowerWakeLockReceiver();
+        appKeepActive.registerService();
     }
 
     /** 取消位置请求服务 */
     public void unregisterService() {
         unregisterLocationReceiver();
-        closeBackgroundLocationKeepFrontService();
-        unregisterPowerWakeLockReceiver();
-    }
-
-    /** 启动后台定位保活前台服务 */
-    public void startBackgroundLocationKeepFrontService() {
-        BackgroundLocationKeepFrontService.startBackgroundLocationTask = true;
-        backgroundLocationKeepFrontServiceIntent = new Intent(mContext, BackgroundLocationKeepFrontService.class);
-        mContext.startForegroundService(backgroundLocationKeepFrontServiceIntent);
-    }
-
-    /** 关闭后台定位保活前台服务 */
-    public void closeBackgroundLocationKeepFrontService() {
-        BackgroundLocationKeepFrontService.startBackgroundLocationTask = false;
-        if (null != backgroundLocationKeepFrontServiceIntent) mContext.stopService(backgroundLocationKeepFrontServiceIntent);
+        appKeepActive.unregisterService();
     }
 
     /** 注册位置监听广播 */
     public void registerLocationReceiver () {
         if (isRegisterLocationReceiver) return;
         isRegisterLocationReceiver = true;
-        if (null == wakeLockScreenReceiver) {
+        if (null == locationReceiver) {
             locationReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (null != locationClient && intent.getAction().equals(LocationManager.KEY_LOCATION_CHANGED)) {
+                    if (null != locationClient && intent.getAction().equals(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE)) {
                         locationClient.startLocation();
                     }
                 }
             };
         }
         IntentFilter filter = new IntentFilter();
-        filter.addAction(LocationManager.KEY_LOCATION_CHANGED);
+        filter.addAction(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE);
         mContext.registerReceiver(locationReceiver, filter);
     }
 
@@ -211,105 +160,11 @@ public class LocationRequest implements AMapLocationListener {
         isRegisterLocationReceiver = false;
     }
 
-    /** 注册电源锁屏监听广播 */
-    public void registerPowerWakeLockReceiver() {
-        if (isRegisterPowerWakeLockReceiver) return;
-        isRegisterPowerWakeLockReceiver = true;
-        if (null == wakeLock) wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "dolphin-collect:gps");
-        if (null == wakeLockScreenReceiver) {
-            wakeLockScreenReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    if (null == wakeLock) return;
-                    String action = intent.getAction();
-                    if (Intent.ACTION_SCREEN_OFF.equals(action) && !wakeLock.isHeld()) {
-                        wakeLock.acquire();
-                        if (null != alarmPendingIntent) return;
-                        // 支持后台熄屏,获取定位信息
-                        Intent alarmIntent = new Intent();
-                        alarmIntent.setAction(LocationManager.KEY_LOCATION_CHANGED);
-                        // https://www.cnblogs.com/endv/p/11576121.html
-                        alarmPendingIntent = PendingIntent.getBroadcast(mContext, AppConstant.PERMISSION_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
-                        // 获取系统警报提醒服务
-                        alarmManager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
-                        // 设置一个闹钟,1秒之后每隔一段时间执行启动一次定位程序,防止后台冻结高德地图获取定位服务
-                        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + 1 * 1000, AppConstant.LOCATION_TASK_INTERVAL_TIME, alarmPendingIntent);
-                    } else if (Intent.ACTION_USER_PRESENT.equals(action) && wakeLock.isHeld()) {
-                        wakeLock.release();
-                        if (null == alarmManager) return;
-                        alarmManager.cancel(alarmPendingIntent);
-                        alarmPendingIntent = null;
-                        alarmManager = null;
-                    }
-                }
-            };
-        }
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-        mContext.registerReceiver(wakeLockScreenReceiver, filter);
-    }
-
-    /** 取消电源锁屏监听广播 */
-    public void unregisterPowerWakeLockReceiver() {
-        if (!isRegisterPowerWakeLockReceiver) return;
-        if (null != wakeLockScreenReceiver) mContext.unregisterReceiver(wakeLockScreenReceiver);
-        isRegisterPowerWakeLockReceiver = false;
-    }
-
-    /** 构建前台定位服务通知 */
-    private Notification buildNotification() {
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = mContext.getPackageName();
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, AppConstant.PERMISSION_REQUEST_CODE, new Intent(mContext, notificationClickStartClass), PendingIntent.FLAG_MUTABLE);
-        NotificationChannel notificationChannel = new NotificationChannel(channelId, BackgroundLocationKeepFrontService.class.getName(), NotificationManager.IMPORTANCE_DEFAULT);
-        // 是否在桌面icon右上角展示小圆点
-        notificationChannel.enableLights(false);
-        // 是否在久按桌面图标时显示此渠道的通知
-        notificationChannel.setShowBadge(false);
-        // 关闭通知震动
-        notificationChannel.enableVibration(false);
-        notificationManager.createNotificationChannel(notificationChannel);
-        Notification.Builder builder = new Notification.Builder(mContext, channelId);
-        builder.setSmallIcon(R.drawable.umeng_push_notification_default_small_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.umeng_push_notification_default_large_icon))
-                .setContentTitle(mContext.getResources().getString(R.string.app_name))
-                .setContentText("正在后台运行")
-                // 点击通知后自动取消
-                .setAutoCancel(false)
-                // 推送的时间
-                .setWhen(System.currentTimeMillis())
-                // 仅首次通知
-                .setOnlyAlertOnce(true)
-                // 点击通知触发异步意图
-                .setContentIntent(pendingIntent);
-        Notification notification = builder.build();
-        // 通知栏以不能清除的方式展示
-        notification.flags |= Notification.FLAG_NO_CLEAR;
-        return notification;
-    }
-
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (aMapLocation != null && locationListen != null) {
             locationListen.onLocationChanged(aMapLocation);
         }
-    }
-
-    public PowerManager getPowerManager() {
-        return powerManager;
-    }
-
-    public void setPowerManager(PowerManager powerManager) {
-        this.powerManager = powerManager;
-    }
-
-    public PowerManager.WakeLock getWakeLock() {
-        return wakeLock;
-    }
-
-    public void setWakeLock(PowerManager.WakeLock wakeLock) {
-        this.wakeLock = wakeLock;
     }
 
     public AMapLocationClient getLocationClient() {

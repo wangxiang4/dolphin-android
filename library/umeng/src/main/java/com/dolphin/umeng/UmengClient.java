@@ -122,7 +122,7 @@ public final class UmengClient {
 
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
-                Intent intent = new Intent("com.android.dolphin.collect.TabBarActivity");
+                Intent intent = new Intent("com.android.dolphin.demo.TabBarActivity");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(AppConstant.TAB_BAR_DEFAULT_INDEX, 2);
                 JsonObject jsonObject = new JsonObject();
