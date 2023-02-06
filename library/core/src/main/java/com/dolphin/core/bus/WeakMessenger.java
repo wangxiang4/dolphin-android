@@ -373,7 +373,7 @@ public class WeakMessenger {
 
         synchronized (lists) {
             for (WeakActionAndToken item : lists.get(messageType)) {
-                WeakAction weakActionCasted = (WeakAction) item.getAction();
+                WeakAction weakActionCasted = item.getAction();
 
                 if (weakActionCasted != null
                         && recipient == weakActionCasted.getTarget()
@@ -432,7 +432,7 @@ public class WeakMessenger {
 
         synchronized (lists) {
             for (WeakActionAndToken item : lists.get(messageType)) {
-                WeakAction weakActionCasted = (WeakAction) item.getAction();
+                WeakAction weakActionCasted = item.getAction();
 
                 if (weakActionCasted != null
                         && recipient == weakActionCasted.getTarget()

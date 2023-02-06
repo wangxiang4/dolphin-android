@@ -17,11 +17,13 @@ import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dolphin.core.base.BaseFragment;
+import com.dolphin.core.bus.RxBus;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.FragmentHomeBinding;
+import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.entity.User;
 import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
 import com.dolphin.demo.ui.vm.HomeViewModel;
@@ -115,8 +117,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startFragmentContainerActivity("com.dolphin.demo.ui.fragment.MapFragment");
                 break;
             case "2":
+                RxBus.getInstance().postSticky(new RxbusDemo().setId(0).setTitle("黏性事件发送").setDescription("使用黏性事件在订阅未完成前发送"));
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoRxbusFragment");
                 break;
             case "3":
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoMessengerFragment");
                 break;
             case "4":
                 break;
@@ -127,6 +132,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             case "7":
                 break;
             case "8":
+                break;
+            case "9":
+                break;
+            case "10":
+                break;
+            case "11":
+                break;
+            case "12":
+                break;
+            case "13":
+                break;
+            case "14":
                 break;
         }
     }
