@@ -214,7 +214,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                     setMapDataPointMarker(new LatLng(item.mapLat, item.mapLng), item.label, 1);
                 }
             });
-            throughPoints = CollectionUtils.newArrayList(new LatLonPoint(gasStationPointData.get(0).mapLat, gasStationPointData.get(0).mapLng));
+            throughPoints = CollectionUtils.newArrayList(new LatLonPoint(carPointData.get(1).mapLat, carPointData.get(1).mapLng));
             // 渲染导航路线
             final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(carPointData.get(0).mapLat, carPointData.get(0).mapLng), new LatLonPoint(gasStationPointData.get(1).mapLat, gasStationPointData.get(1).mapLng));
             // 第一个参数表示路径规划的起点和终点,第二个参数表示驾车模式,第三个参数表示途经点,第四个参数表示避让区域,第五个参数表示避让道路
