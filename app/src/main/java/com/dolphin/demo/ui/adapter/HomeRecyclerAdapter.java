@@ -87,8 +87,8 @@ public class HomeRecyclerAdapter extends DefaultRecyclerAdapter {
         final HomeEntity item = mItemList.get(position);
         viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
         viewHolder.titleLabel.setText(item.title);
-        viewHolder.detailLabel.setText(item.detail);
-        viewHolder.secondDetailLabel.setText(item.secondDetail);
+        viewHolder.detailLabel.setVisibility(View.GONE);
+        viewHolder.secondDetailLabel.setVisibility(View.GONE);
         if (ObjectUtils.isNotEmpty(item.image)) {
             viewHolder.leftImage.setImageResource(item.image);
         }

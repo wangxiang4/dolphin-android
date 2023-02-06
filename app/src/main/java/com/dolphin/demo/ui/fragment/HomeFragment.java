@@ -79,13 +79,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         mRecyclerView = getView().findViewById(R.id.home_recycler_view);
         List<HomeRecyclerAdapter.HomeEntity> list = CollectionUtils.newArrayList(
                 new HomeRecyclerAdapter.HomeEntity().setCode("1").setTitle("高德地图"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("2").setTitle("可滑动列表"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("3").setTitle("后台保活"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("4").setTitle("地图路线规划"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("5").setTitle("文件上传"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("6").setTitle("文件下载"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("7").setTitle("图片选择器"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("消息通知")
+                new HomeRecyclerAdapter.HomeEntity().setCode("2").setTitle("粘性RxBus全局通信"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("3").setTitle("信使全局通信"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("4").setTitle("后台保活"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("5").setTitle("可滑动列表"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("6").setTitle("地图路线规划"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("7").setTitle("文件上传"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("文件下载"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("9").setTitle("图片选择器"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("10").setTitle("消息通知"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("地图导航"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("友盟分享"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("13").setTitle("地图位置搜索"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("14").setTitle("可拖拽列表")
         );
         final HomeRecyclerAdapter homeRecyclerAdapter = new HomeRecyclerAdapter(list);
         homeRecyclerAdapter.setEventListener(this);
