@@ -153,6 +153,7 @@ public class DemoMessengerFragment extends BaseFragment<FragmentDemoBinding, Too
     public void onDestroy() {
         super.onDestroy();
         WeakMessenger.getDefault().unregister(MessengerDemo.class);
+        WeakMessenger.reset();
     }
 
 }
