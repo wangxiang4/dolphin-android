@@ -44,7 +44,6 @@ import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentMapBinding;
 import com.dolphin.demo.listener.MapGpsSensorEventListener;
-import com.dolphin.demo.ui.activity.TabBarActivity;
 import com.dolphin.demo.ui.vm.MapViewModel;
 
 import java.util.List;
@@ -79,6 +78,9 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     /** 路线搜索 */
     private RouteSearch mRouteSearch;
+
+    /** 中间途径点 */
+    private List<LatLonPoint> throughPoints;
 
     /** 默认地图配置 */
     interface DefaultConfig {
@@ -123,7 +125,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                         .anchor(0.5f, 0.5f));
                 mapGpsSensorEventListener.setGpsMarker(locationMarker);
                 mapGpsSensorEventListener.setAMap(aMap);
-            } else if (userMoveToLocationMark){
+            } else if (userMoveToLocationMark) {
                 locationMarker.setPosition(latLng);
             } else {
                 locationMarker.setPosition(latLng);
@@ -186,7 +188,6 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         }
     }
 
-
     List<PointData> carPointData = CollectionUtils.newArrayList(
             new PointData("001","小黄车", 112.918119, 28.282891),
             new PointData("002","小绿车", 112.918919, 28.282991),
@@ -213,10 +214,11 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                     setMapDataPointMarker(new LatLng(item.mapLat, item.mapLng), item.label, 1);
                 }
             });
+            throughPoints = CollectionUtils.newArrayList(new LatLonPoint(gasStationPointData.get(0).mapLat, gasStationPointData.get(0).mapLng));
             // 渲染导航路线
-            final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(carPointData.get(0).mapLat, carPointData.get(0).mapLng), new LatLonPoint(gasStationPointData.get(0).mapLat, gasStationPointData.get(0).mapLng));
+            final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(new LatLonPoint(carPointData.get(0).mapLat, carPointData.get(0).mapLng), new LatLonPoint(gasStationPointData.get(1).mapLat, gasStationPointData.get(1).mapLng));
             // 第一个参数表示路径规划的起点和终点,第二个参数表示驾车模式,第三个参数表示途经点,第四个参数表示避让区域,第五个参数表示避让道路
-            RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_SINGLE_DEFAULT, null, null, "");
+            RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DRIVING_SINGLE_DEFAULT, throughPoints, null, "");
             mRouteSearch.calculateDriveRouteAsyn(query);
         } catch (Exception e) {
             e.printStackTrace();
@@ -243,7 +245,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         // 设置生长动画
         Animation animation = new ScaleAnimation(0,1,0,1);
         animation.setInterpolator(new LinearInterpolator());
-        // 整个移动所需要的时间
+        // 设置持续时间
         animation.setDuration(1000);
         // 设置动画
         marker.setAnimation(animation);
@@ -273,7 +275,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
                     drivePath,
                     result.getStartPos(),
                     result.getTargetPos(),
-                    null
+                    throughPoints
             );
             drivingRouteOverlay.removeFromMap();
             drivingRouteOverlay.drawDrivingRoute();
@@ -316,13 +318,13 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
         mapView.onDestroy();
     }
 
-    /** 单次定位,用于判断设备权限以及缺少GPS的硬件,提示不能使用此软件 */
+    /** 单次定位,用于判断设备权限以及缺少GPS的硬件提示不能使用此软件(针对首次进入时判断) */
     private void singleAMapLocationClient() {
         AMapLocationClient singleLocationClient = locationRequest.initLocation(locationRequest.getDefaultOption().setOnceLocation(true));
         singleLocationClient.startLocation();
         singleLocationClient.setLocationListener(location -> {
             if (null != location) {
-                switch (location.getLocationQualityReport().getGPSStatus()){
+                switch (location.getLocationQualityReport().getGPSStatus()) {
                     case AMapLocationQualityReport.GPS_STATUS_NOGPSPROVIDER:
                         ToastUtil.show("手机中没有GPS模块提供,无法进行GPS定位,请更换设备");
                         break;
@@ -348,7 +350,7 @@ public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> 
 
     @Override
     public void deactivate() {
-       LogUtils.i("地图销毁时不结束后台定位,让后台定位即使后台关闭app也能运行!");
+       LogUtils.i("地图暂停时不结束后台定位,让定位在后台也能运行!");
     }
 
     @Override

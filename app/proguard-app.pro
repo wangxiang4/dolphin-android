@@ -57,3 +57,6 @@
   **[] $VALUES;
   public *;
 }
+
+-keep class com.dolphin.demo.ui.activity.**{*;}
+-keep class com.dolphin.demo.ui.fragment.**{*;}
