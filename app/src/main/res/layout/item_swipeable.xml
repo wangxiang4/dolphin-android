@@ -47,11 +47,11 @@
     </LinearLayout>
     <RelativeLayout
         android:id="@+id/container_layout"
-        android:background="@drawable/icon_white_bg_stroke1"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
         <RelativeLayout
             android:id="@+id/left_layout"
             android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.dolphin.demo.ui.adapter.DemoSwipeableRecyclerAdapter;
 import com.dolphin.demo.ui.vm.ToolbarViewModel;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
@@ -92,6 +94,8 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mWrappedAdapter);
         mRecyclerView.setItemAnimator(animator);
+        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+
         // 配置滑动(优先级:触摸动作防护装置 > 滑动 > 拖放)
         mRecyclerViewTouchActionGuardManager.attachRecyclerView(mRecyclerView);
         mRecyclerViewSwipeManager.attachRecyclerView(mRecyclerView);
