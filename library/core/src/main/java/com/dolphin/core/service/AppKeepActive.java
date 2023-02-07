@@ -33,7 +33,7 @@ public class AppKeepActive {
     /** 前台服务通知 */
     public static volatile Notification notification;
 
-    /** 后台位置保持服务意图 */
+    /** 保持后台活跃服务意图 */
     private Intent backgroundKeepActiveFrontServiceIntent;
 
     /** 系统警报提醒服务 */

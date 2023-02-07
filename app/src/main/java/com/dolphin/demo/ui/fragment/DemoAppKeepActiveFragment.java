@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.constant.AppConstant;
@@ -70,7 +71,7 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
         mRecyclerView = getView().findViewById(R.id.demo_recycler_view);
         List<DemoRecyclerAdapter.Entity> list = CollectionUtils.newArrayList(
                 new DemoRecyclerAdapter.Entity().setCode("1").setTitle("启动后台免杀死持续活跃"),
-                new DemoRecyclerAdapter.Entity().setCode("2").setTitle("关闭后台免杀死持续活跃")
+                new DemoRecyclerAdapter.Entity().setCode("2").setTitle("停止后台免杀死持续活跃")
         );
         final DemoRecyclerAdapter demoRecyclerAdapter = new DemoRecyclerAdapter(list);
         demoRecyclerAdapter.setEventListener(this);
@@ -98,7 +99,7 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
             case "2":
                 appKeepActive.unregisterService();
                 unregisterReceiver();
-                ToastUtil.showCenter("关闭成功");
+                ToastUtil.showCenter("停止成功");
                 break;
         }
     }
@@ -109,7 +110,8 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     if (intent.getAction().equals(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE)) {
-                        ToastUtil.showTop("处理持续保持活跃任务逻辑!");
+                        ToastUtil.show("处理持续保持活跃任务逻辑!");
+                        LogUtils.i("处理持续保持活跃任务逻辑!");
                     }
                 }
             };
