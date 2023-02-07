@@ -3,12 +3,15 @@ package com.dolphin.demo.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dolphin.demo.R;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemConstants;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
@@ -16,27 +19,54 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAct
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionMoveToSwipedDirection;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractSwipeableItemViewHolder;
 import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
-import com.dolphin.demo.R;
-import com.dolphin.core.entity.MapLogisticPoint;
 
+import java.util.Collection;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 /**
  *<p>
- * 行程任务左滑显示按钮回收视图适配器
+ * demo可滑动回收列表数据适配器
  *</p>
  *
- * @Author: entfrm开发团队-王翔
- * @since: 2022/11/16
+ * @Author: wangxiang4
+ * @since: 2023/2/7
  */
-public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecyclerAdapter.MyViewHolder>
-        implements SwipeableItemAdapter<SwipeableRecyclerAdapter.MyViewHolder> {
+public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipeableRecyclerAdapter.ViewHolder> implements SwipeableItemAdapter<DemoSwipeableRecyclerAdapter.ViewHolder> {
 
-    /** 视图集合数据 */
-    private List<MapLogisticPoint> mItemList;
+    private List<Entity> mItemList;
 
-    /** 回调事件 */
     private EventListener mEventListener;
+
+    @Data
+    @Accessors
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Entity {
+
+        public String code;
+
+        public String title;
+
+        public String detail;
+
+        public String secondDetail;
+
+        public Integer image;
+
+        public Integer badge;
+
+        public Boolean hidesDisclosure;
+
+        public Boolean hidesLeftImage;
+
+        /** 回收视图滑动固定状态 */
+        public Boolean pinned = false;
+    }
 
     public interface EventListener {
         /** 滑动固定项后回调 */
@@ -55,44 +85,52 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
         void onBtnSwipeable3(View v);
     }
 
-    /** 视图当前持有者对象 */
-    public static class MyViewHolder extends AbstractSwipeableItemViewHolder {
-        public RelativeLayout mContentLayout;
-        public RelativeLayout mBehindLayout;
-        public TextView mBtnSwipeable1;
-        public TextView mBtnSwipeable2;
-        public TextView mBtnSwipeable3;
-        public TextView mTitleLabel;
-        public TextView mDetailLabel;
-        public TextView mSecondDetailLabel;
+    public static class ViewHolder extends AbstractSwipeableItemViewHolder {
+        public LinearLayout behindLayout;
+        public TextView btnSwipeable1;
+        public TextView btnSwipeable2;
+        public TextView btnSwipeable3;
+        public RelativeLayout containerLayout;
+        public RelativeLayout leftLayout;
+        public ImageView leftImage;
+        public ImageView leftBadge;
+        public LinearLayout contentLayout;
+        public TextView titleLabel;
+        public TextView detailLabel;
+        public TextView secondDetailLabel;
+        public ImageView disclosureImage;
 
-        public MyViewHolder(View v) {
+        public ViewHolder(View v) {
             super(v);
-            mContentLayout = v.findViewById(R.id.content_layout);
-            mBehindLayout = v.findViewById(R.id.behind_layout);
-            mBtnSwipeable1 = v.findViewById(R.id.btn_swipeable1);
-            mBtnSwipeable2 = v.findViewById(R.id.btn_swipeable2);
-            mBtnSwipeable3 = v.findViewById(R.id.btn_swipeable3);
-            mTitleLabel = v.findViewById(R.id.title_label);
-            mDetailLabel = v.findViewById(R.id.detail_label);
-            mSecondDetailLabel = v.findViewById(R.id.second_detail_label);
+            behindLayout = v.findViewById(R.id.behind_layout);
+            btnSwipeable1 = v.findViewById(R.id.btn_swipeable1);
+            btnSwipeable2 = v.findViewById(R.id.btn_swipeable2);
+            btnSwipeable3 = v.findViewById(R.id.btn_swipeable3);
+            containerLayout = v.findViewById(R.id.container_layout);
+            leftLayout = v.findViewById(R.id.left_layout);
+            leftImage = v.findViewById(R.id.left_image);
+            leftBadge = v.findViewById(R.id.left_badge);
+            contentLayout = v.findViewById(R.id.content_layout);
+            titleLabel = v.findViewById(R.id.title_label);
+            detailLabel = v.findViewById(R.id.detail_label);
+            secondDetailLabel = v.findViewById(R.id.second_detail_label);
+            disclosureImage = v.findViewById(R.id.disclosure_image);
         }
 
         @Override
         public View getSwipeableContainerView() {
-            return mContentLayout;
+            return containerLayout;
         }
 
     }
 
-    public SwipeableRecyclerAdapter(List<MapLogisticPoint> mItemList) {
+    public DemoSwipeableRecyclerAdapter(List<Entity> mItemList) {
         this.mItemList = mItemList;
         // SwipeableItemAdapter需要稳定的ID,并且还必须适当地实现getItemId()方法,
         // 否则会导致局部刷新,找不到匹配刷新项
         setHasStableIds(true);
     }
 
-    /** 可滑动视图容器点击监听 */
     private void onSwipeableViewContainerClick(View v) {
         if (mEventListener != null) {
             mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
@@ -116,32 +154,33 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
 
     @Override
     public long getItemId(int position) {
-        return mItemList.get(position).getId().hashCode();
+        return mItemList.get(position).getCode().hashCode();
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View v = inflater.inflate(R.layout.item_swipeable, parent, false);
-        return new MyViewHolder(v);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        final MapLogisticPoint item = mItemList.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final Entity item = mItemList.get(position);
         // 设置偏移量
-        holder.setMaxLeftSwipeAmount(-0.46f);
+        holder.setMaxLeftSwipeAmount(-0.44f);
         holder.setMaxRightSwipeAmount(0);
         // 设置水平滑动的量
-        holder.setSwipeItemHorizontalSlideAmount(item.getPinned() ? -0.46f : 0);
+        holder.setSwipeItemHorizontalSlideAmount(item.getPinned() ? -0.44f : 0);
 
-        holder.mDetailLabel.setVisibility(View.GONE);
-        holder.mSecondDetailLabel.setVisibility(View.GONE);
-        holder.mContentLayout.setOnClickListener(view -> onSwipeableViewContainerClick(view));
-        holder.mBtnSwipeable1.setOnClickListener(view -> onBtnSwipeable1Click(view));
-        holder.mBtnSwipeable2.setOnClickListener(view -> onBtnSwipeable2Click(view));
-        holder.mBtnSwipeable3.setOnClickListener(view -> onBtnSwipeable3Click(view));
-        holder.mTitleLabel.setText("这是一条审批数据");
+        holder.detailLabel.setVisibility(View.GONE);
+        holder.secondDetailLabel.setVisibility(View.GONE);
+        holder.titleLabel.setText(item.getTitle());
+
+        holder.containerLayout.setOnClickListener(view -> onSwipeableViewContainerClick(view));
+        holder.btnSwipeable1.setOnClickListener(view -> onBtnSwipeable1Click(view));
+        holder.btnSwipeable2.setOnClickListener(view -> onBtnSwipeable2Click(view));
+        holder.btnSwipeable3.setOnClickListener(view -> onBtnSwipeable3Click(view));
     }
 
     @Override
@@ -150,9 +189,9 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
     }
 
     @Override
-    public int onGetSwipeReactionType(@NonNull MyViewHolder holder, int position, int x, int y) {
-        final int tx = (int) (holder.getSwipeableContainerView().getTranslationX() + 0.46f);
-        final int ty = (int) (holder.getSwipeableContainerView().getTranslationY() + 0.46f);
+    public int onGetSwipeReactionType(@NonNull ViewHolder holder, int position, int x, int y) {
+        final int tx = (int) (holder.getSwipeableContainerView().getTranslationX() + 0.44f);
+        final int ty = (int) (holder.getSwipeableContainerView().getTranslationY() + 0.44f);
         final int left = holder.getSwipeableContainerView().getLeft() + tx;
         final int right = holder.getSwipeableContainerView().getRight() + tx;
         final int top = holder.getSwipeableContainerView().getTop() + ty;
@@ -166,22 +205,21 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
     }
 
     @Override
-    public void onSwipeItemStarted(@NonNull MyViewHolder holder, int position) {
+    public void onSwipeItemStarted(@NonNull ViewHolder holder, int position) {
         notifyDataSetChanged();
     }
 
     @Override
-    public void onSetSwipeBackground(@NonNull MyViewHolder holder, int position, int type) {
+    public void onSetSwipeBackground(@NonNull ViewHolder holder, int position, int type) {
         if (type == SwipeableItemConstants.DRAWABLE_SWIPE_NEUTRAL_BACKGROUND) {
-            holder.mBehindLayout.setVisibility(View.GONE);
+            holder.behindLayout.setVisibility(View.GONE);
         } else {
-            holder.mBehindLayout.setVisibility(View.VISIBLE);
+            holder.behindLayout.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public SwipeResultAction onSwipeItem(@NonNull MyViewHolder holder, int position, int result) {
-
+    public SwipeResultAction onSwipeItem(@NonNull ViewHolder holder, int position, int result) {
         switch (result) {
             case SwipeableItemConstants.RESULT_SWIPED_LEFT:
                 return new SwipeLeftResultAction(this, position);
@@ -200,17 +238,37 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
         return mEventListener;
     }
 
-    public void setEventListener(EventListener eventListener) {
+    public DemoSwipeableRecyclerAdapter setEventListener(EventListener eventListener) {
         mEventListener = eventListener;
+        return this;
+    }
+
+    public DemoSwipeableRecyclerAdapter refresh(Collection<Entity> collection) {
+        mItemList.clear();
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public DemoSwipeableRecyclerAdapter loadMore(Collection<Entity> collection) {
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public DemoSwipeableRecyclerAdapter insert(Collection<Entity> collection) {
+        mItemList.addAll(0, collection);
+        notifyItemRangeInserted(0, collection.size());
+        return this;
     }
 
     /** 向左滑动操作 */
     private static class SwipeLeftResultAction extends SwipeResultActionMoveToSwipedDirection {
-        private SwipeableRecyclerAdapter mAdapter;
+        private DemoSwipeableRecyclerAdapter mAdapter;
         private final int mPosition;
         private boolean mSetPinned;
 
-        SwipeLeftResultAction(SwipeableRecyclerAdapter adapter, int position) {
+        SwipeLeftResultAction(DemoSwipeableRecyclerAdapter adapter, int position) {
             mAdapter = adapter;
             mPosition = position;
         }
@@ -218,7 +276,7 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
         @Override
         protected void onPerformAction() {
             super.onPerformAction();
-            MapLogisticPoint item = mAdapter.mItemList.get(mPosition);
+            Entity item = mAdapter.mItemList.get(mPosition);
             // 检测是否已经处于滑动完毕
             if (!item.getPinned()) {
                 item.setPinned(true);
@@ -245,10 +303,10 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
 
     /** 关闭向左滑动操作 */
     private static class UnpinResultAction extends SwipeResultActionDefault {
-        private SwipeableRecyclerAdapter mAdapter;
+        private DemoSwipeableRecyclerAdapter mAdapter;
         private final int mPosition;
 
-        UnpinResultAction(SwipeableRecyclerAdapter adapter, int position) {
+        UnpinResultAction(DemoSwipeableRecyclerAdapter adapter, int position) {
             mAdapter = adapter;
             mPosition = position;
         }
@@ -256,7 +314,7 @@ public class SwipeableRecyclerAdapter extends RecyclerView.Adapter<SwipeableRecy
         @Override
         protected void onPerformAction() {
             super.onPerformAction();
-            MapLogisticPoint item = mAdapter.mItemList.get(mPosition);
+            Entity item = mAdapter.mItemList.get(mPosition);
             // 检测是否已经处于滑动完毕
             if (item.getPinned()) {
                 item.setPinned(false);

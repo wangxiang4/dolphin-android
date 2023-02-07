@@ -127,6 +127,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoAppKeepActiveFragment");
                 break;
             case "5":
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoSwipeableFragment");
                 break;
             case "6":
                 break;
