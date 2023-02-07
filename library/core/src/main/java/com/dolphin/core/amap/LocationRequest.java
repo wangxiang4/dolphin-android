@@ -142,14 +142,14 @@ public class  LocationRequest implements AMapLocationListener {
             locationReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (null != locationClient && intent.getAction().equals(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE)) {
+                    if (null != locationClient && intent.getAction().equals(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING)) {
                         locationClient.startLocation();
                     }
                 }
             };
         }
         IntentFilter filter = new IntentFilter();
-        filter.addAction(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE);
+        filter.addAction(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING);
         mContext.registerReceiver(locationReceiver, filter);
     }
 

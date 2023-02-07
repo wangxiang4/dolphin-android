@@ -75,7 +75,7 @@ public class BackgroundKeepActiveFrontService extends Service {
             if (!startBackgroundKeepActiveTask) cancel();
             if(isAppBackstage()){
                 Intent intent = new Intent();
-                intent.setAction(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE);
+                intent.setAction(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING);
                 sendBroadcast(intent);
             }
             startForeground(AppConstant.KEEP_ACTIVE_FRONT_SERVICE_NOTIFICATION_ID, AppKeepActive.notification);

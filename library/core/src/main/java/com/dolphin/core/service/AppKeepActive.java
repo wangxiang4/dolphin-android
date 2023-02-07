@@ -84,7 +84,7 @@ public class AppKeepActive {
                         if (null != alarmPendingIntent) return;
                         // 支持后台熄屏,定时执行后台持续活跃任务
                         Intent alarmIntent = new Intent();
-                        alarmIntent.setAction(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE);
+                        alarmIntent.setAction(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING);
                         // https://www.cnblogs.com/endv/p/11576121.html
                         alarmPendingIntent = PendingIntent.getBroadcast(mContext, AppConstant.PERMISSION_REQUEST_CODE, alarmIntent, PendingIntent.FLAG_IMMUTABLE);
                         // 获取系统警报提醒服务

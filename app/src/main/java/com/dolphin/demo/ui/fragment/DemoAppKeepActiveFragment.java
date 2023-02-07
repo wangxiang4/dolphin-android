@@ -35,6 +35,7 @@ import java.util.List;
 /**
  *<p>
  * 应用后台持续活跃
+ * 支持熄屏，app退入后台，保证后台任务不被杀死
  *</p>
  *
  * @Author: wangxiang4
@@ -70,8 +71,8 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
         mViewModel.setTitleText("应用后台持续活跃");
         mRecyclerView = getView().findViewById(R.id.demo_recycler_view);
         List<DemoRecyclerAdapter.Entity> list = CollectionUtils.newArrayList(
-                new DemoRecyclerAdapter.Entity().setCode("1").setTitle("启动后台免杀死持续活跃"),
-                new DemoRecyclerAdapter.Entity().setCode("2").setTitle("停止后台免杀死持续活跃")
+                new DemoRecyclerAdapter.Entity().setCode("1").setTitle("启动后台免杀持续活跃"),
+                new DemoRecyclerAdapter.Entity().setCode("2").setTitle("停止后台免杀持续活跃")
         );
         final DemoRecyclerAdapter demoRecyclerAdapter = new DemoRecyclerAdapter(list);
         demoRecyclerAdapter.setEventListener(this);
@@ -92,13 +93,13 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
     public void onItemViewClicked(DemoRecyclerAdapter.Entity entity) {
         switch (entity.code) {
             case "1":
-                appKeepActive.registerService();
                 registerReceiver();
+                appKeepActive.registerService();
                 ToastUtil.showCenter("启动成功");
                 break;
             case "2":
-                appKeepActive.unregisterService();
                 unregisterReceiver();
+                appKeepActive.unregisterService();
                 ToastUtil.showCenter("停止成功");
                 break;
         }
@@ -109,22 +110,21 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
             backgroundKeepActiveTask = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    if (intent.getAction().equals(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE)) {
-                        ToastUtil.show("处理持续保持活跃任务逻辑!");
-                        LogUtils.i("处理持续保持活跃任务逻辑!");
+                    if (intent.getAction().equals(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING)) {
+                        ToastUtil.show("APP进入后台执行任务逻辑!");
+                        LogUtils.i("APP进入后台执行任务逻辑!");
                     }
                 }
             };
         }
         IntentFilter filter = new IntentFilter();
-        filter.addAction(AppConstant.KEEP_ACTIVE_TASK_BROADCAST_UPDATE);
+        filter.addAction(AppConstant.BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING);
         getActivity().registerReceiver(backgroundKeepActiveTask, filter);
     }
 
     public void unregisterReceiver() {
         if (null != backgroundKeepActiveTask) getActivity().unregisterReceiver(backgroundKeepActiveTask);
     }
-
 
     @Override
     public void onStart() {

@@ -31,8 +31,8 @@ public interface AppConstant {
     /** 后台持续活跃前台服务通知ID */
     Integer KEEP_ACTIVE_FRONT_SERVICE_NOTIFICATION_ID = 2023;
 
-    /** 后台持续活跃定位广播更新 */
-    String KEEP_ACTIVE_TASK_BROADCAST_UPDATE = "KEEP_ACTIVE_TASK_BROADCAST_UPDATE";
+    /** 后台持续活跃广播调度 */
+    String BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING = "BACKGROUND_KEEP_ACTIVE_TASK_SCHEDULING";
 
     /** 默认线程池数量 */
     Integer DEFAULT_THREAD_POOL_SIZE = 3;
