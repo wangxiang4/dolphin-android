@@ -43,7 +43,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     private RecyclerView.Adapter mWrappedAdapter;
     private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
     private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
-    private List<DemoSwipeableRecyclerAdapter.Entity> list;
+
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_demo;
@@ -67,7 +67,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mRecyclerView.getLayoutParams());
         params.setMargins(0, 0, 0, 0);
         mRecyclerView.setLayoutParams(params);
-        list = CollectionUtils.newArrayList(
+        List<DemoSwipeableRecyclerAdapter.Entity> list = CollectionUtils.newArrayList(
                 new DemoSwipeableRecyclerAdapter.Entity().setCode("1").setTitle("这是第一条滑动数据"),
                 new DemoSwipeableRecyclerAdapter.Entity().setCode("2").setTitle("这是第二条滑动数据"),
                 new DemoSwipeableRecyclerAdapter.Entity().setCode("3").setTitle("这是第三条滑动数据")
@@ -103,14 +103,14 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
 
     @Override
     public void onItemPinned(int position) {
-        ToastUtil.showCenter("滑动固定项回调处理");
+        ToastUtil.show("滑动固定项回调处理");
     }
 
     @Override
     public void onItemViewClicked(View v) {
         ToastUtil.showCenter("滑动容器点击回调处理");
         int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = list.get(position);
+        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
         if (position != RecyclerView.NO_POSITION) {
             if (item.getPinned()) {
                 // 取消滑动固定
@@ -124,7 +124,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     public void onBtnSwipeable1(View v) {
         ToastUtil.showCenter("滑动按钮点击1回调处理");
         int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = list.get(position);
+        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
         if (position != RecyclerView.NO_POSITION) {
             if (item.getPinned()) {
                 // 取消滑动固定
@@ -138,7 +138,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     public void onBtnSwipeable2(View v) {
         ToastUtil.showCenter("滑动按钮点击2回调处理");
         int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = list.get(position);
+        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
         if (position != RecyclerView.NO_POSITION) {
             if (item.getPinned()) {
                 // 取消滑动固定
@@ -152,7 +152,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     public void onBtnSwipeable3(View v) {
         ToastUtil.showCenter("滑动按钮点击3回调处理");
         int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = list.get(position);
+        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
         if (position != RecyclerView.NO_POSITION) {
             if (item.getPinned()) {
                 // 取消滑动固定

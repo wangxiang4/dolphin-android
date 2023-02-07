@@ -235,6 +235,10 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
         }
     }
 
+    public List<Entity> getData() {
+        return mItemList;
+    }
+
     public EventListener getEventListener() {
         return mEventListener;
     }
