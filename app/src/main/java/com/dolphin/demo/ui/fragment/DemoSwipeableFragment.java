@@ -2,6 +2,7 @@ package com.dolphin.demo.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -36,7 +37,7 @@ import java.util.List;
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/7/15
  */
-public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, ToolbarViewModel> implements DemoSwipeableRecyclerAdapter.EventListener {
+public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, ToolbarViewModel> implements DemoSwipeableRecyclerAdapter.EventListener, View.OnTouchListener {
 
     private RecyclerView mRecyclerView;
     private DemoSwipeableRecyclerAdapter mAdapter;
@@ -64,6 +65,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
         super.onViewCreated(view, savedInstanceState);
         mViewModel.setTitleText("可滑动列表");
         mRecyclerView = getView().findViewById(R.id.demo_recycler_view);
+        mRecyclerView.setOnTouchListener(this);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mRecyclerView.getLayoutParams());
         params.setMargins(0, 0, 0, 0);
         mRecyclerView.setLayoutParams(params);
@@ -102,6 +104,14 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     }
 
     @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            cleanSwipeable();
+        }
+        return false;
+    }
+
+    @Override
     public void onItemPinned(int position) {
         ToastUtil.show("滑动固定项回调处理");
     }
@@ -109,58 +119,38 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
     @Override
     public void onItemViewClicked(View v) {
         ToastUtil.showCenter("滑动容器点击回调处理");
-        int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
-        if (position != RecyclerView.NO_POSITION) {
-            if (item.getPinned()) {
-                // 取消滑动固定
-                item.setPinned(false);
-                mAdapter.notifyItemChanged(position);
-            }
-        }
+        cleanSwipeable();
     }
 
     @Override
     public void onBtnSwipeable1(View v) {
         ToastUtil.showCenter("滑动按钮点击1回调处理");
-        int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
-        if (position != RecyclerView.NO_POSITION) {
-            if (item.getPinned()) {
-                // 取消滑动固定
-                item.setPinned(false);
-                mAdapter.notifyItemChanged(position);
-            }
-        }
+        cleanSwipeable();
     }
 
     @Override
     public void onBtnSwipeable2(View v) {
         ToastUtil.showCenter("滑动按钮点击2回调处理");
-        int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
-        if (position != RecyclerView.NO_POSITION) {
-            if (item.getPinned()) {
-                // 取消滑动固定
-                item.setPinned(false);
-                mAdapter.notifyItemChanged(position);
-            }
-        }
+        cleanSwipeable();
     }
 
     @Override
     public void onBtnSwipeable3(View v) {
         ToastUtil.showCenter("滑动按钮点击3回调处理");
-        int position = mRecyclerView.getChildAdapterPosition(v);
-        DemoSwipeableRecyclerAdapter.Entity item = mAdapter.getData().get(position);
-        if (position != RecyclerView.NO_POSITION) {
-            if (item.getPinned()) {
-                // 取消滑动固定
-                item.setPinned(false);
-                mAdapter.notifyItemChanged(position);
-            }
+        cleanSwipeable();
+    }
+
+    @Override
+    public void onItemViewTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            cleanSwipeable();
         }
     }
+
+    public void cleanSwipeable() {
+        mAdapter.getData().forEach(item -> { if (item.getPinned()) item.setPinned(false); });
+        mAdapter.notifyDataSetChanged();
+     }
 
     @Override
     public void onStart() {

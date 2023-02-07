@@ -1,6 +1,7 @@
 package com.dolphin.demo.ui.adapter;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -72,6 +73,9 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
         /** 滑动固定项后回调 */
         void onItemPinned(int position);
 
+        /** 滑动容器触摸 */
+        void onItemViewTouch(View v, MotionEvent event);
+
         /** 滑动容器点击 */
         void onItemViewClicked(View v);
 
@@ -131,6 +135,11 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
         setHasStableIds(true);
     }
 
+    private void onSwipeableViewContainerTouch(View v, MotionEvent event) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewTouch(RecyclerViewAdapterUtils.getParentViewHolderItemView(v), event);
+        }
+    }
     private void onSwipeableViewContainerClick(View v) {
         if (mEventListener != null) {
             mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v));
@@ -178,6 +187,10 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
         holder.disclosureImage.setVisibility(View.GONE);
         holder.titleLabel.setText(item.getTitle());
 
+        holder.containerLayout.setOnTouchListener((view, event) -> {
+            onSwipeableViewContainerTouch(view, event);
+            return false;
+        });
         holder.containerLayout.setOnClickListener(view -> onSwipeableViewContainerClick(view));
         holder.btnSwipeable1.setOnClickListener(view -> onBtnSwipeable1Click(view));
         holder.btnSwipeable2.setOnClickListener(view -> onBtnSwipeable2Click(view));
