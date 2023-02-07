@@ -175,6 +175,7 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
 
         holder.detailLabel.setVisibility(View.GONE);
         holder.secondDetailLabel.setVisibility(View.GONE);
+        holder.disclosureImage.setVisibility(View.GONE);
         holder.titleLabel.setText(item.getTitle());
 
         holder.containerLayout.setOnClickListener(view -> onSwipeableViewContainerClick(view));
