@@ -1,12 +1,19 @@
 package com.dolphin.demo.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amap.api.maps.AMap;
@@ -55,17 +62,20 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 	private final int ROUTE_TYPE_DRIVE = 1;
 	private final int ROUTE_TYPE_RIDE = 2;
 
-	private RelativeLayout mRoutePlanBottomLayout;
+	private Button mBtnStartNavi;
 	private RelativeLayout mRouteDriveLayout;
 	private TextView mRouteTime;
 	private ImageView mDrive;
 	private ImageView mRide;
 	private LinearLayout mRouteDetail;
-
 	private LatLonPoint mOriginPoint;
 	private LatLonPoint mDestinationPoint;
 	private MaterialDialog mMaterialDialog;
 
+	private ActivityResultLauncher<RoutePlanLatPoint> driveNaviLauncherResult;
+	private ActivityResultLauncher<RoutePlanLatPoint> rideNaviLauncherResult;
+
+	public static final String DEMO_RESULT_LAUNCHER_RESULT_KEY = "DEMO_RESULT_LAUNCHER_RESULT_KEY";
 	interface DefaultConfig {
 
 		// 默认中心点长沙望城区域砂之船奥莱
@@ -90,6 +100,10 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		return BR.viewModel;
 	}
 
+	public RoutePlanActivity getActivityContext(){
+		return this;
+	}
+
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
@@ -112,13 +126,55 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		LatLng latLng = new LatLng(DefaultConfig.mapCentreLat, DefaultConfig.mapCentreLng);
 		// 首次定位移动到地图中心点并修改一些默认属性
 		aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, DefaultConfig.zoom, DefaultConfig.tilt, DefaultConfig.bearing)));
-		mRoutePlanBottomLayout = findViewById(R.id.route_plan_bottom);
+		mBtnStartNavi = findViewById(R.id.btn_start_navi);
 		mRouteDriveLayout = findViewById(R.id.route_drive_layout);
 		mRouteTime = findViewById(R.id.route_time);
 		mRouteDetail = findViewById(R.id.route_detail);
 		mDrive = findViewById(R.id.route_drive);
 		mRide = findViewById(R.id.route_ride);
 		mRouteDriveLayout.performClick();
+
+		// 注册驾车导航活动结果
+		driveNaviLauncherResult = registerForActivityResult(new ActivityResultContract<RoutePlanLatPoint, String>() {
+			@Override
+			public String parseResult(int resultCode, @Nullable Intent intent) {
+				if (intent == null) {
+					return null;
+				}
+				if (resultCode == RESULT_OK) {
+					return intent.getStringExtra(DEMO_RESULT_LAUNCHER_RESULT_KEY);
+				} else {
+					return intent.getStringExtra(DEMO_RESULT_LAUNCHER_RESULT_KEY) + "ð";
+				}
+			}
+			@Override
+			public Intent createIntent(@NonNull Context context, RoutePlanLatPoint routePlanLatPoint) {
+				Intent intent = new Intent(getActivityContext(), DriveSingleRouteCalculateActivity.class);
+				intent.putExtra(CommonConstant.ROUTE_PLAN_LAT_POINT, routePlanLatPoint);
+				return intent;
+			}
+		}, result -> ToastUtil.show(result));
+
+		// 注册骑行导航活动结果
+		rideNaviLauncherResult = registerForActivityResult(new ActivityResultContract<RoutePlanLatPoint, String>() {
+			@Override
+			public String parseResult(int resultCode, @Nullable Intent intent) {
+				if (intent == null) {
+					return null;
+				}
+				if (resultCode == RESULT_OK) {
+					return intent.getStringExtra(DEMO_RESULT_LAUNCHER_RESULT_KEY);
+				} else {
+					return intent.getStringExtra(DEMO_RESULT_LAUNCHER_RESULT_KEY) + "ð";
+				}
+			}
+			@Override
+			public Intent createIntent(@NonNull Context context, RoutePlanLatPoint routePlanLatPoint) {
+				Intent intent = new Intent(getActivityContext(), RideRouteCalculateActivity.class);
+				intent.putExtra(CommonConstant.ROUTE_PLAN_LAT_POINT, routePlanLatPoint);
+				return intent;
+			}
+		}, result -> ToastUtil.show(result));
 	}
 
 	public void onDriveClick(View view) {
@@ -140,6 +196,7 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		}
 		if (mDestinationPoint == null) {
 			ToastUtil.show("终点未设置");
+			return;
 		}
 		showProgressDialog();
 		final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(mOriginPoint, mDestinationPoint);
@@ -192,6 +249,8 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 				intent.putExtra("drive_path", drivePath);
 				startActivity(intent);
 			});
+			mBtnStartNavi.setOnClickListener(view ->
+					driveNaviLauncherResult.launch(new RoutePlanLatPoint().setOriginPoint(mOriginPoint).setDestinationPoint(mDestinationPoint)));
 		}
 	}
 
@@ -231,6 +290,8 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 				intent.putExtra("ride_path", ridePath);
 				startActivity(intent);
 			});
+			mBtnStartNavi.setOnClickListener(view ->
+					rideNaviLauncherResult.launch(new RoutePlanLatPoint().setOriginPoint(mOriginPoint).setDestinationPoint(mDestinationPoint)));
 		}
 	}
 
@@ -279,7 +340,6 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 			mMaterialDialog.dismiss();
 		}
 	}
-
 
 }
 

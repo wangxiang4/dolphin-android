@@ -74,6 +74,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp" />
             <Button
+                android:id="@+id/btn_start_navi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/route_time"

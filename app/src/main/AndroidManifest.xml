@@ -132,5 +132,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
+        <!-- 驾车导航单路线计算 -->
+        <activity
+            android:name=".ui.activity.DriveSingleRouteCalculateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!-- 骑行导航路线计算 -->
+        <activity
+            android:name=".ui.activity.RideRouteCalculateActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
     </application>
 </manifest>
