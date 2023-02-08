@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
@@ -33,6 +36,7 @@ import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.ActivityRoutePlanBinding;
 import com.dolphin.demo.entity.RoutePlanLatPoint;
+import com.dolphin.demo.ui.fragment.MapFragment;
 import com.dolphin.demo.ui.vm.RoutePlanViewModel;
 
 /**
@@ -63,6 +67,20 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 	private LatLonPoint mDestinationPoint;
 	private MaterialDialog mMaterialDialog;
 
+	interface DefaultConfig {
+
+		// 默认中心点长沙望城区域砂之船奥莱
+		double mapCentreLat = 28.288623;
+		double mapCentreLng = 112.919043;
+		// 地图缩放级别
+		float zoom  = 17f;
+		// 3D地图倾斜度
+		float tilt = 55f;
+		// 正视前方可视区域方向
+		float bearing = 300;
+
+	}
+
 	@Override
 	public int setContentView(Bundle savedInstanceState) {
 		return R.layout.activity_route_plan;
@@ -87,11 +105,14 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		aMap.getUiSettings().setLogoBottomMargin(-100);
 		aMap.getUiSettings().setZoomControlsEnabled(false);
 		try {
-			mRouteSearch = new RouteSearch(this);
+			mRouteSearch = new RouteSearch(getApplicationContext());
 			mRouteSearch.setRouteSearchListener(this);
 		} catch (AMapException e) {
 			e.printStackTrace();
 		}
+		LatLng latLng = new LatLng(DefaultConfig.mapCentreLat, DefaultConfig.mapCentreLng);
+		// 首次定位移动到地图中心点并修改一些默认属性
+		aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, DefaultConfig.zoom, DefaultConfig.tilt, DefaultConfig.bearing)));
 		mRoutePlanBottomLayout = findViewById(R.id.route_plan_bottom);
 		mRouteDriveLayout = findViewById(R.id.route_drive_layout);
 		mRouteTime = findViewById(R.id.route_time);
