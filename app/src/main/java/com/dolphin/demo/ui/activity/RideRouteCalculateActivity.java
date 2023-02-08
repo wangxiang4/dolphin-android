@@ -8,7 +8,6 @@ import com.amap.api.navi.model.AMapCalcRouteResult;
 import com.amap.api.navi.model.NaviLatLng;
 import com.amap.api.services.core.LatLonPoint;
 import com.dolphin.core.amap.NaviBaseActivity;
-import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.entity.RoutePlanLatPoint;
