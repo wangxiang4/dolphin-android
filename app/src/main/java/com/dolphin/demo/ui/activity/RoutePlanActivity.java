@@ -36,7 +36,6 @@ import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.ActivityRoutePlanBinding;
 import com.dolphin.demo.entity.RoutePlanLatPoint;
-import com.dolphin.demo.ui.fragment.MapFragment;
 import com.dolphin.demo.ui.vm.RoutePlanViewModel;
 
 /**

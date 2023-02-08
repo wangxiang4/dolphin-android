@@ -152,8 +152,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 break;
             case "6":
                 RoutePlanLatPoint routePlanLatPoint = new RoutePlanLatPoint();
-                routePlanLatPoint.setOriginPoint(new LatLonPoint(112.918119, 28.282891));
-                routePlanLatPoint.setDestinationPoint(new LatLonPoint(112.919165, 28.289924));
+                routePlanLatPoint.setOriginPoint(new LatLonPoint(28.282891, 112.918119));
+                routePlanLatPoint.setDestinationPoint(new LatLonPoint(28.289924, 112.919165));
                 routePlanLauncherResult.launch(routePlanLatPoint);
                 break;
             case "7":
