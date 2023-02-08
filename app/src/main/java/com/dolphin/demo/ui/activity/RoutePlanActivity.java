@@ -104,16 +104,10 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 	public void onDriveClick(View view) {
 		searchRouteResult(ROUTE_TYPE_DRIVE, RouteSearch.DRIVING_SINGLE_DEFAULT);
 		mDrive.setImageResource(R.drawable.icon_route_drive_select);
-		mRide.setImageResource(R.drawable.icon_route_drive_normal);
+		mRide.setImageResource(R.drawable.icon_route_ride_normal);
 	}
 
 	public void onRideClick(View view) {
-		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.DRIVING_SINGLE_DEFAULT);
-		mDrive.setImageResource(R.drawable.icon_route_ride_normal);
-		mRide.setImageResource(R.drawable.icon_route_ride_select);
-	}
-
-	public void onNavigationClick(View view) {
 		searchRouteResult(ROUTE_TYPE_RIDE, RouteSearch.DRIVING_SINGLE_DEFAULT);
 		mDrive.setImageResource(R.drawable.icon_route_drive_normal);
 		mRide.setImageResource(R.drawable.icon_route_ride_select);

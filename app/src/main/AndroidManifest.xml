@@ -55,8 +55,7 @@
         tools:targetApi="q">
 
         <!-- 高德地图 AppId（请在 Gradle 中配置，请不要在此处修改） -->
-        <meta-data
-            android:name="com.amap.api.v2.apikey" android:value="${AMAP_KEY}" />
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="${AMAP_KEY}" />
         <!-- 开启高德地图定位服务 -->
         <service android:name="com.amap.api.location.APSService" />
         <!-- 开启后台定位保活前台服务 -->

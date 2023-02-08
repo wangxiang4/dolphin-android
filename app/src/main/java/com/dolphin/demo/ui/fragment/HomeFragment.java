@@ -1,5 +1,7 @@
 package com.dolphin.demo.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.services.core.LatLonPoint;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -23,8 +28,10 @@ import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.FragmentHomeBinding;
+import com.dolphin.demo.entity.RoutePlanLatPoint;
 import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.entity.User;
+import com.dolphin.demo.ui.activity.RoutePlanActivity;
 import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
 import com.dolphin.demo.ui.vm.HomeViewModel;
 import com.umeng.message.PushAgent;
@@ -43,6 +50,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     private RecyclerView mRecyclerView;
     private HomeRecyclerAdapter mAdapter;
+    /** 路线规划活动结果(双向传递数据) */
+    private ActivityResultLauncher<RoutePlanLatPoint> routePlanLauncherResult;
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -71,6 +80,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 LogUtils.i(msg);
             });
         } else throw new RuntimeException("用户对象为空请重新登录!");
+        // 注册路线规划活动结果
+        routePlanLauncherResult = registerForActivityResult(new ActivityResultContract<RoutePlanLatPoint, Void>() {
+            @Override
+            public Void parseResult(int resultCode, @Nullable Intent intent) {
+                return null;
+            }
+            @Override
+            public Intent createIntent(@NonNull Context context, RoutePlanLatPoint routePlanLatPoint) {
+                Intent intent = new Intent(getActivity(), RoutePlanActivity.class);
+                intent.putExtra(CommonConstant.ROUTE_PLAN_LAT_POINT, routePlanLatPoint);
+                return intent;
+            }
+        }, result -> {});
     }
 
     @Override
@@ -90,10 +112,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("文件下载"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("9").setTitle("图片选择器"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("10").setTitle("消息通知"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("地图导航"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("友盟分享"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("13").setTitle("地图位置搜索"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("14").setTitle("可拖拽列表")
+                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("友盟分享"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("地图位置搜索"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("13").setTitle("可拖拽列表")
         );
         final HomeRecyclerAdapter homeRecyclerAdapter = new HomeRecyclerAdapter(list);
         homeRecyclerAdapter.setEventListener(this);
@@ -130,6 +151,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoSwipeableFragment");
                 break;
             case "6":
+                RoutePlanLatPoint routePlanLatPoint = new RoutePlanLatPoint();
+                routePlanLatPoint.setOriginPoint(new LatLonPoint(112.918119, 28.282891));
+                routePlanLatPoint.setDestinationPoint(new LatLonPoint(112.919165, 28.289924));
+                routePlanLauncherResult.launch(routePlanLatPoint);
                 break;
             case "7":
                 break;
@@ -144,8 +169,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             case "12":
                 break;
             case "13":
-                break;
-            case "14":
                 break;
         }
     }
