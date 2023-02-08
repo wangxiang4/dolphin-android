@@ -57,14 +57,6 @@ public class DriveSingleRouteCalculateActivity extends NaviBaseActivity {
     @Override
     public void onInitNaviSuccess() {
         super.onInitNaviSuccess();
-        if (mOriginPoint == null) {
-            ToastUtil.show("起点未设置");
-            return;
-        }
-        if (mDestinationPoint == null) {
-            ToastUtil.show("终点未设置");
-            return;
-        }
         sList.add(new NaviLatLng(mOriginPoint.getLatitude(), mOriginPoint.getLongitude()));
         eList.add(new NaviLatLng(mDestinationPoint .getLatitude(), mDestinationPoint.getLongitude()));
 

@@ -43,14 +43,6 @@ public class RideRouteCalculateActivity extends NaviBaseActivity {
     @Override
     public void onInitNaviSuccess() {
         super.onInitNaviSuccess();
-        if (mOriginPoint == null) {
-            ToastUtil.show("起点未设置");
-            return;
-        }
-        if (mDestinationPoint == null) {
-            ToastUtil.show("终点未设置");
-            return;
-        }
         mAMapNavi.calculateRideRoute(new NaviLatLng(mOriginPoint.getLatitude(), mOriginPoint.getLongitude()), new NaviLatLng(mDestinationPoint.getLatitude(), mDestinationPoint.getLongitude()));
         setResult(RESULT_OK, new Intent().putExtra(RoutePlanActivity.DEMO_RESULT_LAUNCHER_RESULT_KEY, "骑行导航成功！"));
     }
