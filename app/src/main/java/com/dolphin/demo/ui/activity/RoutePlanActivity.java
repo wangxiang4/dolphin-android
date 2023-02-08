@@ -105,7 +105,7 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		aMap.getUiSettings().setLogoBottomMargin(-100);
 		aMap.getUiSettings().setZoomControlsEnabled(false);
 		try {
-			mRouteSearch = new RouteSearch(getApplicationContext());
+			mRouteSearch = new RouteSearch(this);
 			mRouteSearch.setRouteSearchListener(this);
 		} catch (AMapException e) {
 			e.printStackTrace();
