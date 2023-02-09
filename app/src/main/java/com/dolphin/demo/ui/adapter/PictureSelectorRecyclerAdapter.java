@@ -1,6 +1,5 @@
 package com.dolphin.demo.ui.adapter;
 
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dolphin.demo.R;
-import com.dolphin.demo.listener.OnItemLongClickListener;
+import com.dolphin.demo.entity.OssFile;
 import com.luck.picture.lib.config.PictureMimeType;
-import com.luck.picture.lib.config.SelectMimeType;
-import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**
@@ -33,36 +31,22 @@ import java.util.ArrayList;
  */
 public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<PictureSelectorRecyclerAdapter.ViewHolder> {
 
-    private ArrayList<LocalMedia> list;
+    private ArrayList<OssFile> mItemList;
 
-    public void delete(int position) {
-        try {
-            if (position != RecyclerView.NO_POSITION && list.size() > position) {
-                list.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, list.size());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private EventListener mEventListener;
+
+    public PictureSelectorRecyclerAdapter(ArrayList<OssFile> result) {
+        this.mItemList = result;
     }
 
-    public PictureSelectorRecyclerAdapter(ArrayList<LocalMedia> result) {
-        this.list = result;
-    }
+    public interface EventListener {
 
-    public ArrayList<LocalMedia> getData() {
-        return list;
-    }
+        void onItemViewClicked(View v, int position);
 
-    public void remove(int position) {
-        if (position < list.size()) {
-            list.remove(position);
-        }
+        void onItemViewLongClicked(ViewHolder viewHolder, int position, View v);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         ImageView mImg;
         ImageView mIvDel;
         TextView tvDuration;
@@ -76,11 +60,6 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
     }
 
     @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.item_picture_selector, parent, false);
@@ -88,24 +67,22 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    public int getItemCount() {
+        return mItemList.size();
+    }
 
+    @Override
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         viewHolder.mIvDel.setVisibility(View.VISIBLE);
         viewHolder.mIvDel.setOnClickListener(view -> {
             int index = viewHolder.getAbsoluteAdapterPosition();
-            if (index != RecyclerView.NO_POSITION && list.size() > index) {
-                list.remove(index);
-                notifyItemRemoved(index);
-                notifyItemRangeChanged(index, list.size());
-            }
+            delete(index);
         });
-        LocalMedia media = list.get(position);
-        int chooseModel = media.getChooseModel();
-        String path = media.getAvailablePath();
-        long duration = media.getDuration();
-        viewHolder.tvDuration.setVisibility(PictureMimeType.isHasVideo(media.getMimeType())
-                ? View.VISIBLE : View.GONE);
-        if (chooseModel == SelectMimeType.ofAudio()) {
+        OssFile item = mItemList.get(position);
+        String path = item.getAvailablePath();
+        long duration = item.getDuration();
+        viewHolder.tvDuration.setVisibility(PictureMimeType.isHasVideo(item.getMimeType()) ? View.VISIBLE : View.GONE);
+        if (PictureMimeType.isHasVideo(item.getMimeType())) {
             viewHolder.tvDuration.setVisibility(View.VISIBLE);
             viewHolder.tvDuration.setCompoundDrawablesRelativeWithIntrinsicBounds
                     (R.drawable.ps_ic_audio, 0, 0, 0);
@@ -115,50 +92,79 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
         }
 
         viewHolder.tvDuration.setText(DateUtils.formatDurationTime(duration));
-        if (chooseModel == SelectMimeType.ofAudio()) {
+        if (PictureMimeType.isHasVideo(item.getMimeType())) {
             viewHolder.mImg.setImageResource(R.drawable.ps_audio_placeholder);
         } else {
             Glide.with(viewHolder.itemView.getContext())
-                    .load(PictureMimeType.isContent(path) && !media.isCut() && !media.isCompressed() ? Uri.parse(path)
-                            : path)
+                    .load(path)
                     .centerCrop()
                     .placeholder(R.color.white)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.mImg);
         }
 
-        if (mItemClickListener != null) {
-            viewHolder.itemView.setOnClickListener(v -> {
-                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
-                mItemClickListener.onItemClick(v, adapterPosition);
-            });
+        viewHolder.itemView.setOnClickListener(v -> {
+            int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+            onItemViewClick(v, adapterPosition);
+        });
+
+        viewHolder.itemView.setOnLongClickListener(v -> {
+            int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
+            onItemViewLongClick(viewHolder, adapterPosition, v);
+            return true;
+        });
+    }
+
+    private void onItemViewClick(View v, int position) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewClicked(v, position);
         }
+    }
 
-        if (mItemLongClickListener != null) {
-            viewHolder.itemView.setOnLongClickListener(v -> {
-                int adapterPosition = viewHolder.getAbsoluteAdapterPosition();
-                mItemLongClickListener.onItemLongClick(viewHolder, adapterPosition, v);
-                return true;
-            });
+    private void onItemViewLongClick(ViewHolder viewHolder, int position, View v) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewLongClicked(viewHolder, position, v);
         }
     }
 
-    private OnItemClickListener mItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener l) {
-        this.mItemClickListener = l;
+    public PictureSelectorRecyclerAdapter.EventListener getEventListener(){
+        return mEventListener;
     }
 
-    public interface OnItemClickListener {
-
-        void onItemClick(View v, int position);
-
+    public PictureSelectorRecyclerAdapter setEventListener(PictureSelectorRecyclerAdapter.EventListener eventListener) {
+        mEventListener = eventListener;
+        return this;
     }
 
-    private OnItemLongClickListener mItemLongClickListener;
+    public ArrayList<OssFile> getData() {
+        return mItemList;
+    }
 
-    public void setItemLongClickListener(OnItemLongClickListener l) {
-        this.mItemLongClickListener = l;
+    public PictureSelectorRecyclerAdapter refresh(Collection<OssFile> collection) {
+        mItemList.clear();
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public PictureSelectorRecyclerAdapter loadMore(Collection<OssFile> collection) {
+        mItemList.addAll(collection);
+        notifyDataSetChanged();
+        return this;
+    }
+
+    public PictureSelectorRecyclerAdapter insert(Collection<OssFile> collection) {
+        mItemList.addAll(0, collection);
+        notifyItemRangeInserted(0, collection.size());
+        return this;
+    }
+
+    public void delete(int position) {
+        if (position != RecyclerView.NO_POSITION && mItemList.size() > position) {
+            mItemList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, mItemList.size());
+        }
     }
 
 }

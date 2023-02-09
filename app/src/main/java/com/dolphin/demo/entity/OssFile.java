@@ -48,7 +48,22 @@ public class OssFile extends CommonEntity {
     /**
      * 文件大小
      */
-    private Long fileSize;
+    private Long fileSize = 0L;
+
+    /**
+     * 有效原始路径
+     */
+    private String availablePath;
+
+    /**
+     * 视频时长
+     */
+    private Long duration = 0L;
+
+    /**
+     * 媒体资源类型
+     */
+    private String mimeType;
 
     public OssFile() {}
 
@@ -60,6 +75,9 @@ public class OssFile extends CommonEntity {
         original = in.readString();
         type = in.readString();
         fileSize = in.readLong();
+        availablePath = in.readString();
+        duration = in.readLong();
+        mimeType = in.readString();
     }
 
     /**
@@ -76,6 +94,9 @@ public class OssFile extends CommonEntity {
         dest.writeString(original);
         dest.writeString(type);
         dest.writeLong(fileSize);
+        dest.writeString(availablePath);
+        dest.writeLong(duration);
+        dest.writeString(mimeType);
     }
 
     /**

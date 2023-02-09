@@ -20,22 +20,30 @@ import com.dolphin.core.http.file.UploadFile;
 import com.dolphin.core.http.file.UploadParam;
 import com.dolphin.core.http.observer.BaseUploadDisposableObserver;
 import com.dolphin.core.util.RxUtil;
+import com.dolphin.demo.constant.CommonConstant;
+import com.dolphin.demo.entity.OssFile;
+import com.dolphin.demo.ui.activity.PictureSelectorActivity;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  *<p>
- * 照片选择器视图模型层
+ * 照片选择器视图模型
  *</p>
  *
- * @Author: entfrm开发团队-王翔
- * @Date: 2022/9/29
+ * @Author: wangxiang4
+ * @since: 2023/2/8
  */
-public class PictureSelectorViewModel extends ToolbarViewModel {
+public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorActivity> {
 
-    public SingleLiveEvent<Map> uploadOssResult = new SingleLiveEvent();
+    private NotificationManager notificationManager;
+    private Notification.Builder builder;
+    private UploadFile percent;
+
+    public final int demoNotificationId = 1025;
 
     public PictureSelectorViewModel(@NonNull Application application) {
         super(application);
@@ -61,9 +69,18 @@ public class PictureSelectorViewModel extends ToolbarViewModel {
                     if (o instanceof UploadFile) percent = (UploadFile) o;
                     super.onNext(o);
                     if (o instanceof Map) {
-                        Map map = (Map) o;
-                        LogUtils.i("上传成功:", map);
-                        uploadOssResult.setValue(map);
+                        Map result = (Map) o;
+                        LogUtils.i("上传成功:", result);
+                        int oldSize = mActivity.mAdapter.getData().size();
+                        mActivity.mAdapter.getData().add(
+                                // todo: 后续会优化后台上传接口直接返回OSSFile对象，目前暂时处理不支持媒体类型字段，待修改
+                                new OssFile().setId(UUID.randomUUID().toString().replaceAll("-", ""))
+                                        .setAvailablePath(String.format(CommonConstant.OSS_FILE_URL, result.get("bucketName"), result.get("fileName")))
+                                        .setFileName(result.get("fileName").toString())
+                                        .setBucketName(result.get("bucketName").toString())
+                                        .setMimeType("")
+                        );
+                        mActivity.mAdapter.notifyItemRangeInserted(oldSize, 1);
                     }
                 }
 
@@ -84,10 +101,6 @@ public class PictureSelectorViewModel extends ToolbarViewModel {
                 }
             });
     }
-
-    NotificationManager notificationManager;
-    Notification.Builder builder;
-    UploadFile percent;
 
     /** 初始化上传百分比通知栏 */
     private void initUploadPercentNotification() {
@@ -115,7 +128,7 @@ public class PictureSelectorViewModel extends ToolbarViewModel {
                 .setOnlyAlertOnce(true)
                 //设置进度条
                 .setProgress(100, 0, false);
-        notificationManager.notify(99, builder.build());
+        notificationManager.notify(demoNotificationId, builder.build());
     }
 
     /**
@@ -133,7 +146,7 @@ public class PictureSelectorViewModel extends ToolbarViewModel {
         } else if (percent.getStatus() == FileObservableStatusEnum.SUCCESS.getStatus()) {
             builder.setContentText("上传完成");
         }
-        notificationManager.notify(99, builder.build());
+        notificationManager.notify(demoNotificationId, builder.build());
     }
 
 }

@@ -23,20 +23,28 @@ import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;
+import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
 import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.FragmentHomeBinding;
+import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.entity.RoutePlanLatPoint;
 import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.entity.User;
+import com.dolphin.demo.ui.activity.PictureSelectorActivity;
 import com.dolphin.demo.ui.activity.RoutePlanActivity;
 import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
 import com.dolphin.demo.ui.vm.HomeViewModel;
+import com.google.gson.Gson;
+import com.luck.picture.lib.config.PictureConfig;
+import com.luck.picture.lib.entity.LocalMedia;
 import com.umeng.message.PushAgent;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *<p>
@@ -50,8 +58,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     private RecyclerView mRecyclerView;
     private HomeRecyclerAdapter mAdapter;
-    /** 路线规划活动结果(双向传递数据) */
+
     private ActivityResultLauncher<RoutePlanLatPoint> routePlanLauncherResult;
+    private ActivityResultLauncher<ArrayList<OssFile>> pictureSelectorLauncherResult;
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -93,6 +102,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 return intent;
             }
         }, result -> {});
+        pictureSelectorLauncherResult = registerForActivityResult(new ActivityResultContract<ArrayList<OssFile>, ArrayList<OssFile>>() {
+            @Override
+            public ArrayList<OssFile> parseResult(int resultCode, @Nullable Intent intent) {
+                if (intent == null) {
+                    return null;
+                }
+                return intent.getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
+            }
+            @Override
+            public Intent createIntent(@NonNull Context context, ArrayList<OssFile> fileList) {
+                Intent intent = new Intent(getActivity(), PictureSelectorActivity.class);
+                intent.putExtra(PictureConfig.EXTRA_RESULT_SELECTION, fileList);
+                return intent;
+            }
+        }, result -> {
+            ToastUtil.showCenter("回调成功数据:" + new Gson().toJson(result));
+            LogUtils.i("选择文件上传成功回调数据", result);
+        });
     }
 
     @Override
@@ -110,11 +137,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 new HomeRecyclerAdapter.HomeEntity().setCode("6").setTitle("地图路线规划"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("7").setTitle("文件上传"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("文件下载"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("9").setTitle("图片选择器"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("10").setTitle("消息通知"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("友盟分享"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("地图位置搜索"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("13").setTitle("可拖拽列表")
+                new HomeRecyclerAdapter.HomeEntity().setCode("9").setTitle("消息通知"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("10").setTitle("友盟分享"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("地图位置搜索"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("可拖拽列表")
         );
         final HomeRecyclerAdapter homeRecyclerAdapter = new HomeRecyclerAdapter(list);
         homeRecyclerAdapter.setEventListener(this);
@@ -157,8 +183,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 routePlanLauncherResult.launch(routePlanLatPoint);
                 break;
             case "7":
+                ArrayList<OssFile> list = new ArrayList();
+                list.add(new OssFile().setId(UUID.randomUUID().toString().replaceAll("-", ""))
+                        .setAvailablePath("https://wx2.sinaimg.cn/mw2000/0073ozWdly1h0afoipj8xj30kw3kmwru.jpg")
+                        .setFileName("0073ozWdly1h0afoipj8xj30kw3kmwru.jpg")
+                        .setMimeType("image/jpg")
+                        .setType("jpg"));
+                list.add(new OssFile().setId(UUID.randomUUID().toString().replaceAll("-", ""))
+                        .setAvailablePath("https://wx4.sinaimg.cn/mw2000/0073ozWdly1h0afoj5q8ij30u04gqkb1.jpg")
+                        .setFileName("0073ozWdly1h0afoj5q8ij30u04gqkb1.jpg")
+                        .setMimeType("image/jpg")
+                        .setType("jpg"));
+                list.add(new OssFile().setId(UUID.randomUUID().toString().replaceAll("-", ""))
+                        .setAvailablePath("https://ww1.sinaimg.cn/bmiddle/bcd10523ly1g96mg4sfhag20c806wu0x.gif")
+                        .setFileName("bcd10523ly1g96mg4sfhag20c806wu0x.gif")
+                        .setMimeType("image/gif")
+                        .setType("gif"));
+                pictureSelectorLauncherResult.launch(list);
                 break;
             case "8":
+                mViewModel.onFileDownLoad();
                 break;
             case "9":
                 break;

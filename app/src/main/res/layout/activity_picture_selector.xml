@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.dolphin.demo.ui.activity.PictureSelectorActivity">
     <data>
-        <variable
-            name="pictureSelectorViewModel"
-            type="com.dolphin.demo.ui.vm.PictureSelectorViewModel" />
+        <variable name="viewModel" type="com.dolphin.demo.ui.vm.PictureSelectorViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,17 +12,17 @@
         android:background="@color/black5"
         android:clipChildren="false">
         <include
-            android:id="@+id/picture_selector_toolbar"
+            android:id="@+id/layout_toolbar"
             layout="@layout/layout_toolbar"
-            binding:toolbarViewModel="@{pictureSelectorViewModel.toolbarViewModel}" />
+            binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/picture_selector_toolbar"
+            android:layout_below="@id/layout_toolbar"
             android:orientation="vertical"
             android:weightSum="10">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/picture_selector_recycler"
+                android:id="@+id/picture_selector_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
@@ -38,7 +36,7 @@
                 android:background="@color/white"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/picture_selector_upload"
+                    android:id="@+id/btn_upload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

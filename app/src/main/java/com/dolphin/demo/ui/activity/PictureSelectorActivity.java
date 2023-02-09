@@ -33,8 +33,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ObjectUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
@@ -46,6 +46,7 @@ import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.databinding.ActivityPictureSelectorBinding;
 import com.dolphin.demo.engine.ExoPlayerEngine;
 import com.dolphin.demo.engine.GlideEngine;
+import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.ui.adapter.PictureSelectorRecyclerAdapter;
 import com.dolphin.demo.ui.vm.PictureSelectorViewModel;
 import com.dolphin.demo.util.ImageLoaderUtil;
@@ -92,6 +93,8 @@ import com.yalantis.ucrop.UCropImageEngine;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnNewCompressListener;
@@ -105,19 +108,17 @@ import top.zibin.luban.OnRenameListener;
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/9/29
  */
-public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelectorBinding, PictureSelectorViewModel> {
+public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelectorBinding, PictureSelectorViewModel> implements PictureSelectorRecyclerAdapter.EventListener {
 
     private RecyclerView recyclerView;
     private Button uploadButton;
-    private PictureSelectorRecyclerAdapter mAdapter;
+    public PictureSelectorRecyclerAdapter mAdapter;
     private ImageEngine imageEngine;
     private VideoPlayerEngine videoPlayerEngine;
     private PictureSelectorStyle selectorStyle;
     private int chooseMode = SelectMimeType.ofAll();
     private int aspect_ratio_x = -1, aspect_ratio_y = -1;
     private final String TAG_EXPLAIN_VIEW = "TAG_EXPLAIN_VIEW";
-
-    private final ArrayList<LocalMedia> mData = new ArrayList();
 
     @Override
     public int setContentView(Bundle savedInstanceState) {
@@ -126,19 +127,22 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
 
     @Override
     public int setVariableId() {
-        return BR.pictureSelectorViewModel;
+        return BR.viewModel;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mData.clear();
-        ArrayList<LocalMedia> localMedia = getIntent().getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
-        if (ObjectUtils.isNotEmpty(localMedia)) {
-            mData.addAll(localMedia);
+        super.mViewModel.mActivity = this;
+        mAdapter = new PictureSelectorRecyclerAdapter(CollectionUtils.newArrayList());
+        List<OssFile> localMedia = getIntent().getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
+        if (CollectionUtils.isNotEmpty(localMedia)) {
+            mAdapter.refresh(localMedia);
         }
-        recyclerView = findViewById(R.id.picture_selector_recycler);
-        uploadButton = findViewById(R.id.picture_selector_upload);
+        setResult(RESULT_OK, new Intent().putParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION, mAdapter.getData()));
+
+        recyclerView = findViewById(R.id.picture_selector_recycler_view);
+        uploadButton = findViewById(R.id.btn_upload);
         GridLayoutManager manager = new GridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(manager);
         RecyclerView.ItemAnimator itemAnimator = recyclerView.getItemAnimator();
@@ -147,7 +151,6 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         }
 
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtil.dip2px(getContext(), 8), false));
-        mAdapter = new PictureSelectorRecyclerAdapter(mData);
         recyclerView.setAdapter(mAdapter);
 
         imageEngine = GlideEngine.createGlideEngine();
@@ -206,23 +209,6 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         selectorStyle.setBottomBarStyle(numberBottomNavBarStyle);
         selectorStyle.setSelectMainStyle(numberSelectMainStyle);
 
-        mAdapter.setOnItemClickListener((v, position) -> {
-            // 预览图片、视频、音频
-            PictureSelector.create(PictureSelectorActivity.this)
-                    .openPreview()
-                    .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
-                    .setImageEngine(imageEngine)
-                    .setVideoPlayerEngine(videoPlayerEngine)
-                    .setSelectorUIStyle(selectorStyle)
-                    .isAutoVideoPlay(true)
-                    .isLoopAutoVideoPlay(false)
-                    .isPreviewFullScreenMode(true)
-                    .isVideoPauseResumePlay(true)
-                    .isPreviewZoomEffect(chooseMode != SelectMimeType.ofAudio(), recyclerView)
-                    .setExternalPreviewEventListener(new MyExternalPreviewEventListener())
-                    .startActivityPreview(position, true, mAdapter.getData());
-        });
-
         uploadButton.setOnClickListener(view -> {
             PictureSelectionModel selectionModel = PictureSelector.create(getContext())
                     .openGallery(chooseMode)
@@ -275,11 +261,32 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
 
             forSelectResult(selectionModel);
         });
-        mViewModel.uploadOssResult.observe(this, result -> {
-            int oldSize = mAdapter.getData().size();
-            mAdapter.getData().add(LocalMedia.generateHttpAsLocalMedia(String.format(CommonConstant.OSS_FILE_URL, result.get("bucketName"), result.get("fileName"))));
-            mAdapter.notifyItemRangeInserted(oldSize, 1);
-        });
+    }
+
+    @Override
+    public void onItemViewClicked(View v, int position) {
+        // 转换ArrayList<LocalMedia>
+        ArrayList<LocalMedia> list = CollectionUtils.newArrayList();
+        list.addAll(mAdapter.getData().stream().map(item -> LocalMedia.generateHttpAsLocalMedia(item.getAvailablePath())).collect(Collectors.toList()));
+        // 预览图片、视频、音频
+        PictureSelector.create(PictureSelectorActivity.this)
+                .openPreview()
+                .setLanguage(LanguageConfig.SYSTEM_LANGUAGE)
+                .setImageEngine(imageEngine)
+                .setVideoPlayerEngine(videoPlayerEngine)
+                .setSelectorUIStyle(selectorStyle)
+                .isAutoVideoPlay(true)
+                .isLoopAutoVideoPlay(false)
+                .isPreviewFullScreenMode(true)
+                .isVideoPauseResumePlay(true)
+                .isPreviewZoomEffect(chooseMode != SelectMimeType.ofAudio(), recyclerView)
+                .setExternalPreviewEventListener(new ExternalPreviewEventListener())
+                .startActivityPreview(position, true, list);
+    }
+
+    @Override
+    public void onItemViewLongClicked(PictureSelectorRecyclerAdapter.ViewHolder viewHolder, int position, View v) {
+
     }
 
     /** 处理相册选择回调 */
@@ -573,12 +580,11 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
     }
 
     /** 自定义预览额外操作事件监听 */
-    private class MyExternalPreviewEventListener implements OnExternalPreviewEventListener {
+    private class ExternalPreviewEventListener implements OnExternalPreviewEventListener {
 
         @Override
         public void onPreviewDelete(int position) {
-            mAdapter.remove(position);
-            mAdapter.notifyItemRemoved(position);
+            mAdapter.delete(position);
         }
 
         @Override
@@ -600,7 +606,11 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
     @Override
     protected void onResume() {
         super.onResume();
-        setResult(RESULT_OK, new Intent().putParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION, mData));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

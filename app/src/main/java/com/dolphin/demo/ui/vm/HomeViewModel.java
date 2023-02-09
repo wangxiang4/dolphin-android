@@ -33,13 +33,25 @@ import java.io.File;
  */
 public class HomeViewModel extends ToolbarViewModel {
 
+    private NotificationManager notificationManager;
+    private Notification.Builder builder;
+    private DownLoadFile percent;
+
+    public final int demoNotificationId = 1024;
+
     public HomeViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public BindingCommand onFileDownLoad =new BindingCommand(() -> {
+    @Override
+    public void onCreate(@NonNull LifecycleOwner owner) {
+        super.onCreate(owner);
+        super.setTitleText("首页");
+    }
+
+    public void onFileDownLoad() {
         initDownLoadPercentNotification();
-        HttpFileRequest.download("http://gdown.baidu.com/data/wisegame/dc8a46540c7960a2/baidushoujizhushou_16798087.apk")
+        HttpFileRequest.download("https://github.com/wangxiang4/dolphin-ios/blob/master/Dolphin.ipa")
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             // 生命周期同步,ViewModel销毁时会清除异步观测
@@ -50,35 +62,22 @@ public class HomeViewModel extends ToolbarViewModel {
                     percent = downLoadFile;
                     super.onNext(downLoadFile);
                 }
-
                 @Override
                 public void onComplete() {
                     updateNotification(-1);
                     ToastUtil.show("当前文件保存目录" + percent.getDestFileDir() + File.separator + percent.getDestFileName());
                 }
-
                 @Override
                 public void onError(Throwable e) {
                     updateNotification(-1);
                     ExceptionHandle.baseExceptionMsg(e);
                 }
-
                 @Override
                 public void onProgress(Integer percent) {
                     updateNotification(percent);
                 }
             });
-    });
-
-    @Override
-    public void onCreate(@NonNull LifecycleOwner owner) {
-        super.onCreate(owner);
-        super.setTitleText("首页");
     }
-
-    NotificationManager notificationManager;
-    Notification.Builder builder;
-    DownLoadFile percent;
 
     /** 初始化下载百分比通知栏 */
     private void initDownLoadPercentNotification() {
@@ -105,8 +104,8 @@ public class HomeViewModel extends ToolbarViewModel {
                 // 仅首次通知
                 .setOnlyAlertOnce(true)
                 //设置进度条
-                .setProgress(100, 0, false);
-        notificationManager.notify(100, builder.build());
+                .setProgress(demoNotificationId, 0, false);
+        notificationManager.notify(demoNotificationId, builder.build());
     }
 
     /**
@@ -124,7 +123,7 @@ public class HomeViewModel extends ToolbarViewModel {
         } else if ((ObjectUtils.isNotEmpty(percent) ? percent.getStatus() : progress) == FileObservableStatusEnum.SUCCESS.getStatus()) {
             builder.setContentText("下载完成");
         }
-        notificationManager.notify(100, builder.build());
+        notificationManager.notify(demoNotificationId, builder.build());
     }
 
 
