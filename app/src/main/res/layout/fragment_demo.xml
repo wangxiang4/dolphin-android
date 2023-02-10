@@ -16,9 +16,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/demo_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp_3"
-            android:layout_marginLeft="@dimen/dp_3"
-            android:layout_marginRight="@dimen/dp_3" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </layout>

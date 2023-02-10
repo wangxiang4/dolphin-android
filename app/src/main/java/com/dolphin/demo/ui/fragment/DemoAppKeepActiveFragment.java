@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.ui.activity.TabBarActivity;
 import com.dolphin.demo.ui.adapter.DemoRecyclerAdapter;
 import com.dolphin.demo.ui.vm.ToolbarViewModel;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
 import java.util.List;
 
@@ -79,13 +81,7 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
         mAdapter = demoRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.bottom = 10;
-            }
-        });
+        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
         mRecyclerView.setAdapter(mAdapter);
     }
 

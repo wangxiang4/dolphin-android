@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.dolphin.demo.databinding.FragmentUserBinding;
 import com.dolphin.demo.ui.activity.AboutActivity;
 import com.dolphin.demo.ui.adapter.UserRecyclerAdapter;
 import com.dolphin.demo.ui.vm.UserViewModel;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
 import java.util.List;
 
@@ -68,13 +70,7 @@ public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewMode
         mAdapter = userRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                super.getItemOffsets(outRect, view, parent, state);
-                outRect.bottom = 10;
-            }
-        });
+        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
         mRecyclerView.setAdapter(mAdapter);
     }
 
