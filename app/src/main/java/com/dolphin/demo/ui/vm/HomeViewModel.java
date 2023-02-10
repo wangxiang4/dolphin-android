@@ -62,12 +62,16 @@ public class HomeViewModel extends ToolbarViewModel {
                 @Override
                 public void onComplete() {
                     builder.setContentText("下载完成");
+                    builder.setContentTitle(downLoadResult.getDestFileName());
+                    builder.setProgress(100, 100, false);
                     notificationManager.notify(demoNotificationId, builder.build());
                     ToastUtil.show("当前文件保存目录" + downLoadResult.getDestFileDir() + File.separator + downLoadResult.getDestFileName());
                 }
                 @Override
                 public void onError(Throwable e) {
                     builder.setContentText("下载失败");
+                    builder.setContentTitle("服务器错误,请联系管理员!");
+                    builder.setProgress(100, 0, false);
                     notificationManager.notify(demoNotificationId, builder.build());
                     ExceptionHandle.baseExceptionMsg(e);
                 }
@@ -98,17 +102,14 @@ public class HomeViewModel extends ToolbarViewModel {
         builder = new Notification.Builder(Utils.getApp(), channelId);
         builder.setSmallIcon(com.dolphin.core.R.drawable.umeng_push_notification_default_small_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), com.dolphin.core.R.drawable.umeng_push_notification_default_large_icon))
-                .setContentTitle("已下载(0%)")
-                .setContentText("正在下载")
+                .setContentTitle(Utils.getApp().getResources().getString(com.dolphin.core.R.string.app_name))
+                .setContentText("初始化完毕")
                 // 点击通知后自动取消
                 .setAutoCancel(true)
                 // 推送的时间
                 .setWhen(System.currentTimeMillis())
                 // 仅首次通知
-                .setOnlyAlertOnce(true)
-                //设置进度条
-                .setProgress(demoNotificationId, 0, false);
-        notificationManager.notify(demoNotificationId, builder.build());
+                .setOnlyAlertOnce(true);
     }
 
 }

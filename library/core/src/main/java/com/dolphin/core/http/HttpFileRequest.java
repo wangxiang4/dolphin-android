@@ -3,9 +3,9 @@ package com.dolphin.core.http;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.dolphin.core.entity.OssFile;
-import com.dolphin.core.http.file.DownLoadTransformer;
+import com.dolphin.core.entity.UploadFile;
 import com.dolphin.core.entity.UploadParam;
+import com.dolphin.core.http.file.DownLoadTransformer;
 import com.dolphin.core.http.file.UploadRequestBody;
 import com.dolphin.core.util.CommonUtil;
 
@@ -39,9 +39,9 @@ public class HttpFileRequest {
 
         @POST
         @Multipart
-        Observable<OssFile> upload(@Url String url,
-                                   @Part MultipartBody.Part file,
-                                   @Query("ossFile") String ossFile);
+        Observable<UploadFile> upload(@Url String url,
+                                      @Part MultipartBody.Part file,
+                                      @Query("ossFile") String ossFile);
 
     }
 

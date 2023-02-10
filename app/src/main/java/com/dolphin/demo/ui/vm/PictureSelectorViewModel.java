@@ -10,7 +10,7 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.CloneUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
@@ -21,6 +21,7 @@ import com.dolphin.core.http.HttpFileRequest;
 import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.http.observer.BaseUploadDisposableObserver;
 import com.dolphin.core.util.RxUtil;
+import com.dolphin.demo.constant.CommonConstant;
 import com.dolphin.demo.ui.activity.PictureSelectorActivity;
 import com.google.gson.JsonObject;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -74,15 +75,21 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
                 public void onComplete() {
                     LogUtils.i("上传成功:", uploadResult);
                     int oldSize = mActivity.mAdapter.getItemCount();
-                    mActivity.mAdapter.getData().add(uploadResult);
+                    OssFile clone = CloneUtils.deepClone(uploadResult, GsonUtils.getType(UploadFile.class, OssFile.class));
+                    clone.setAvailablePath(String.format(CommonConstant.OSS_FILE_URL, clone.getBucketName(), clone.getFileName()));
+                    mActivity.mAdapter.getData().add(clone);
                     mActivity.mAdapter.notifyItemRangeInserted(oldSize, 1);
                     builder.setContentText("上传完成");
+                    builder.setContentTitle(uploadResult.getOriginal());
+                    builder.setProgress(100, 100, false);
                     notificationManager.notify(demoNotificationId, builder.build());
                 }
 
                 @Override
                 public void onError(Throwable e) {
                     builder.setContentText("上传失败");
+                    builder.setContentTitle("服务器错误,请联系管理员!");
+                    builder.setProgress(100, 0, false);
                     notificationManager.notify(demoNotificationId, builder.build());
                     ExceptionHandle.baseExceptionMsg(e);
                 }
@@ -114,17 +121,14 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
         builder = new Notification.Builder(Utils.getApp(), channelId);
         builder.setSmallIcon(com.dolphin.core.R.drawable.umeng_push_notification_default_small_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), com.dolphin.core.R.drawable.umeng_push_notification_default_large_icon))
-                .setContentTitle("已下上传(0%)")
-                .setContentText("正在上传")
+                .setContentTitle(mActivity.getResources().getString(com.dolphin.core.R.string.app_name))
+                .setContentText("初始化完毕")
                 // 点击通知后自动取消
                 .setAutoCancel(true)
                 // 推送的时间
                 .setWhen(System.currentTimeMillis())
                 // 仅首次通知
-                .setOnlyAlertOnce(true)
-                //设置进度条
-                .setProgress(100, 0, false);
-        notificationManager.notify(demoNotificationId, builder.build());
+                .setOnlyAlertOnce(true);
     }
 
 }
