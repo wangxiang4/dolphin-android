@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,18 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.dolphin.core.base.BaseFragment;
-import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.constant.AppConstant;
 import com.dolphin.core.service.AppKeepActive;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentDemoBinding;
-import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.ui.activity.TabBarActivity;
 import com.dolphin.demo.ui.adapter.DemoRecyclerAdapter;
 import com.dolphin.demo.ui.vm.ToolbarViewModel;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
 import java.util.List;
 
@@ -81,7 +77,7 @@ public class DemoAppKeepActiveFragment extends BaseFragment<FragmentDemoBinding,
         mAdapter = demoRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
         mRecyclerView.setAdapter(mAdapter);
     }
 

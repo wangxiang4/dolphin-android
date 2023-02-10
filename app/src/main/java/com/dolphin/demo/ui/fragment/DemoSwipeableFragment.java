@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentDemoBinding;
@@ -96,7 +97,7 @@ public class DemoSwipeableFragment extends BaseFragment<FragmentDemoBinding, Too
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mWrappedAdapter);
         mRecyclerView.setItemAnimator(animator);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
 
         // 配置滑动(优先级:触摸动作防护装置 > 滑动 > 拖放)
         mRecyclerViewTouchActionGuardManager.attachRecyclerView(mRecyclerView);

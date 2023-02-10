@@ -1,12 +1,10 @@
 package com.dolphin.demo.ui.fragment;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,13 +17,13 @@ import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.bus.RxSubscriptions;
 import com.dolphin.core.util.RxUtil;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentDemoBinding;
 import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.ui.adapter.DemoRecyclerAdapter;
 import com.dolphin.demo.ui.vm.ToolbarViewModel;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
 import java.util.List;
 
@@ -81,7 +79,7 @@ public class DemoRxbusFragment extends BaseFragment<FragmentDemoBinding, Toolbar
         mAdapter = demoRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
         mRecyclerView.setAdapter(mAdapter);
     }
 

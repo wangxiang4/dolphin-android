@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.dolphin.core.base.BaseFragment;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentUserBinding;
@@ -70,7 +71,7 @@ public class UserFragment extends BaseFragment<FragmentUserBinding, UserViewMode
         mAdapter = userRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -18,6 +18,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.entity.OssFile;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentMessageBinding;
@@ -74,7 +75,7 @@ public class MessageFragment extends BaseFragment<FragmentMessageBinding, Messag
         mAdapter = messageRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
         mRecyclerView.setAdapter(mAdapter);
 
         mRefreshLayout.setOnRefreshListener(mViewModel::refresh);

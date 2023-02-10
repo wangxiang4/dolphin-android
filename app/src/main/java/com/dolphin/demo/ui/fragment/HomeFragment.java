@@ -2,7 +2,6 @@ package com.dolphin.demo.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.entity.OssFile;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.constant.CacheConstant;
@@ -39,7 +39,6 @@ import com.dolphin.demo.ui.activity.RoutePlanActivity;
 import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
 import com.dolphin.demo.ui.vm.HomeViewModel;
 import com.google.gson.Gson;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.luck.picture.lib.config.PictureConfig;
 import com.umeng.message.PushAgent;
 
@@ -148,7 +147,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         mAdapter = homeRecyclerAdapter;
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.icon_list_divider_h), true));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
         mRecyclerView.setAdapter(mAdapter);
     }
 
