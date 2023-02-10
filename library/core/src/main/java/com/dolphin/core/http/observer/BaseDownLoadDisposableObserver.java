@@ -1,7 +1,7 @@
 package com.dolphin.core.http.observer;
 
 
-import com.dolphin.core.http.file.DownLoadFile;
+import com.dolphin.core.entity.DownLoadFile;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -29,9 +29,6 @@ public abstract class BaseDownLoadDisposableObserver extends DisposableObserver<
         }
         if (percent > 100) {
             percent = 100;
-        }
-        if (percent == mPercent) {
-            return;
         }
         mPercent = percent;
         onProgress(mPercent);

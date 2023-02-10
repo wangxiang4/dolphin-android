@@ -10,24 +10,22 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
-import com.dolphin.core.bus.SingleLiveEvent;
-import com.dolphin.core.enums.FileObservableStatusEnum;
+import com.dolphin.core.entity.OssFile;
+import com.dolphin.core.entity.UploadFile;
+import com.dolphin.core.entity.UploadParam;
 import com.dolphin.core.http.HttpFileRequest;
 import com.dolphin.core.http.exception.ExceptionHandle;
-import com.dolphin.core.http.file.UploadFile;
-import com.dolphin.core.http.file.UploadParam;
 import com.dolphin.core.http.observer.BaseUploadDisposableObserver;
 import com.dolphin.core.util.RxUtil;
-import com.dolphin.demo.constant.CommonConstant;
-import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.ui.activity.PictureSelectorActivity;
+import com.google.gson.JsonObject;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.File;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  *<p>
@@ -41,7 +39,7 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
 
     private NotificationManager notificationManager;
     private Notification.Builder builder;
-    private UploadFile percent;
+    private UploadFile uploadResult;
 
     public final int demoNotificationId = 1025;
 
@@ -53,51 +51,49 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
     public void onCreate(@NonNull LifecycleOwner owner) {
         super.onCreate(owner);
         super.setTitleText("精选照片");
+        initUploadPercentNotification();
     }
 
     public void uploadFile(LocalMedia media) {
         File file = new File(media.getRealPath());
-        initUploadPercentNotification();
-        HttpFileRequest.upload("system_proxy/system/file/upload", new UploadParam("file", file))
+        JsonObject ossFile = new JsonObject();
+        ossFile.addProperty("duration", media.getDuration());
+        HttpFileRequest.upload("system_proxy/system/file/upload", new UploadParam("file", file).setOssFile(GsonUtils.toJson(ossFile)))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             // 生命周期同步,ViewModel销毁时会清除异步观测
             .doOnSubscribe(this)
             .subscribe(new BaseUploadDisposableObserver() {
                 @Override
-                public void onNext(Object o) {
-                    if (o instanceof UploadFile) percent = (UploadFile) o;
-                    super.onNext(o);
-                    if (o instanceof Map) {
-                        Map result = (Map) o;
-                        LogUtils.i("上传成功:", result);
-                        int oldSize = mActivity.mAdapter.getData().size();
-                        mActivity.mAdapter.getData().add(
-                                // todo: 后续会优化后台上传接口直接返回OSSFile对象，目前暂时处理不支持媒体类型字段，待修改
-                                new OssFile().setId(UUID.randomUUID().toString().replaceAll("-", ""))
-                                        .setAvailablePath(String.format(CommonConstant.OSS_FILE_URL, result.get("bucketName"), result.get("fileName")))
-                                        .setFileName(result.get("fileName").toString())
-                                        .setBucketName(result.get("bucketName").toString())
-                                        .setMimeType("")
-                        );
-                        mActivity.mAdapter.notifyItemRangeInserted(oldSize, 1);
-                    }
+                public void onNext(UploadFile uploadFile) {
+                    super.onNext(uploadFile);
+                    uploadResult = uploadFile;
                 }
 
                 @Override
                 public void onComplete() {
-                    updateNotification(-1);
+                    LogUtils.i("上传成功:", uploadResult);
+                    int oldSize = mActivity.mAdapter.getItemCount();
+                    mActivity.mAdapter.getData().add(uploadResult);
+                    mActivity.mAdapter.notifyItemRangeInserted(oldSize, 1);
+                    builder.setContentText("上传完成");
+                    notificationManager.notify(demoNotificationId, builder.build());
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    updateNotification(-1);
+                    builder.setContentText("上传失败");
+                    notificationManager.notify(demoNotificationId, builder.build());
                     ExceptionHandle.baseExceptionMsg(e);
                 }
 
                 @Override
                 public void onProgress(Integer percent) {
-                    updateNotification(percent);
+                    if (percent >= 0) {
+                        builder.setContentTitle("已上传(" + percent + "%)");
+                        builder.setProgress(100, percent, false);
+                        notificationManager.notify(demoNotificationId, builder.build());
+                    }
                 }
             });
     }
@@ -128,24 +124,6 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
                 .setOnlyAlertOnce(true)
                 //设置进度条
                 .setProgress(100, 0, false);
-        notificationManager.notify(demoNotificationId, builder.build());
-    }
-
-    /**
-     * 百分比刷新通知
-     * @param progress 百分比,此值小于0时不刷新进度条
-     */
-    private void updateNotification(int progress) {
-        if (builder == null) return;
-        if (progress >= 0) {
-            builder.setContentTitle("已上传(" + progress + "%)");
-            builder.setProgress(100, progress, false);
-        }
-        if (percent.getStatus() == FileObservableStatusEnum.FAIL.getStatus()) {
-            builder.setContentText("上传失败");
-        } else if (percent.getStatus() == FileObservableStatusEnum.SUCCESS.getStatus()) {
-            builder.setContentText("上传完成");
-        }
         notificationManager.notify(demoNotificationId, builder.build());
     }
 

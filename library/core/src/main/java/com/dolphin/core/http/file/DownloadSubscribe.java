@@ -1,5 +1,6 @@
 package com.dolphin.core.http.file;
 
+import com.dolphin.core.entity.DownLoadFile;
 import com.dolphin.core.enums.FileObservableStatusEnum;
 
 import java.io.File;
@@ -33,10 +34,9 @@ public class DownloadSubscribe implements ObservableOnSubscribe {
     /** 可观测监听 */
     private ObservableEmitter mObservableEmitter;
 
-    private DownLoadFile downLoadFile;
+    private DownLoadFile downLoadFile = new DownLoadFile();
 
     public DownloadSubscribe(ResponseBody responseBody, String path, String fileName) throws IOException {
-        downLoadFile = new DownLoadFile();
         downLoadFile.setDestFileDir(path);
         downLoadFile.setDestFileName(fileName);
         downLoadFile.setDestFileNameTmp(fileName + ".tmp");
@@ -65,7 +65,7 @@ public class DownloadSubscribe implements ObservableOnSubscribe {
     }
 
     @Override
-    public void subscribe(ObservableEmitter emitter) throws Exception {
+    public void subscribe(ObservableEmitter emitter) {
         this.mObservableEmitter = emitter;
         try {
             mSink.writeAll(Okio.buffer(mProgressSource));
@@ -76,9 +76,9 @@ public class DownloadSubscribe implements ObservableOnSubscribe {
             tmpFile.renameTo(new File(downLoadFile.getDestFileDir() + File.separator + downLoadFile.getDestFileName()));
             downLoadFile.setStatus(FileObservableStatusEnum.SUCCESS.getStatus());
             mObservableEmitter.onComplete();
-        } catch (Exception exception) {
+        } catch (IOException e) {
             downLoadFile.setStatus(FileObservableStatusEnum.FAIL.getStatus());
-            mObservableEmitter.onError(exception);
+            mObservableEmitter.onError(e);
         }
     }
 

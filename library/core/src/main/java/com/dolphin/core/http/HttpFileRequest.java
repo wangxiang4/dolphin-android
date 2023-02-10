@@ -3,13 +3,11 @@ package com.dolphin.core.http;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.dolphin.core.entity.OssFile;
 import com.dolphin.core.http.file.DownLoadTransformer;
-import com.dolphin.core.http.file.UploadParam;
+import com.dolphin.core.entity.UploadParam;
 import com.dolphin.core.http.file.UploadRequestBody;
-import com.dolphin.core.http.file.UploadSubscribe;
 import com.dolphin.core.util.CommonUtil;
-
-import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -18,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
@@ -40,7 +39,9 @@ public class HttpFileRequest {
 
         @POST
         @Multipart
-        Observable<Map> upload(@Url String url, @Part MultipartBody.Part file);
+        Observable<OssFile> upload(@Url String url,
+                                   @Part MultipartBody.Part file,
+                                   @Query("ossFile") String ossFile);
 
     }
 
@@ -80,13 +81,11 @@ public class HttpFileRequest {
      * @return Observable 上传监听
      */
     public static Observable upload(String url, UploadParam param) {
-        UploadSubscribe uploadOnSubscribe = new UploadSubscribe();
-        Observable progressObservable = Observable.create(uploadOnSubscribe);
         if (param.getFile() == null || !param.getFile().exists()) return null;
-        uploadOnSubscribe.getUploadFile().setTotal(param.getFile().length());
-        UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile(), uploadOnSubscribe);
+        UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
+        Observable progressObservable = Observable.create(uploadRequestBody);
         MultipartBody.Part parts = MultipartBody.Part.createFormData(param.getName(), param.getFileName(), uploadRequestBody);
-        Observable uploadObservable = HttpFileRequest.createService(FileMapper.class).upload(url, parts);
+        Observable uploadObservable = HttpFileRequest.createService(FileMapper.class).upload(url, parts, param.getOssFile());
         return Observable.merge(progressObservable, uploadObservable);
     }
 

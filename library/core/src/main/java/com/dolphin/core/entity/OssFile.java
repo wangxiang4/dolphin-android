@@ -1,9 +1,7 @@
-package com.dolphin.demo.entity;
+package com.dolphin.core.entity;
 
 
 import android.os.Parcel;
-
-import com.dolphin.core.entity.CommonEntity;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -69,6 +67,7 @@ public class OssFile extends CommonEntity {
 
     /** 内存反序列化对象 */
     protected OssFile(Parcel in) {
+        super(in);
         id = in.readString();
         fileName = in.readString();
         bucketName = in.readString();
@@ -88,6 +87,7 @@ public class OssFile extends CommonEntity {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeString(id);
         dest.writeString(fileName);
         dest.writeString(bucketName);

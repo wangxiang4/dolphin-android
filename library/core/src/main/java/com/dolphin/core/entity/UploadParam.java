@@ -1,4 +1,4 @@
-package com.dolphin.core.http.file;
+package com.dolphin.core.entity;
 
 import java.io.File;
 
@@ -26,6 +26,9 @@ public class UploadParam {
 
     /** 文件名称 */
     private String fileName;
+
+    /** 扩展数据 */
+    private String ossFile;
 
     public UploadParam(@NonNull String name, @NonNull File file) {
         this.name = name;

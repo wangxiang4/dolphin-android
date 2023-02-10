@@ -3,8 +3,8 @@ package com.dolphin.demo.ui.adapter;
 import android.view.View;
 
 import com.blankj.utilcode.util.ObjectUtils;
+import com.dolphin.core.entity.OssFile;
 import com.dolphin.demo.R;
-import com.dolphin.demo.entity.OssFile;
 
 import java.util.Collection;
 import java.util.List;

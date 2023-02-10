@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.dolphin.core.entity.OssFile;
 import com.dolphin.demo.R;
-import com.dolphin.demo.entity.OssFile;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.utils.DateUtils;
 

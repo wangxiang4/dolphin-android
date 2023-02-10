@@ -10,13 +10,10 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.Utils;
-import com.dolphin.core.binding.command.BindingCommand;
-import com.dolphin.core.enums.FileObservableStatusEnum;
+import com.dolphin.core.entity.DownLoadFile;
 import com.dolphin.core.http.HttpFileRequest;
 import com.dolphin.core.http.exception.ExceptionHandle;
-import com.dolphin.core.http.file.DownLoadFile;
 import com.dolphin.core.http.observer.BaseDownLoadDisposableObserver;
 import com.dolphin.core.util.RxUtil;
 import com.dolphin.core.util.ToastUtil;
@@ -35,7 +32,7 @@ public class HomeViewModel extends ToolbarViewModel {
 
     private NotificationManager notificationManager;
     private Notification.Builder builder;
-    private DownLoadFile percent;
+    private DownLoadFile downLoadResult;
 
     public final int demoNotificationId = 1024;
 
@@ -47,10 +44,10 @@ public class HomeViewModel extends ToolbarViewModel {
     public void onCreate(@NonNull LifecycleOwner owner) {
         super.onCreate(owner);
         super.setTitleText("首页");
+        initDownLoadPercentNotification();
     }
 
     public void onFileDownLoad() {
-        initDownLoadPercentNotification();
         HttpFileRequest.download("https://github.com/wangxiang4/dolphin-ios/blob/master/Dolphin.ipa")
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
@@ -59,22 +56,28 @@ public class HomeViewModel extends ToolbarViewModel {
             .subscribe(new BaseDownLoadDisposableObserver() {
                 @Override
                 public void onNext(DownLoadFile downLoadFile) {
-                    percent = downLoadFile;
                     super.onNext(downLoadFile);
+                    downLoadResult = downLoadFile;
                 }
                 @Override
                 public void onComplete() {
-                    updateNotification(-1);
-                    ToastUtil.show("当前文件保存目录" + percent.getDestFileDir() + File.separator + percent.getDestFileName());
+                    builder.setContentText("下载完成");
+                    notificationManager.notify(demoNotificationId, builder.build());
+                    ToastUtil.show("当前文件保存目录" + downLoadResult.getDestFileDir() + File.separator + downLoadResult.getDestFileName());
                 }
                 @Override
                 public void onError(Throwable e) {
-                    updateNotification(-1);
+                    builder.setContentText("下载失败");
+                    notificationManager.notify(demoNotificationId, builder.build());
                     ExceptionHandle.baseExceptionMsg(e);
                 }
                 @Override
                 public void onProgress(Integer percent) {
-                    updateNotification(percent);
+                    if (percent >= 0) {
+                        builder.setContentTitle("已下载(" + percent + "%)");
+                        builder.setProgress(100, percent, false);
+                        notificationManager.notify(demoNotificationId, builder.build());
+                    }
                 }
             });
     }
@@ -107,24 +110,5 @@ public class HomeViewModel extends ToolbarViewModel {
                 .setProgress(demoNotificationId, 0, false);
         notificationManager.notify(demoNotificationId, builder.build());
     }
-
-    /**
-     * 百分比刷新通知
-     * @param progress 百分比,此值小于0时不刷新进度条
-     */
-    private void updateNotification(int progress) {
-        if (builder == null) return;
-        if (progress >= 0) {
-            builder.setContentTitle("已下载(" + progress + "%)");
-            builder.setProgress(100, progress, false);
-        }
-        if ((ObjectUtils.isNotEmpty(percent) ? percent.getStatus() : progress) == FileObservableStatusEnum.FAIL.getStatus()) {
-            builder.setContentText("下载失败");
-        } else if ((ObjectUtils.isNotEmpty(percent) ? percent.getStatus() : progress) == FileObservableStatusEnum.SUCCESS.getStatus()) {
-            builder.setContentText("下载完成");
-        }
-        notificationManager.notify(demoNotificationId, builder.build());
-    }
-
 
 }

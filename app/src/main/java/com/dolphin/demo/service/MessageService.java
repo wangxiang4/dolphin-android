@@ -1,7 +1,7 @@
 package com.dolphin.demo.service;
 
+import com.dolphin.core.entity.OssFile;
 import com.dolphin.core.http.api.ResultResponse;
-import com.dolphin.demo.entity.OssFile;
 
 import java.util.List;
 import java.util.Map;

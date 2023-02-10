@@ -5,23 +5,24 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
+
 import com.blankj.utilcode.util.MapUtils;
 import com.blankj.utilcode.util.Utils;
+import com.dolphin.core.entity.OssFile;
 import com.dolphin.core.http.api.ResultResponse;
 import com.dolphin.core.http.exception.ExceptionHandle;
 import com.dolphin.core.util.RxUtil;
 import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.app.AppApplication;
 import com.dolphin.demo.di.component.DaggerServiceComponent;
-import com.dolphin.demo.entity.OssFile;
 import com.dolphin.demo.service.MessageService;
 import com.dolphin.demo.ui.fragment.MessageFragment;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
+
 import io.reactivex.observers.DisposableObserver;
 
 /**
