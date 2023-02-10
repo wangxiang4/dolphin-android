@@ -82,7 +82,7 @@ public class HttpFileRequest {
      */
     public static Observable upload(String url, UploadParam param) {
         if (param.getFile() == null || !param.getFile().exists()) return null;
-        UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
+        UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile(), param.getMimeType());
         Observable progressObservable = Observable.create(uploadRequestBody);
         MultipartBody.Part parts = MultipartBody.Part.createFormData(param.getName(), param.getFileName(), uploadRequestBody);
         Observable uploadObservable = HttpFileRequest.createService(FileMapper.class).upload(url, parts, param.getOssFile());

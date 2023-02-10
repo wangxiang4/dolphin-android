@@ -59,7 +59,8 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
         File file = new File(media.getRealPath());
         JsonObject ossFile = new JsonObject();
         ossFile.addProperty("duration", media.getDuration());
-        HttpFileRequest.upload("system_proxy/system/file/upload", new UploadParam("file", file).setOssFile(GsonUtils.toJson(ossFile)))
+        HttpFileRequest.upload("system_proxy/system/file/upload", new UploadParam("file", file)
+                        .setOssFile(GsonUtils.toJson(ossFile)).setMimeType(media.getMimeType()))
             .compose(RxUtil.schedulersTransformer())
             .compose(RxUtil.exceptionTransformer())
             // 生命周期同步,ViewModel销毁时会清除异步观测
@@ -97,6 +98,7 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
                 @Override
                 public void onProgress(Integer percent) {
                     if (percent >= 0) {
+                        builder.setContentText("正在上传中");
                         builder.setContentTitle("已上传(" + percent + "%)");
                         builder.setProgress(100, percent, false);
                         notificationManager.notify(demoNotificationId, builder.build());
@@ -128,7 +130,9 @@ public class PictureSelectorViewModel extends ToolbarViewModel<PictureSelectorAc
                 // 推送的时间
                 .setWhen(System.currentTimeMillis())
                 // 仅首次通知
-                .setOnlyAlertOnce(true);
+                .setOnlyAlertOnce(true)
+                //设置进度条
+                .setProgress(100, 0, false);
     }
 
 }

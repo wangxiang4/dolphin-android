@@ -78,6 +78,7 @@ public class HomeViewModel extends ToolbarViewModel {
                 @Override
                 public void onProgress(Integer percent) {
                     if (percent >= 0) {
+                        builder.setContentText("正在下载中");
                         builder.setContentTitle("已下载(" + percent + "%)");
                         builder.setProgress(100, percent, false);
                         notificationManager.notify(demoNotificationId, builder.build());
@@ -109,7 +110,9 @@ public class HomeViewModel extends ToolbarViewModel {
                 // 推送的时间
                 .setWhen(System.currentTimeMillis())
                 // 仅首次通知
-                .setOnlyAlertOnce(true);
+                .setOnlyAlertOnce(true)
+                //设置进度条
+                .setProgress(100, 0, false);
     }
 
 }

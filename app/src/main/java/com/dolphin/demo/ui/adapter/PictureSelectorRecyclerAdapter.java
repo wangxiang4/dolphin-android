@@ -82,7 +82,7 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
         String path = item.getAvailablePath();
         long duration = item.getDuration();
         viewHolder.tvDuration.setVisibility(PictureMimeType.isHasVideo(item.getMimeType()) ? View.VISIBLE : View.GONE);
-        if (PictureMimeType.isHasVideo(item.getMimeType())) {
+        if (PictureMimeType.isHasAudio(item.getMimeType())) {
             viewHolder.tvDuration.setVisibility(View.VISIBLE);
             viewHolder.tvDuration.setCompoundDrawablesRelativeWithIntrinsicBounds
                     (R.drawable.ps_ic_audio, 0, 0, 0);
@@ -92,7 +92,7 @@ public class PictureSelectorRecyclerAdapter extends RecyclerView.Adapter<Picture
         }
 
         viewHolder.tvDuration.setText(DateUtils.formatDurationTime(duration));
-        if (PictureMimeType.isHasVideo(item.getMimeType())) {
+        if (PictureMimeType.isHasAudio(item.getMimeType())) {
             viewHolder.mImg.setImageResource(R.drawable.ps_audio_placeholder);
         } else {
             Glide.with(viewHolder.itemView.getContext())

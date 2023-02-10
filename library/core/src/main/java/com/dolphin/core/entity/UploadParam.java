@@ -30,6 +30,9 @@ public class UploadParam {
     /** 扩展数据 */
     private String ossFile;
 
+    /** 媒体资源类型 */
+    private String mimeType;
+
     public UploadParam(@NonNull String name, @NonNull File file) {
         this.name = name;
         this.file = file;

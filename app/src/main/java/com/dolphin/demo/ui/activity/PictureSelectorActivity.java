@@ -134,6 +134,7 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         super.onCreate(savedInstanceState);
         super.mViewModel.mActivity = this;
         mAdapter = new PictureSelectorRecyclerAdapter(CollectionUtils.newArrayList());
+        mAdapter.setEventListener(this);
         List<OssFile> localMedia = getIntent().getParcelableArrayListExtra(PictureConfig.EXTRA_RESULT_SELECTION);
         if (CollectionUtils.isNotEmpty(localMedia)) {
             mAdapter.refresh(localMedia);
@@ -148,7 +149,6 @@ public class PictureSelectorActivity extends BaseActivity<ActivityPictureSelecto
         if (itemAnimator != null) {
             ((SimpleItemAnimator) itemAnimator).setSupportsChangeAnimations(false);
         }
-
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtil.dip2px(getContext(), 8), false));
         recyclerView.setAdapter(mAdapter);
 

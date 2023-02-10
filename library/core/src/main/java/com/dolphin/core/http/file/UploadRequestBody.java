@@ -26,19 +26,22 @@ public class UploadRequestBody extends RequestBody implements ObservableOnSubscr
 
     private File mFile;
 
+    private String mediaType = "image/jpeg";
+
     /** 可观测监听 */
     private ObservableEmitter mObservableEmitter;
 
     private UploadFile uploadFile = new UploadFile();
 
-    public UploadRequestBody(File file) {
+    public UploadRequestBody(File file, String mediaType) {
         this.mFile = file;
+        this.mediaType = mediaType;
         uploadFile.setTotal(contentLength());
     }
 
     @Override
     public MediaType contentType() {
-        return MediaType.parse("multipart/form-data");
+        return MediaType.parse(mediaType);
     }
 
     @Override
