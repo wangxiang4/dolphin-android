@@ -27,11 +27,11 @@ ext {
 
     /** U-Share 密钥配置: https://developer.umeng.com/docs/128606/detail/212656 */
     // 友盟 AppKey
-    UMENG_APP_KEY = '******'
+    UMENG_APP_KEY = '63e69218bad16e26ac6f5862'
     // 友盟应用 Secret
-    UMENG_APP_MASTER_SECRET = '******'
+    UMENG_APP_MASTER_SECRET = '3e9dac7364ac30269c953ac1abf182fc'
     // 友盟消息推送 Secret
-    UMENG_MESSAGE_SECRET = '******'
+    UMENG_MESSAGE_SECRET = 'nphzvorqaaeohlnzmphohvtpe23jjzvm'
 
     // 申请 https://connect.qq.com
     // QQ AppId

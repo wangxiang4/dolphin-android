@@ -16,6 +16,7 @@ import android.os.SystemClock;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.R;
 import com.dolphin.core.constant.AppConstant;
+import com.dolphin.core.util.NotificationUtil;
 
 /**
  *<p>
@@ -141,31 +142,13 @@ public class AppKeepActive {
 
     /** 构建前台服务通知 */
     private Notification buildNotification() {
-        NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = mContext.getPackageName();
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, AppConstant.PERMISSION_REQUEST_CODE, new Intent(mContext, notificationClickStartClass), PendingIntent.FLAG_MUTABLE);
-        NotificationChannel notificationChannel = new NotificationChannel(channelId, BackgroundKeepActiveFrontService.class.getName(), NotificationManager.IMPORTANCE_DEFAULT);
-        // 是否在桌面icon右上角展示小圆点
-        notificationChannel.enableLights(false);
-        // 是否在久按桌面图标时显示此渠道的通知
-        notificationChannel.setShowBadge(false);
-        // 关闭通知震动
-        notificationChannel.enableVibration(false);
-        notificationManager.createNotificationChannel(notificationChannel);
-        Notification.Builder builder = new Notification.Builder(mContext, channelId);
-        builder.setSmallIcon(R.drawable.umeng_push_notification_default_small_icon)
-                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.umeng_push_notification_default_large_icon))
+        Notification notification = NotificationUtil.defaultNotificationBuilder()
                 .setContentTitle(mContext.getResources().getString(R.string.app_name))
                 .setContentText("正在后台运行")
-                // 点击通知后自动取消
-                .setAutoCancel(false)
-                // 推送的时间
-                .setWhen(System.currentTimeMillis())
-                // 仅首次通知
+                .setOngoing(true)
                 .setOnlyAlertOnce(true)
-                // 点击通知触发异步意图
-                .setContentIntent(pendingIntent);
-        Notification notification = builder.build();
+                .setContentIntent(pendingIntent).build();
         // 通知栏以不能清除的方式展示
         notification.flags |= Notification.FLAG_NO_CLEAR;
         return notification;

@@ -1,7 +1,9 @@
 package com.dolphin.demo.ui.fragment;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +22,13 @@ import com.amap.api.services.core.LatLonPoint;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.entity.OssFile;
+import com.dolphin.core.util.NotificationUtil;
 import com.dolphin.core.util.ToastUtil;
 import com.dolphin.core.widget.DefaultItemDecoration;
 import com.dolphin.demo.BR;
@@ -44,6 +49,7 @@ import com.umeng.message.PushAgent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -199,6 +205,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 mViewModel.onFileDownLoad();
                 break;
             case "9":
+                NotificationUtil.notify(new Random().nextInt(), builder -> builder
+                    .setContentText("海豚架构平台生态圈")
+                    .setContentTitle("这是一条测试数据" + new Random().nextInt(999))
+                    .setCategory(Notification.CATEGORY_REMINDER)
+                    //.setStyle(new Notification.BigTextStyle().bigText("人生得意须尽欢，莫使金樽空对月。\n 天生我材必有用，千金散尽还复来。"))
+                    .setStyle(new Notification.BigPictureStyle()
+                            .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.icon_app)))
+                    .setUsesChronometer(true).setNumber(10) );
                 break;
             case "10":
                 break;

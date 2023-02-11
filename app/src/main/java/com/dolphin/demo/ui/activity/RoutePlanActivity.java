@@ -328,7 +328,7 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 				.progress(true, 0)
 				.progressIndeterminateStyle(true)
 				.canceledOnTouchOutside(false)
-				.backgroundColorRes(com.dolphin.core.R.color.white)
+				.backgroundColorRes(R.color.white)
 				.keyListener((dialog, keyCode, event) -> false).build();
 		}
 		mMaterialDialog = mMaterialDialog.getBuilder().title("正在搜索").build();
