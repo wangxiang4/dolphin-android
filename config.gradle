@@ -49,11 +49,11 @@ ext {
 
     switch(serverType) {
         case SERVER_TYPE_TEST:
-            BUGLY_ID = '请自行替换 Bugly 上面的 AppID'
+            BUGLY_ID = '8bfb5c4a07'
             HOST_URL = 'http://123.60.163.167:9999/'
             break
         case SERVER_TYPE_PRODUCT:
-            BUGLY_ID = '请自行替换 Bugly 上面的 AppID'
+            BUGLY_ID = '8bfb5c4a07'
             HOST_URL = 'http://123.60.163.167:9999/'
             break
     }

@@ -32,7 +32,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!-- 用于提高GPS定位速度 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!--后台GPS定位-->
+    <!-- 后台GPS定位 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
