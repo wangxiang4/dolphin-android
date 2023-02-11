@@ -35,9 +35,9 @@ ext {
 
     // 申请 https://connect.qq.com
     // QQ AppId
-    QQ_APP_ID = '******'
+    QQ_APP_ID = '101830139'
     // QQ Secret
-    QQ_APP_SECRET = '******'
+    QQ_APP_SECRET = '5d63ae8858f1caab67715ccd6c18d7a5'
 
     // 申请 https://open.weixin.qq.com
     // 微信 AppId
