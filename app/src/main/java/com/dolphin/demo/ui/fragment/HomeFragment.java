@@ -81,6 +81,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 登录进来获取到用户对象设置友盟消息推送别名,后台需要别名推送
+        // https://developer.umeng.com/docs/67966/detail/89996
         User user = CacheDiskUtils.getInstance().getParcelable(CacheConstant.USER_INFO, User.CREATOR);
         if (!StringUtils.isTrimEmpty(user.getId())) {
             PushAgent mPushAgent = PushAgent.getInstance(getActivity());

@@ -73,7 +73,7 @@ public class AppApplication extends BaseApplication {
         CrashReport.initCrashReport(this, BuildConfig.BUGLY_ID, BuildConfig.DEBUG);
 
         // 友盟统计、登录、分享 SDK
-        // todo: 内部调用了过时的amdc请求接口导致频繁打印错误信息，等待后续版本修复，目前关闭日志打印
+        // todo: 内部调用了过时的amdc请求接口导致频繁打印错误信息，等待后续版本修复
         UmengClient.init(this, false);
 
         // 设置全局默认配置（优先级最低，会被其他设置覆盖）
