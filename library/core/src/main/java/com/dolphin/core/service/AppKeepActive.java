@@ -142,6 +142,7 @@ public class AppKeepActive {
 
     /** 构建前台服务通知 */
     private Notification buildNotification() {
+        NotificationUtil.notificationManager.createNotificationChannel(NotificationUtil.defaultNotificationChannel());
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, AppConstant.PERMISSION_REQUEST_CODE, new Intent(mContext, notificationClickStartClass), PendingIntent.FLAG_MUTABLE);
         Notification notification = NotificationUtil.defaultNotificationBuilder()
                 .setContentTitle(mContext.getString(R.string.app_name))
