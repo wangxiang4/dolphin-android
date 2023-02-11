@@ -8,7 +8,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 /**
  *<p>
- * 友盟第三方分享回调监听
+ * 友盟第三方分享监听
  *</p>
  *
  * @Author: entfrm开发团队-王翔

@@ -35,7 +35,7 @@ public class NotificationUtil {
     public NotificationChannel defaultNotificationChannel() {
         String channelId = Utils.getApp().getPackageName();
         NotificationChannel notificationChannel = new NotificationChannel(channelId,
-                Utils.getApp().getResources().getString(R.string.app_name),
+                Utils.getApp().getString(R.string.app_name),
                 NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.enableLights(true);
         notificationChannel.setLightColor(ContextCompat.getColor(Utils.getApp(), R.color.common_app_them));
@@ -53,7 +53,7 @@ public class NotificationUtil {
         Notification.Builder builder = new Notification.Builder(Utils.getApp(), channelId);
         builder.setSmallIcon(R.drawable.umeng_push_notification_default_small_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(Utils.getApp().getResources(), R.drawable.umeng_push_notification_default_large_icon))
-                .setContentText(Utils.getApp().getResources().getString(R.string.app_name))
+                .setContentText(Utils.getApp().getString(R.string.app_name))
                 // 点击通知后自动取消
                 .setAutoCancel(true)
                 // 推送的时间

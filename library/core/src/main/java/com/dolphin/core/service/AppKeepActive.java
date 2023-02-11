@@ -144,7 +144,7 @@ public class AppKeepActive {
     private Notification buildNotification() {
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, AppConstant.PERMISSION_REQUEST_CODE, new Intent(mContext, notificationClickStartClass), PendingIntent.FLAG_MUTABLE);
         Notification notification = NotificationUtil.defaultNotificationBuilder()
-                .setContentTitle(mContext.getResources().getString(R.string.app_name))
+                .setContentTitle(mContext.getString(R.string.app_name))
                 .setContentText("正在后台运行")
                 .setOngoing(true)
                 .setOnlyAlertOnce(true)

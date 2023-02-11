@@ -4,7 +4,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 /**
  *<p>
- * 友盟分享所支持第三方平台
+ * 所支持的第三方平台
  *</p>
  *
  * @Author: entfrm开发团队-王翔

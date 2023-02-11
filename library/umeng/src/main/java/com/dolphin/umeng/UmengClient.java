@@ -3,16 +3,24 @@ package com.dolphin.umeng;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ResourceUtils;
+import com.blankj.utilcode.util.StringUtils;
+import com.blankj.utilcode.util.Utils;
+import com.dolphin.core.bus.RxBus;
+import com.dolphin.core.constant.AppConstant;
 import com.dolphin.core.util.ToastUtil;
+import com.dolphin.umeng.entity.CustomMsgDemo;
 import com.dolphin.umeng.enums.PlatformEnum;
 import com.dolphin.umeng.listener.UmengLoginListener;
 import com.dolphin.umeng.listener.UmengShareListener;
+import com.google.gson.Gson;
 import com.tencent.tauth.Tencent;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
@@ -25,6 +33,8 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 
+import lombok.experimental.UtilityClass;
+
 /**
  *<p>
  * 友盟客户端
@@ -33,21 +43,22 @@ import com.umeng.socialize.UMShareAPI;
  * @Author: entfrm开发团队-王翔
  * @since: 2022/10/15
  */
+@UtilityClass
 public final class UmengClient {
 
     /** 设备的唯一标识 */
-    private static String sDeviceOaid;
+    private String sDeviceOaid;
 
     /**
      * 初始化友盟相关 SDK
      * @param application 应用程序上下文
      * @param logEnable 友盟日志开关
      */
-    public static void init(Application application, boolean logEnable) {
+    public void init(Application application, boolean logEnable) {
         preInit(application, logEnable);
         // 初始化组件化基础库,统计SDK/推送SDK/分享SDK都必须调用此初始化接口
-        // https://developer.umeng.com/docs/66632/detail/101814#h1-u521Du59CBu5316u53CAu901Au7528u63A5u53E32
-        UMConfigure.init(application, BuildConfig.UMENG_APP_KEY,"umeng", UMConfigure.DEVICE_TYPE_PHONE, BuildConfig.UMENG_APP_MASTER_SECRET);
+        // https://developer.umeng.com/docs/119267/detail/118588#title-yb4-p8i-jdc
+        UMConfigure.init(application, BuildConfig.UMENG_APP_KEY, Utils.getApp().getString(R.string.app_name), UMConfigure.DEVICE_TYPE_PHONE, BuildConfig.UMENG_APP_MASTER_SECRET);
         // 获取设备的oaid
         UMConfigure.getOaid(application, oaid -> sDeviceOaid = oaid);
         // QQ官方sdk授权
@@ -60,7 +71,7 @@ public final class UmengClient {
      * @param logEnable 友盟日志开关
      */
     public static void preInit(Application application, boolean logEnable) {
-        UMConfigure.preInit(application, BuildConfig.UMENG_APP_KEY,"umeng");
+        UMConfigure.preInit(application, BuildConfig.UMENG_APP_KEY, Utils.getApp().getString(R.string.app_name));
         // 选用自动采集模式：https://developer.umeng.com/docs/119267/detail/118588#h1-u9875u9762u91C7u96C63
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
 
@@ -88,11 +99,11 @@ public final class UmengClient {
         // 友盟推送代理
         PushAgent pushAgent = PushAgent.getInstance(application);
         // 开启通知声音
-        pushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
-        // 设置显示通知的数量,超过移除第一条
-        pushAgent.setDisplayNotificationNumber(1);
+        pushAgent.setNotificationPlaySound(MsgConstant.NOTIFICATION_PLAY_SERVER);
         // 开启呼吸灯点亮
-        pushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SDK_ENABLE);
+        pushAgent.setNotificationPlayLights(MsgConstant.NOTIFICATION_PLAY_SERVER);
+        // 开启振动
+        pushAgent.setNotificationPlayVibrate(MsgConstant.NOTIFICATION_PLAY_SERVER);
         // 推送平台多维度推送决策必须调用方法(需要同意隐私协议之后初始化完成调用)
         pushAgent.onAppStart();
         // 自定义行为的回调处理
@@ -115,12 +126,15 @@ public final class UmengClient {
 
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
-                /*Intent intent = new Intent("com.android.dolphin.demo.TabBarActivity");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(AppConstant.TAB_BAR_DEFAULT_INDEX, 2);
-                RxBus.getInstance().postSticky(data);
-                Utils.getApp().startActivity(intent);*/
-                ToastUtil.show(msg.custom);
+                // 自定义消息处理
+                if (StringUtils.isTrimEmpty(msg.custom)) {
+                    Intent intent = new Intent("com.android.dolphin.demo.TabBarActivity");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(AppConstant.TAB_BAR_DEFAULT_INDEX, 1);
+                    CustomMsgDemo customMsgDemo = new Gson().fromJson(msg.custom, CustomMsgDemo.class);
+                    RxBus.getInstance().postSticky(customMsgDemo);
+                    Utils.getApp().startActivity(intent);
+                }
             }
         };
         // 使用自定义的NotificationHandler

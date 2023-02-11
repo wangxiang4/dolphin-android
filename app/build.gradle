@@ -101,8 +101,6 @@ android {
 // 添加构建依赖项：https://developer.android.google.cn/studio/build/dependencies
 // api 与 implementation 的区别：https://www.jianshu.com/p/8962d6ba936e
 dependencies {
-    // 基础核心库
-    implementation project(':library:core')
     // 友盟封装库
     implementation project(':library:umeng')
     implementation DEPENDENCIES['pager-bottom-tab-strip']

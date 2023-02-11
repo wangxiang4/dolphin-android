@@ -51,7 +51,7 @@ public final class UmengLoginListener implements UMAuthListener {
         private final String mToken;
 
         LoginData(Map<String, String> data) {
-            // 第三方登录获取用户资料：https://developer.umeng.com/docs/66632/detail/66639#h3-u83B7u53D6u7528u6237u8D44u6599
+            // 第三方登录获取用户资料：https://developer.umeng.com/docs/66632/detail/66639#h3-qq-32
             mId = data.get("uid");
             mName =  data.get("name");
             mSex = data.get("gender");
@@ -117,9 +117,7 @@ public final class UmengLoginListener implements UMAuthListener {
     @Override
     public void onError(SHARE_MEDIA platform, int action, Throwable t) {
         t.printStackTrace();
-        if (mListener == null) {
-            return;
-        }
+        if (mListener == null) return;
         mListener.onError(mPlatformEnum, t);
         mListener = null;
     }

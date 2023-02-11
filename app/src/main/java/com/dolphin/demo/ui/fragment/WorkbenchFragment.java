@@ -9,12 +9,20 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.dolphin.core.base.BaseFragment;
+import com.dolphin.core.bus.RxBus;
+import com.dolphin.core.bus.RxSubscriptions;
+import com.dolphin.core.util.RxUtil;
 import com.dolphin.core.util.ToastUtil;
 import com.dolphin.demo.BR;
 import com.dolphin.demo.R;
 import com.dolphin.demo.databinding.FragmentWorkbenchBinding;
 import com.dolphin.demo.ui.vm.WorkbenchViewModel;
+import com.dolphin.umeng.entity.CustomMsgDemo;
+import com.google.gson.Gson;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  *<p>
@@ -30,6 +38,7 @@ public class WorkbenchFragment extends BaseFragment<FragmentWorkbenchBinding, Wo
     private LinearLayout btnOa2;
     private LinearLayout btnOa3;
     private LinearLayout btnOa4;
+    private Disposable mSubscription;
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -44,6 +53,14 @@ public class WorkbenchFragment extends BaseFragment<FragmentWorkbenchBinding, Wo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSubscription = RxBus.getInstance().toObservableSticky(CustomMsgDemo.class)
+                .compose(RxUtil.schedulersTransformer())
+                .compose(RxUtil.exceptionTransformer())
+                .subscribe(msg -> {
+                    ToastUtil.show(new Gson().toJson(msg));
+                    LogUtils.i(msg);
+                });
+        RxSubscriptions.add(mSubscription);
     }
 
     @Override
@@ -67,6 +84,12 @@ public class WorkbenchFragment extends BaseFragment<FragmentWorkbenchBinding, Wo
         btnOa4.setOnClickListener(v -> {
             ToastUtil.show("你刚刚点击了死亡证明");
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxSubscriptions.remove(mSubscription);
     }
 
 }
