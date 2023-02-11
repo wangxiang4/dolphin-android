@@ -51,7 +51,7 @@ public final class UmengClient {
         UMConfigure.init(application, BuildConfig.UMENG_APP_KEY,"umeng", UMConfigure.DEVICE_TYPE_PHONE, BuildConfig.UMENG_APP_MASTER_SECRET);
         // 获取设备的oaid
         UMConfigure.getOaid(application, oaid -> sDeviceOaid = oaid);
-        //QQ官方sdk授权
+        // QQ官方sdk授权
         Tencent.setIsPermissionGranted(true);
     }
 

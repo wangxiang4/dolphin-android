@@ -22,9 +22,7 @@ import com.amap.api.services.core.LatLonPoint;
 import com.blankj.utilcode.util.CacheDiskUtils;
 import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.StringUtils;
-import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.base.BaseFragment;
 import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.entity.OssFile;
@@ -39,6 +37,7 @@ import com.dolphin.demo.databinding.FragmentHomeBinding;
 import com.dolphin.demo.entity.RoutePlanLatPoint;
 import com.dolphin.demo.entity.RxbusDemo;
 import com.dolphin.demo.entity.User;
+import com.dolphin.demo.ui.activity.DemoShareActivity;
 import com.dolphin.demo.ui.activity.PictureSelectorActivity;
 import com.dolphin.demo.ui.activity.RoutePlanActivity;
 import com.dolphin.demo.ui.adapter.HomeRecyclerAdapter;
@@ -161,7 +160,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onItemViewClicked(HomeRecyclerAdapter.HomeEntity homeEntity) {
         switch (homeEntity.code) {
             case "1":
-                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.MapFragment");
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoMapFragment");
                 break;
             case "2":
                 RxBus.getInstance().postSticky(new RxbusDemo().setId(0).setTitle("黏性事件发送").setDescription("使用黏性事件在订阅未完成前发送"));
@@ -215,12 +214,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     .setUsesChronometer(true).setNumber(10) );
                 break;
             case "10":
+                startActivity(DemoShareActivity.class);
                 break;
             case "11":
                 break;
             case "12":
-                break;
-            case "13":
                 break;
         }
     }

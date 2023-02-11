@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:binding="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.dolphin.demo.ui.fragment.MapFragment">
+    tools:context="com.dolphin.demo.ui.fragment.DemoMapFragment">
     <data>
         <variable name="viewModel" type="com.dolphin.demo.ui.vm.MapViewModel" />
     </data>

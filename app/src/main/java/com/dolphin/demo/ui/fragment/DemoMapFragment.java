@@ -56,7 +56,7 @@ import java.util.List;
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/7/15
  */
-public class MapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> implements LocationSource, AMap.OnMapTouchListener, RouteSearch.OnRouteSearchListener {
+public class DemoMapFragment extends BaseFragment<FragmentMapBinding, MapViewModel> implements LocationSource, AMap.OnMapTouchListener, RouteSearch.OnRouteSearchListener {
 
     /** 高德地图组件 */
     private AMap aMap;
