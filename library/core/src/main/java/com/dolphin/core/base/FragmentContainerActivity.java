@@ -3,6 +3,8 @@ package com.dolphin.core.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -68,6 +70,12 @@ public class FragmentContainerActivity extends RxAppCompatActivity {
             e.printStackTrace();
         }
         throw new RuntimeException("片段初始化失败!");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mFragment.get().onActivityResult(requestCode, resultCode, data);
     }
 
 }

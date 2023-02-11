@@ -3,7 +3,6 @@ package com.dolphin.umeng;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
@@ -70,7 +69,7 @@ public final class UmengClient {
         PlatformConfig.setQQZone(BuildConfig.QQ_ID, BuildConfig.QQ_SECRET);
 
         // 初始化各个平台的文件提供者（必须要初始化，否则会导致无法分享文件）
-        String fileProvider = application.getPackageName() + ".provider";
+        String fileProvider = application.getPackageName() + ".fileProvider";
         PlatformConfig.setWXFileProvider(fileProvider);
         PlatformConfig.setQQFileProvider(fileProvider);
 
@@ -183,11 +182,6 @@ public final class UmengClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /** 设置分享活动结果回调,不设置分享后不会调用onResult监听方法 */
-    public static void onActivityResult(Activity activity, int requestCode, int resultCode, @Nullable Intent data) {
-        UMShareAPI.get(activity).onActivityResult(requestCode, resultCode, data);
     }
 
     /** 获取设备oaid */

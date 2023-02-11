@@ -62,10 +62,10 @@ public class DemoShareActivity extends BaseActivity<FragmentDemoBinding, Toolbar
     public void onItemViewClicked(DemoRecyclerAdapter.Entity entity) {
         switch (entity.code) {
             case "1":
-                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.share.QQShareFragment");
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.share.DemoQQShareFragment");
                 break;
             case "2":
-                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.share.WechatShareFragment");
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.share.DemoWechatShareFragment");
                 break;
         }
     }

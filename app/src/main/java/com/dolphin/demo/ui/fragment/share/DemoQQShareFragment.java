@@ -1,6 +1,6 @@
 package com.dolphin.demo.ui.fragment.share;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,23 +24,28 @@ import com.dolphin.umeng.UmengClient;
 import com.dolphin.umeng.enums.PlatformEnum;
 import com.dolphin.umeng.listener.UmengShareListener;
 import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.utils.SocializeUtils;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMQQMini;
+import com.umeng.socialize.media.UMVideo;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.media.UMusic;
 
 import java.util.List;
 
 /**
  *<p>
- * QQ分享
+ * QQ常用分享
+ * 更多分享方式请参考友盟官网案例:https://github.com/umeng/MultiFunctionAndroidDemo
  *</p>
  *
  * @Author: entfrm开发团队-王翔
  * @Date: 2022/7/15
  */
-public class QQShareFragment extends BaseFragment<FragmentDemoBinding, ToolbarViewModel> implements DemoRecyclerAdapter.EventListener, UmengShareListener.OnShareListener {
+public class DemoQQShareFragment extends BaseFragment<FragmentDemoBinding, ToolbarViewModel> implements DemoRecyclerAdapter.EventListener, UmengShareListener.OnShareListener {
 
     private RecyclerView mRecyclerView;
     private DemoRecyclerAdapter mAdapter;
-    private ProgressDialog dialog;
 
     @Override
     public int setContentView(LayoutInflater inflater, @Nullable ViewGroup parentContainer, @Nullable Bundle savedInstanceState) {
@@ -55,7 +60,6 @@ public class QQShareFragment extends BaseFragment<FragmentDemoBinding, ToolbarVi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dialog = new ProgressDialog(getActivity());
     }
 
     @Override
@@ -84,41 +88,73 @@ public class QQShareFragment extends BaseFragment<FragmentDemoBinding, ToolbarVi
     public void onItemViewClicked(DemoRecyclerAdapter.Entity entity) {
         switch (entity.code) {
             case "1":
-                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity())
-                        .withText("欢迎使用【友盟+】社会化组件U-Share，SDK包最小，集成成本最低，助力您的产品开发、运营与推广"), this);
+                UMImage imageLocal = new UMImage(getActivity(), R.drawable.icon_logo);
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(imageLocal), this);
                 break;
             case "2":
+                UMImage imageUrl = new UMImage(getActivity(), "https://godolphinx.org/dolphin1024x1024.png");
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(imageUrl), this);
                 break;
             case "3":
+                UMWeb web = new UMWeb("https://godolphinx.org");
+                web.setTitle("This is web title");
+                web.setThumb(new UMImage(getActivity(), R.drawable.icon_app));
+                web.setDescription("my description");
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(web), this);
                 break;
             case "4":
+                UMusic music = new UMusic("https://y.qq.com/n/yqq/song/108782194_num.html?ADTAG=h5_playsong&no_redirect=1");
+                music.setTitle("This is music title");
+                music.setThumb(new UMImage(getActivity(), R.drawable.icon_app));
+                music.setDescription("my description");
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(music), this);
                 break;
             case "5":
+                UMVideo video = new UMVideo("http://video.sina.com.cn/p/sports/2020-01-15/detail-iihnzhha2647094.d.html");
+                video.setTitle("This is video title");
+                video.setThumb(new UMImage(getActivity(), R.drawable.icon_app));
+                video.setDescription("my description");
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(video), this);
+                break;
+            case "6":
+                UMQQMini qqMini = new UMQQMini("https://godolphinx.org");
+                qqMini.setThumb(new UMImage(getActivity(), R.drawable.icon_app));
+                qqMini.setTitle("【友盟+】社会化组件U-Share");
+                qqMini.setDescription("欢迎使用【友盟+】社会化组件U-Share，SDK包最小，集成成本最低，助力您的产品开发、运营与推广");
+                qqMini.setMiniAppId("1110429485");
+                qqMini.setPath("pages/index/index");
+                UmengClient.share(getActivity(), PlatformEnum.QQ, new ShareAction(getActivity()).withMedia(qqMini), this);
                 break;
         }
     }
 
     @Override
     public void onStart(PlatformEnum platformEnum) {
-        SocializeUtils.safeShowDialog(dialog);
+        mViewModel.showDialog();
     }
 
     @Override
     public void onSucceed(PlatformEnum platformEnum) {
-        SocializeUtils.safeCloseDialog(dialog);
+        mViewModel.closeDialog();
         ToastUtil.show("成功了");
     }
 
     @Override
     public void onError(PlatformEnum platformEnum, Throwable t) {
-        SocializeUtils.safeCloseDialog(dialog);
+        mViewModel.closeDialog();
         ToastUtil.show("失败" + t.getMessage());
     }
 
     @Override
     public void onCancel(PlatformEnum platformEnum) {
-        SocializeUtils.safeCloseDialog(dialog);
+        mViewModel.closeDialog();
         ToastUtil.show("取消了");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

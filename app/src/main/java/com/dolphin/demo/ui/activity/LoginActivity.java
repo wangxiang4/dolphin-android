@@ -22,6 +22,7 @@ import com.dolphin.umeng.UmengClient;
 import com.dolphin.umeng.enums.PlatformEnum;
 import com.google.gson.Gson;
 import com.tencent.mmkv.MMKV;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -142,7 +143,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UmengClient.onActivityResult(this, requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -52,15 +52,15 @@ public class BaseViewModel<A> extends AndroidViewModel implements IBaseViewModel
         return mUiObservable;
     }
 
-    protected void showDialog() {
+    public void showDialog() {
         showDialog("加载中...");
     }
 
-    protected void showDialog(String title) {
+    public void showDialog(String title) {
         mUiObservable.getShowDialogEvent().postValue(title);
     }
 
-    protected void closeDialog() {
+    public void closeDialog() {
         mUiObservable.getCloseDialogEvent().call();
     }
 

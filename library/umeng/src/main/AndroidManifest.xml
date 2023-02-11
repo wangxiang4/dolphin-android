@@ -38,6 +38,15 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             tools:node="replace" />
 
+        <provider android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
     <!-- Android 11 软件包可见性适配：https://developer.android.google.cn/about/versions/11/privacy/package-visibility -->
