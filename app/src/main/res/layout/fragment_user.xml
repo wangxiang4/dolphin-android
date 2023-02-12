@@ -30,7 +30,7 @@
                 android:layout_gravity="bottom"
                 android:background="@drawable/icon_white_bg_radius10">
                 <RelativeLayout
-                    android:id="@+id/left_layout"
+                    android:id="@+id/layout_left"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"

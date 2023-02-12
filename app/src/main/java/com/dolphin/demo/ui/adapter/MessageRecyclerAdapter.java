@@ -41,7 +41,7 @@ public class MessageRecyclerAdapter extends DefaultRecyclerAdapter {
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         super.onBindViewHolder(viewHolder, position);
         final OssFile item = mItemList.get(position);
-        viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
+        viewHolder.layoutContent.setOnClickListener(view -> onItemViewClick(item));
         viewHolder.titleLabel.setText(item.getOriginal());
         viewHolder.detailLabel.setVisibility(View.GONE);
         viewHolder.secondDetailLabel.setVisibility(View.GONE);

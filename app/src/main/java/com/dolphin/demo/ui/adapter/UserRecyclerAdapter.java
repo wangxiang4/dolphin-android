@@ -84,7 +84,7 @@ public class UserRecyclerAdapter extends DefaultRecyclerAdapter {
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         super.onBindViewHolder(viewHolder, position);
         final UserEntity item = mItemList.get(position);
-        viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
+        viewHolder.layoutContent.setOnClickListener(view -> onItemViewClick(item));
         viewHolder.titleLabel.setText(item.title);
         viewHolder.detailLabel.setText(item.detail);
         viewHolder.secondDetailLabel.setText(item.secondDetail);
@@ -98,7 +98,7 @@ public class UserRecyclerAdapter extends DefaultRecyclerAdapter {
             viewHolder.disclosureImage.setVisibility(item.hidesDisclosure? View.GONE: View.VISIBLE);
         }
         if (ObjectUtils.isNotEmpty(item.hidesLeftImage)) {
-            viewHolder.leftLayout.setVisibility(item.hidesLeftImage? View.GONE: View.VISIBLE);
+            viewHolder.layoutLeft.setVisibility(item.hidesLeftImage? View.GONE: View.VISIBLE);
         }
     }
 

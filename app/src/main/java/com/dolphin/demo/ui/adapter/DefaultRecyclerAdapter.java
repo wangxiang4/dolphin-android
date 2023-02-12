@@ -38,8 +38,8 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout contentLayout;
-        public RelativeLayout leftLayout;
+        public LinearLayout layoutContent;
+        public RelativeLayout layoutLeft ;
         public ImageView leftImage;
         public ImageView leftBadge;
         public TextView titleLabel;
@@ -49,8 +49,8 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
 
         public ViewHolder(@NonNull View v) {
             super(v);
-            contentLayout = v.findViewById(R.id.content_layout);
-            leftLayout = v.findViewById(R.id.left_layout);
+            layoutContent = v.findViewById(R.id.layout_content);
+            layoutLeft  = v.findViewById(R.id.layout_left);
             leftImage = v.findViewById(R.id.left_image);
             leftBadge = v.findViewById(R.id.left_badge);
             titleLabel = v.findViewById(R.id.title_label);
@@ -96,7 +96,7 @@ public class DefaultRecyclerAdapter extends RecyclerView.Adapter<DefaultRecycler
         }
 
         viewHolder.disclosureImage.setVisibility(hideDisclosure? View.GONE: View.VISIBLE);
-        viewHolder.leftLayout.setVisibility(hideLeftImage ? View.GONE: View.VISIBLE);
+        viewHolder.layoutLeft .setVisibility(hideLeftImage ? View.GONE: View.VISIBLE);
     }
 
     @Override

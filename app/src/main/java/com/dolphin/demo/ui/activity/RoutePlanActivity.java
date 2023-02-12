@@ -127,7 +127,7 @@ public class RoutePlanActivity extends BaseActivity<ActivityRoutePlanBinding, Ro
 		// 首次定位移动到地图中心点并修改一些默认属性
 		aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng, DefaultConfig.zoom, DefaultConfig.tilt, DefaultConfig.bearing)));
 		mBtnStartNavi = findViewById(R.id.btn_start_navi);
-		mRouteDriveLayout = findViewById(R.id.route_drive_layout);
+		mRouteDriveLayout = findViewById(R.id.layout_route_drive);
 		mRouteTime = findViewById(R.id.route_time);
 		mRouteDetail = findViewById(R.id.route_detail);
 		mDrive = findViewById(R.id.route_drive);

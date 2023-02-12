@@ -106,15 +106,15 @@ public class DemoSwipeableRecyclerAdapter extends RecyclerView.Adapter<DemoSwipe
 
         public ViewHolder(View v) {
             super(v);
-            behindLayout = v.findViewById(R.id.behind_layout);
+            behindLayout = v.findViewById(R.id.layout_behind);
             btnSwipeable1 = v.findViewById(R.id.btn_swipeable1);
             btnSwipeable2 = v.findViewById(R.id.btn_swipeable2);
             btnSwipeable3 = v.findViewById(R.id.btn_swipeable3);
-            containerLayout = v.findViewById(R.id.container_layout);
-            leftLayout = v.findViewById(R.id.left_layout);
+            containerLayout = v.findViewById(R.id.layout_container);
+            leftLayout = v.findViewById(R.id.layout_left);
             leftImage = v.findViewById(R.id.left_image);
             leftBadge = v.findViewById(R.id.left_badge);
-            contentLayout = v.findViewById(R.id.content_layout);
+            contentLayout = v.findViewById(R.id.layout_content);
             titleLabel = v.findViewById(R.id.title_label);
             detailLabel = v.findViewById(R.id.detail_label);
             secondDetailLabel = v.findViewById(R.id.second_detail_label);

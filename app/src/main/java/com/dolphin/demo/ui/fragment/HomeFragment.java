@@ -145,8 +145,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 new HomeRecyclerAdapter.HomeEntity().setCode("8").setTitle("文件下载"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("9").setTitle("消息通知"),
                 new HomeRecyclerAdapter.HomeEntity().setCode("10").setTitle("友盟分享"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("地图位置搜索"),
-                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("可拖拽列表")
+                new HomeRecyclerAdapter.HomeEntity().setCode("11").setTitle("可拖拽列表"),
+                new HomeRecyclerAdapter.HomeEntity().setCode("12").setTitle("地图位置搜索")
         );
         final HomeRecyclerAdapter homeRecyclerAdapter = new HomeRecyclerAdapter(list);
         homeRecyclerAdapter.setEventListener(this);
@@ -218,6 +218,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startActivity(DemoShareActivity.class);
                 break;
             case "11":
+                startFragmentContainerActivity("com.dolphin.demo.ui.fragment.DemoDraggableFragment");
                 break;
             case "12":
                 break;

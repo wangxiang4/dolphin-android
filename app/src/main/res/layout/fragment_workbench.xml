@@ -15,7 +15,7 @@
             layout="@layout/layout_toolbar"
             binding:toolbarViewModel="@{viewModel.toolbarViewModel}" />
         <LinearLayout
-            android:id="@+id/top_layout"
+            android:id="@+id/layout_top"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_180"
             android:background="@drawable/icon_white_bg_radius3"
@@ -26,14 +26,14 @@
                 android:background="@drawable/icon_preview_workbench" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/center_layout"
+            android:id="@+id/layout_center"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_margin="10dp"
             android:background="@drawable/icon_white_bg_radius3"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_below="@id/top_layout">
+            android:layout_below="@id/layout_top">
             <LinearLayout
                 android:id="@+id/btn_oa1"
                 android:layout_width="0dp"

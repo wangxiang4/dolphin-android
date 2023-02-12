@@ -5,10 +5,13 @@
     <color name="common_edit_text_color">#C4C5C6</color>
     <color name="common_divider_color">#C4C5C6</color>
 
-    <!-- 列表滑动时状态色颜色 -->
-    <color name="item_dragging">#ffffdddd</color>
-    <color name="item_dragging_active">#CCA98D</color>
-    <color name="item_swiping">#9191CD</color>
-    <color name="item_swiping_active">#F4926C</color>
-    <color name="item_normal">#fff0f0f0</color>
+    <!-- 列表拖拽状态颜色 -->
+    <color name="dragging_normal_state">#ffffff</color>
+    <color name="dragging_state">#ffffdddd</color>
+    <color name="dragging_active_state">#ffff9999</color>
+
+    <!-- 列表滑动按钮状态颜色 -->
+    <color name="swipeable_btn_bg1">#adadad</color>
+    <color name="swipeable_btn_bg2">#f09743</color>
+    <color name="swipeable_btn_bg3">#f25c5b</color>
 </resources>

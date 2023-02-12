@@ -86,7 +86,7 @@ public class DemoRecyclerAdapter extends DefaultRecyclerAdapter {
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         super.onBindViewHolder(viewHolder, position);
         final Entity item = mItemList.get(position);
-        viewHolder.contentLayout.setOnClickListener(view -> onItemViewClick(item));
+        viewHolder.layoutContent.setOnClickListener(view -> onItemViewClick(item));
         viewHolder.titleLabel.setText(item.title);
         viewHolder.detailLabel.setVisibility(View.GONE);
         viewHolder.secondDetailLabel.setVisibility(View.GONE);
@@ -100,7 +100,7 @@ public class DemoRecyclerAdapter extends DefaultRecyclerAdapter {
             viewHolder.disclosureImage.setVisibility(item.hidesDisclosure? View.GONE: View.VISIBLE);
         }
         if (ObjectUtils.isNotEmpty(item.hidesLeftImage)) {
-            viewHolder.leftLayout.setVisibility(item.hidesLeftImage? View.GONE: View.VISIBLE);
+            viewHolder.layoutLeft.setVisibility(item.hidesLeftImage? View.GONE: View.VISIBLE);
         }
     }
 
