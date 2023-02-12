@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_48"
+    android:background="@color/white">
+    <ImageView
+        android:id="@+id/drag_handle"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/dp_1"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/icon_drag"/>
+    <RelativeLayout
+        android:id="@+id/layout_left"
+        android:layout_toRightOf="@+id/drag_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="visible"
+        tools:visibility="visible">
+        <ImageView
+            android:id="@+id/left_image"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/dp_6"
+            android:src="@drawable/icon_dolphin" />
+        <ImageView
+            android:id="@+id/left_badge"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignLeft="@id/left_image"
+            android:layout_alignBottom="@id/left_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/dp_m_2"
+            android:src="@drawable/icon_badge" />
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/layout_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/layout_left"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/title_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_3"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_14" />
+        <TextView
+            android:id="@+id/detail_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_3"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text=""
+            android:textColor="@color/black65"
+            android:textSize="@dimen/sp_12" />
+        <ImageView
+            android:id="@+id/disclosure_image"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:src="@drawable/icon_disclosure"
+            android:visibility="visible"
+            tools:visibility="visible"/>
+    </LinearLayout>
+</RelativeLayout>
