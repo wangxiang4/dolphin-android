@@ -67,6 +67,14 @@ public class NotificationUtil {
     /**
      * 消息通知
      * @param id 唯一id
+     */
+    public void notify(int id) {
+        notify(null, id, defaultNotificationChannel(), defaultNotificationBuilder().build());
+    }
+
+    /**
+     * 消息通知
+     * @param id 唯一id
      * @param consumer 消息构建函数
      */
     public void notify(int id, Consumer<Notification.Builder> consumer) {

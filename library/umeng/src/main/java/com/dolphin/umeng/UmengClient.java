@@ -2,19 +2,21 @@ package com.dolphin.umeng;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.widget.RemoteViews;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.Utils;
 import com.dolphin.core.bus.RxBus;
 import com.dolphin.core.constant.AppConstant;
+import com.dolphin.core.util.NotificationUtil;
 import com.dolphin.core.util.ToastUtil;
 import com.dolphin.umeng.entity.CustomMsgDemo;
 import com.dolphin.umeng.enums.PlatformEnum;
@@ -26,6 +28,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.MsgConstant;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.api.UPushRegisterCallback;
 import com.umeng.message.entity.UMessage;
@@ -137,8 +140,48 @@ public final class UmengClient {
                 }
             }
         };
-        // 使用自定义的NotificationHandler
         pushAgent.setNotificationClickHandler(notificationClickHandler);
+
+        // 消息通知的回调处理
+        UmengMessageHandler messageHandler = new UmengMessageHandler() {
+
+            /**
+             * 通知的回调方法（通知送达时会回调）
+             */
+            @Override
+            public void dealWithNotificationMessage(Context context, UMessage msg) {
+                // 调用super，会展示通知，不调用super，则不展示通知
+                super.dealWithNotificationMessage(context, msg);
+            }
+
+            /**
+             * 自定义消息的回调方法
+             */
+            @Override
+            public void dealWithCustomMessage(final Context context, final UMessage msg) {
+                ToastUtil.showCenter("刚刚收到了一条自定义消息:" + msg.custom);
+            }
+
+            /**
+             * 自定义通知栏样式的回调方法
+             */
+            @Override
+            public Notification getNotification(Context context, UMessage msg) {
+                switch (msg.builder_id) {
+                    case 1:
+                        RemoteViews customNotificationView = new RemoteViews(context.getPackageName(), R.layout.layout_notification_view);
+                        customNotificationView.setTextViewText(R.id.notification_title, msg.title);
+                        customNotificationView.setTextViewText(R.id.notification_text, msg.text);
+                        customNotificationView.setImageViewBitmap(R.id.notification_large_icon, getLargeIcon(context, msg));
+                        customNotificationView.setImageViewResource(R.id.notification_small_icon, getSmallIconId(context, msg));
+                        return NotificationUtil.defaultNotificationBuilder().setCustomHeadsUpContentView(customNotificationView).build();
+                    default:
+                        // 默认为0，若填写的builder_id并不存在，也使用默认
+                        return super.getNotification(context, msg);
+                }
+            }
+        };
+        pushAgent.setMessageHandler(messageHandler);
 
         // 注册推送服务 每次调用register都会回调该接口
         pushAgent.register(new UPushRegisterCallback() {
