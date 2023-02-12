@@ -1,5 +1,6 @@
 package com.dolphin.demo.ui.fragment;
 
+import android.graphics.drawable.NinePatchDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,8 @@ import java.util.UUID;
  * 可拖拽列表
  *</p>
  *
- * @Author: entfrm开发团队-王翔
- * @Date: 2022/7/15
+ * @Author: wangxiang4
+ * @since: 2023/2/12
  */
 public class DemoDraggableFragment extends BaseFragment<FragmentDemoBinding, ToolbarViewModel> implements DemoDraggableRecyclerAdapter.EventListener {
 
@@ -97,9 +98,10 @@ public class DemoDraggableFragment extends BaseFragment<FragmentDemoBinding, Too
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mWrappedAdapter);
         mRecyclerView.setItemAnimator(animator);
-        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(requireContext(), R.color.common_divider_color)));
+        mRecyclerView.addItemDecoration(new DefaultItemDecoration(ContextCompat.getColor(getActivity(), R.color.common_divider_color)));
         // 附加回收视图
         mRecyclerViewDragDropManager.attachRecyclerView(mRecyclerView);
+        mRecyclerViewDragDropManager.setDraggingItemShadowDrawable((NinePatchDrawable) ContextCompat.getDrawable(getActivity(), R.drawable.material_shadow_z3));
     }
 
     @Override
