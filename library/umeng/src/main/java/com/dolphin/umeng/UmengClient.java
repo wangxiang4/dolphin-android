@@ -130,7 +130,7 @@ public final class UmengClient {
             @Override
             public void dealWithCustomAction(Context context, UMessage msg) {
                 // 自定义消息处理
-                if (StringUtils.isTrimEmpty(msg.custom)) {
+                if (!StringUtils.isTrimEmpty(msg.custom)) {
                     Intent intent = new Intent("com.android.dolphin.demo.TabBarActivity");
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(AppConstant.TAB_BAR_DEFAULT_INDEX, 1);
