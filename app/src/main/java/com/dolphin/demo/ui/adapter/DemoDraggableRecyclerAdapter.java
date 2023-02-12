@@ -166,20 +166,17 @@ public class DemoDraggableRecyclerAdapter extends RecyclerView.Adapter<DemoDragg
         final View containerView = holder.layoutContainer;
         final View dragHandleView = holder.dragHandle;
 
-        final int offsetX = containerView.getLeft() + (int) (containerView.getTranslationX() + 1f);
-        final int offsetY = containerView.getTop() + (int) (containerView.getTranslationY() + 1f);
-        x = x - offsetX;
-        y = y - offsetY;
+        // 从itemView的左上角相对计算拖拽手柄视图位置，检查是否触摸到拖拽手柄区域
+        x = x - (int) containerView.getTranslationX();
+        y = y - (int) containerView.getTranslationY();
 
-        final int tx = (int) (dragHandleView.getTranslationX() + 1f);
-        final int ty = (int) (dragHandleView.getTranslationY() + 1f);
+        final int tx = (int) (dragHandleView.getTranslationX());
+        final int ty = (int) (dragHandleView.getTranslationY());
         final int left = dragHandleView.getLeft() + tx;
         final int right = dragHandleView.getRight() + tx;
         final int top = dragHandleView.getTop() + ty;
         final int bottom = dragHandleView.getBottom() + ty;
-
-        //return (x >= left) && (x <= right) && (y >= top) && (y <= bottom);
-        return true;
+        return (x >= left) && (x <= right) && (y >= top) && (y <= bottom);
     }
 
     @Override
