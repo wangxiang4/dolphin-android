@@ -42,10 +42,12 @@
 - 集成Calligraphy3字体风格库，实现字体个性化
 - 集成Lombok，让代码变得更加简洁，消除冗长代码提高开发效率
 - 集成腾讯bugly平台，支持异常上报和数据分析功能，帮助开发者快速定位bug
-- 集成PictureSelector，支持图片选择上传
-- 集成友盟库，支持消息推送、社会化分享、QQ登录、微信登录
-- 集成Glide，支持图片加载
+- 集成PictureSelector，支持微信风格的图片自定义选择器进行上传
+- 集成友盟库，支持消息推送、社会化分享、QQ登录、微信登录、自定义启动引导页面
+- 集成Glide，支持各种图片加载
 - 集成腾讯MMKV，让 key-value 数据存储变得更加高效
+- 支持地图导航，智能路线规划，后台刷新定位、媒体锁后台保活
+- 集成AdvancedRecyclerView支持各种回收视图高级适配器操作(可滑动列表，可拖拽列表)
 
 ## <img width="28" style="vertical-align:middle" src="https://godolphinx.org/images/hacktoberfest-logo.svg"> 黑客节
 加入[Github HackToberFest](https://hacktoberfest.com/) 开始为此项目做出贡献.
