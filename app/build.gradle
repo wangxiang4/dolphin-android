@@ -73,9 +73,12 @@ android {
             addManifestPlaceholders([
                 'app_name': '@string/app_name'
             ])
-            // cpu架构so库
+            // 仅保留两种架构的 so 库，根据 Bugly 统计得出
             ndk {
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+                // armeabi：万金油架构平台（占用率：0%）
+                // armeabi-v7a：曾经主流的架构平台（占用率：10%）
+                // arm64-v8a：目前主流架构平台（占用率：95%）
+                abiFilters "armeabi-v7a", "arm64-v8a"
             }
         }
     }
