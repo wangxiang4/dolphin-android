@@ -1,9 +1,9 @@
 ext {
 
-    // 测试线
-    def SERVER_TYPE_TEST = 'test'
-    // 生产线
-    def SERVER_TYPE_PRODUCT = 'pro'
+    // 开发环境
+    def SERVER_TYPE_DEV = 'dev'
+    // 生产环境
+    def SERVER_TYPE_PRO = 'pro'
 
     def taskName = project.gradle.startParameter.taskNames[0]
     if (taskName == null) taskName = ''
@@ -11,13 +11,13 @@ ext {
     // 打印当前执行的任务名称
     println 'GradleLog TaskNameOutput ' + taskName
 
-    def serverType = SERVER_TYPE_PRODUCT
+    def serverType = SERVER_TYPE_PRO
 
     if (taskName.endsWith('Debug')) {
-        serverType = SERVER_TYPE_TEST
+        serverType = SERVER_TYPE_DEV
     }
 
-    // 从 Gradle 命令中读取参数配置，例如：./gradlew assembleRelease -P ServerType='test'
+    // 从 Gradle 命令中读取参数配置，例如：./gradlew assembleRelease -P ServerType='dev'
     if (project.hasProperty('ServerType')) {
         serverType = project.properties['ServerType']
     }
@@ -48,11 +48,11 @@ ext {
     AMAP_KEY = '5c32b5bc83e99b3ccc05d5e2eefc3c8b'
 
     switch(serverType) {
-        case SERVER_TYPE_TEST:
+        case SERVER_TYPE_DEV:
             BUGLY_ID = '8bfb5c4a07'
             HOST_URL = 'http://123.60.163.167:9999/'
             break
-        case SERVER_TYPE_PRODUCT:
+        case SERVER_TYPE_PRO:
             BUGLY_ID = '8bfb5c4a07'
             HOST_URL = 'http://123.60.163.167:9999/'
             break
